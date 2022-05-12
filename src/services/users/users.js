@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import instance from "../index";
 
-export async function loginUser(data) {
+export const loginUser = async (data) => {
   const response = await instance
     .post("/login", data)
     .then((response) => {
@@ -30,9 +30,9 @@ export async function loginUser(data) {
     });
 
   return response;
-}
+};
 
-export async function signUpUser(data) {
+export const signUpUser = async (data) => {
   const response = await instance
     .post("/register", data)
     .then((response) => {
@@ -59,4 +59,4 @@ export async function signUpUser(data) {
     });
 
   return response;
-}
+};
