@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Shake } from "../../../styles/animations/animations";
+import { Shake } from "../../../styles/animations";
 
 export const ErrorStyled = styled.span`
   animation: ${Shake} 300ms;
@@ -8,7 +8,7 @@ export const ErrorStyled = styled.span`
   text-align: left;
   font-size: 0.8rem;
   font-weight: 300;
-  color: var(--color-error);
+  color: var(--error-color);
 
   margin-top: -15px;
   margin-bottom: 15px;

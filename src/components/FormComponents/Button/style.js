@@ -13,8 +13,8 @@ export const ButtonStyled = styled.button`
   align-items: center;
 
   box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3);
-  background-color: var(--color-secundary-50);
-  color: var(--color-primary);
+  background-color: var(--secondary-color-50);
+  color: var(--primary-color);
 
   font-size: 1rem;
   font-weight: 600;
@@ -24,6 +24,6 @@ export const ButtonStyled = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: var(--color-secundary);
+    background-color: var(--secondary-color);
   }
 `;

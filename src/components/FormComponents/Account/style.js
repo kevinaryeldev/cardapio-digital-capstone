@@ -5,7 +5,7 @@ export const AccountStyled = styled.p`
   text-align: center;
 
   font-size: 0.9rem;
-  color: var(--color-terciary-50);
+  color: var(--terciary-color-50);
 
   display: flex;
   flex-wrap: wrap;
@@ -17,7 +17,7 @@ export const AccountStyled = styled.p`
   a {
     font-weight: 600;
     margin-left: 5px;
-    color: var(--color-secundary) !important;
+    color: var(--secondary-color) !important;
 
     &:hover {
       cursor: pointer;
