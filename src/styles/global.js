@@ -7,13 +7,18 @@ export default createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         outline:0; 
+        font-family: 'Noto Serif', serif;
     } 
+
+    html{
+        scroll-behavior: smooth;
+    }
 
     :root {
         --primary-color: #21262D;
         --primary-color-50: #485D5E;
-        --seondary-color: #DDBC8B;
-        --seondary-color-50: #B89664;
+        --secondary-color: #DDBC8B;
+        --secondary-color-50: #B89664;
         --terciary-color: #FFFFFF;
         --terciary-color-50: #E5E5E5;
 
@@ -28,8 +33,21 @@ export default createGlobalStyle`
         -webkit-font-smoothing: antialiased;
     }
 
-    button, a {
+    button, a, input {
         cursor: pointer;
         text-decoration: none;
+        color: inherit;
+        border: none;
+    }
+
+    .App{
+        min-height: 100vh;
+        
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 `;
