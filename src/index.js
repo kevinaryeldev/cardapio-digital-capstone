@@ -7,6 +7,7 @@ import GlobalStyle from "./styles/global";
 
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyle />
     <Provider>
       <BrowserRouter>
         <App />

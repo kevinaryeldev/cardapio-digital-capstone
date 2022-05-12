@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle`
+const GlobalStyle  = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
@@ -63,3 +63,4 @@ export default createGlobalStyle`
         align-items: center;
     }
 `;
+export default GlobalStyle

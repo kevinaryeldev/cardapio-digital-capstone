@@ -4,7 +4,7 @@ import { loginUser, signUpUser } from "../../services/users/users";
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
     window.localStorage.getItem("@SmartMenu:token")
   );
@@ -57,6 +57,6 @@ export function UserProvider({ children }) {
       {children}
     </UserContext.Provider>
   );
-}
+};
 
 export const useAuth = () => useContext(UserContext);
