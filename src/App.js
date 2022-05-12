@@ -1,10 +1,22 @@
+import { ToastContainer } from "react-toastify";
 import Routes from "./routes";
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <Routes />
-      App
+      <ToastContainer
+        position="top-right"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        theme="dark"
+        pauseOnHover={false}
+      />
     </div>
   );
 }
