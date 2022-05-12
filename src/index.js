@@ -4,8 +4,11 @@ import App from './App';
 import Provider from './providers';
 import {BrowserRouter} from 'react-router-dom';
 
+import GlobalStyle from "./styles/global.js"
+
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyle />
     <Provider>
       <BrowserRouter>
         <App />
