@@ -26,6 +26,18 @@ export default createGlobalStyle`
         --negative-color:#E4A2B0;
         --alert-color:#EBBB49;
         --error-color:#D93025;
+
+        --toastify-color-light: #DDBC8B;
+        --toastify-color-dark: #21262D;
+        --toastify-color-info: #3498db;
+        --toastify-color-success: #07bc0c;
+        --toastify-color-warning: #EBBB49;
+        --toastify-color-error: #D93025;
+
+        --toastify-text-color-light: #21262D;
+        --toastify-text-color-dark: #DDBC8B;
+        --toastify-spinner-color: #21262D;
+        
     }
 
     body {

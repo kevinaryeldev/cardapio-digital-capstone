@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import instance from "../index";
 
 export async function loginUser(data) {
@@ -13,9 +14,18 @@ export async function loginUser(data) {
         JSON.stringify(response.data.user.id)
       );
 
+      toast.success("Login realizado com sucesso!");
       return true;
     })
     .catch((error) => {
+      if (error.response.data === "Incorrect password") {
+        toast.error("Senha incorreta!");
+      } else if (error.response.data === "Cannot find user") {
+        toast.error("Email não cadastrado!");
+      } else {
+        toast.error("Algo deu errado!");
+      }
+
       return false;
     });
 
@@ -35,9 +45,16 @@ export async function signUpUser(data) {
         JSON.stringify(response.data.user.id)
       );
 
+      toast.success("Cadastro realizado com sucesso!");
       return true;
     })
     .catch((error) => {
+      if (error.response.data === "Email already exists") {
+        toast.error("Email já cadastrado!");
+      } else {
+        toast.error("Algo deu errado!");
+      }
+
       return false;
     });
 

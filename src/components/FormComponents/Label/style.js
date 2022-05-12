@@ -6,7 +6,7 @@ export const LabelStyled = styled.label`
   text-align: left;
   font-size: 0.8rem;
   font-weight: 300;
-  color: var(--color-secundary);
+  color: var(--secondary-color);
 
   margin-bottom: 15px;
 `;

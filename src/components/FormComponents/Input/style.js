@@ -7,10 +7,10 @@ export const InputStyled = styled.input`
   padding: 15px;
 
   border-radius: 8px;
-  background-color: var(--color-secundary-50);
-  color: var(--color-primary);
+  background-color: var(--secondary-color-50);
+  color: var(--primary-color);
 
-  ${(props) => props.error && "border: 1px solid var(--color-error);"}
+  ${(props) => props.error && "border: 1px solid var(--error-color);"}
 
   font-size: 1rem;
   font-weight: 400;
@@ -19,10 +19,10 @@ export const InputStyled = styled.input`
 
   &:focus {
     outline: none;
-    background-color: var(--color-secundary);
+    background-color: var(--secondary-color);
 
     ~ button {
-      background-color: var(--color-secundary);
+      background-color: var(--secondary-color);
     }
   }
 `;
