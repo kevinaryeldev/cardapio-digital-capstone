@@ -32,4 +32,4 @@ export default createGlobalStyle`
         cursor: pointer;
         text-decoration: none;
     }
-`
+`;
