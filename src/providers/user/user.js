@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { loginUser, signUpUser } from "../../services/Users/users";
+import { loginUser, signUpUser } from "../../services/users/users";
+import { errorToast, successToast } from "../../utils/toast";
 
 const UserContext = createContext();
 
@@ -26,18 +26,18 @@ export function UserProvider({ children }) {
     const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
 
     if (response) {
-      toast.success("Login realizado com sucesso!");
+      successToast("Login realizado com sucesso!");
       setToken(accessToken);
       setId(userId);
     } else {
-      toast.error("Algo deu errado!");
+      errorToast("Algo deu errado!");
     }
   };
 
   const logout = () => {
     window.localStorage.removeItem("@SmartMenu:token");
     window.localStorage.removeItem("@SmartMenu:id");
-    toast.success("Logout realizado com sucesso!");
+    successToast("Logout realizado com sucesso!");
     setToken(null);
   };
 
@@ -49,11 +49,11 @@ export function UserProvider({ children }) {
     const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
 
     if (response) {
-      toast.success("Cadastrado realizado com sucesso!");
+      successToast("Cadastrado realizado com sucesso!");
       setToken(accessToken);
       setId(userId);
     } else {
-      toast.error("Algo deu errado!");
+      errorToast("Algo deu errado!");
     }
   };
 
