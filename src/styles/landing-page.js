@@ -143,6 +143,7 @@ export const MainDescription = styled.h3`
   font-family: "Inter", sans-serif;
 `;
 export const SectionAboutUs = styled.section`
+  padding-top: 10px;
   min-width: 320px;
   display: flex;
   flex-direction: column;
@@ -218,9 +219,16 @@ export const TopicAboutUs = styled.li`
 
 export const SectionTestimony = styled.section`
   min-width: 320px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: var(--primary-color);
+`;
+
+export const SliderTestimony = styled.div`
+  width: 70vh;
+  height: 40vh;
+  background-color: var(--secondary-color);
 `;

@@ -11,6 +11,7 @@ import {
   TopicAboutUs,
   SectionTestimony,
   ModalNav,
+  SliderTestimony,
 } from "./../../../styles/landing-page.js";
 
 import TabletAboutUs from "./../../../img/Tablet-AboutUs.png";
@@ -138,6 +139,7 @@ const LandingPage = () => {
 
       <SectionTestimony id="testimony">
         <SectionTitle>Depoimentos</SectionTitle>
+        <SliderTestimony> </SliderTestimony>
       </SectionTestimony>
     </div>
   );
