@@ -12,7 +12,7 @@ import {
   SectionTestimony,
   ModalNav,
   SliderTestimony,
-} from "./../../../styles/landing-page.js";
+} from "./style.js";
 
 import TabletAboutUs from "./../../../img/Tablet-AboutUs.png";
 import TabletLandingPage from "./../../../img/Tablet-LandingPage.png";
