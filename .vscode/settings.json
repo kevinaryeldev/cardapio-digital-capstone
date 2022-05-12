@@ -11,6 +11,7 @@
     "animations",
     "components",
     "routes",
-    "signUp page"
+    "signUp page",
+    "login page"
   ]
 }
