@@ -5,8 +5,8 @@ import styled from "styled-components"
 export const ButtonStyled = styled.button`
 
 font-family: 'Noto Serif', serif;
-background-color: ${(props) => (props.bgBlack ? "var(--primary-color)" : props.bgYellow ? "var(--seondary-color)" : "var(--primary-color-50)")};
-color: ${(props) => (props.bgBlack ? "var(--seondary-color)": props.bgYellow ? "var(--primary-color)" :  "var(--terciary-color)")};
+background-color: ${(props) => (props.bgBlack ? "var(--primary-color)" : props.bgYellow ? "var(--secondary-color)" : "var(--primary-color-50)")};
+color: ${(props) => (props.bgBlack ? "var(--secondary-color)": props.bgYellow ? "var(--primary-color)" :  "var(--terciary-color)")};
 font-size: 16px;
 font-weight: ${(props) => (props.bolder ? "700" : "400")};
 height: ${(props) => (props.circle ? "75px" : "42px")};
