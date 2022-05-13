@@ -23,8 +23,10 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = () => {
+  const history = useHistory();
   const [openLinks, setOpenLinks] = useState(false);
   return (
     <div>
@@ -46,8 +48,12 @@ const LandingPage = () => {
           <h2>Cardápio Digital</h2>
         </LeftContainer>
         <RightContainer>
-          <NavbarButton>Login</NavbarButton>
-          <NavbarButton>Cadastre-se</NavbarButton>
+          <NavbarButton onClick={() => history.push("/login/")}>
+            Login
+          </NavbarButton>
+          <NavbarButton onClick={() => history.push("/signup")}>
+            Cadastre-se
+          </NavbarButton>
         </RightContainer>
       </NavbarContainer>
       {openLinks && (
