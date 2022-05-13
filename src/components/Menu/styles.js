@@ -27,7 +27,7 @@ export const Header = styled.section`
   height:100vh;
   flex-direction: column;
   align-items: center;
- 
+  align-self:baseline;
   & a{
      display:block;
      color:var(--terciary-color);
