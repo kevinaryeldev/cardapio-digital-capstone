@@ -98,7 +98,11 @@ const LandingPage = () => {
               </p>
             </section>
           </TopicAboutUs>
-          <TopicAboutUs>
+          <TopicAboutUs invert>
+            <div>
+              <img src={DinnerAboutUs} alt="Exemplo Mesa de Restaurante" />
+              <div className="decoration"></div>
+            </div>
             <section>
               <h2>Maior privacidade</h2>
               <p>
@@ -111,10 +115,6 @@ const LandingPage = () => {
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
               </p>
             </section>
-            <div>
-              <img src={DinnerAboutUs} alt="Exemplo Mesa de Restaurante" />
-              <div className="decoration"></div>
-            </div>
           </TopicAboutUs>
           <TopicAboutUs>
             <div>

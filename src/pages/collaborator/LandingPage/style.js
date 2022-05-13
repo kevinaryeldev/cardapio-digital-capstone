@@ -6,8 +6,9 @@ export const NavbarContainer = styled.nav`
   background-color: var(--secondary-color);
   display: flex;
   height: 10vh;
-  min-width: 320px;
+  min-width: 500px;
   position: fixed;
+  border-bottom: 0.2px solid var(--primary-color);
 `;
 
 export const LeftContainer = styled.div`
@@ -21,7 +22,7 @@ export const LeftContainer = styled.div`
 
   h2 {
     font-style: black;
-    font-size: 36px;
+    font-size: 2em;
     line-height: 49px;
     background: -webkit-linear-gradient(#485d5e, var(--primary-color));
     -webkit-background-clip: text;
@@ -31,6 +32,9 @@ export const LeftContainer = styled.div`
 
     @media (min-width: 700px) {
       display: block;
+    }
+    @media (min-width: 1024px) {
+      font-size: 2.5em;
     }
   }
 `;
@@ -72,7 +76,7 @@ export const ModalLinksButton = styled.button`
 
 export const ModalNav = styled.div`
   width: fit-content;
-  min-width: 320px;
+  min-width: 500px;
   height: fit-content;
   background-color: var(--secondary-color);
   position: fixed;
@@ -99,52 +103,63 @@ export const ModalNav = styled.div`
     a {
       color: var(--primary-color);
       font-family: "Noto Sans", sans-serif;
-      font-size: 15px;
+      font-size: 1.5rem;
+      font-weight: 600;
     }
   }
 `;
 
 export const SectionLanding = styled.section`
+  padding-top: 2vh;
   min-height: 100vh;
-  padding-top: 10vh;
   height: fit-content;
   background-color: var(--primary-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 320px;
+  min-width: 500px;
+  gap: 2vh;
 
   img {
     width: 35%;
     height: auto;
+    max-width: 450px;
   }
 `;
 export const SectionTitle = styled.h1`
+  width: 80%;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 3rem;
   line-height: 77px;
   color: var(--secondary-color);
   text-align: center;
   margin-bottom: 15px;
   font-family: "Noto Sans", sans-serif;
   margin-top: 50px;
+  @media (min-width: 1024px) {
+    font-size: 4rem;
+  }
 `;
 
 export const MainDescription = styled.h3`
   font-weight: 400;
-  width: 60vw;
-  font-size: 24px;
+  width: 60%;
+  font-size: 1.3rem;
   line-height: 29px;
   text-align: center;
   color: white;
   margin-bottom: 15px;
   margin-top: 0px;
   font-family: "Inter", sans-serif;
+
+  @media (min-width: 1024px) {
+    font-size: 1.5rem;
+  }
 `;
 export const SectionAboutUs = styled.section`
   padding-top: 10px;
-  min-width: 320px;
+  min-width: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,18 +168,12 @@ export const SectionAboutUs = styled.section`
 
   ul {
     list-style: none;
-    width: 90%;
-    min-width: 320px;
+    width: 80%;
+    min-width: 450px;
     margin-top: 50px;
-    gap: 70px;
+    gap: 2vw;
     display: flex;
     flex-direction: column;
-  }
-  h1 {
-    font-size: 64px;
-    font-weight: 700;
-    line-height: 77px;
-    color: var(--secondary-color);
   }
 `;
 
@@ -173,7 +182,7 @@ export const TopicAboutUs = styled.li`
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
-  gap: 40px;
+  gap: 10vw;
   height: fit-content;
   div {
     width: 50%;
@@ -194,9 +203,9 @@ export const TopicAboutUs = styled.li`
     text-align: center;
     justify-content: space-between;
     height: inherit;
-
+    gap: 10vh;
     h2 {
-      font-size: 29px;
+      font-size: 1.5rem;
       font-weight: 700;
       line-height: 40px;
       letter-spacing: 0em;
@@ -206,19 +215,28 @@ export const TopicAboutUs = styled.li`
       justify-self: flex-start;
     }
     p {
-      font-size: 24px;
+      font-size: 1rem;
       color: var(--secondary-color);
       font-family: "Noto Sans", sans-serif;
     }
   }
 
   @media (min-width: 1024px) {
-    flex-direction: row;
+    flex-direction: ${(props) => (props.invert ? "row-reverse" : "row")};
+
+    section {
+      h2 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1.5rem;
+      }
+    }
   }
 `;
 
 export const SectionTestimony = styled.section`
-  min-width: 320px;
+  min-width: 500px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
