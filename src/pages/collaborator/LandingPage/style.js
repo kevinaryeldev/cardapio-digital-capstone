@@ -122,9 +122,15 @@ export const SectionLanding = styled.section`
   gap: 2vh;
 
   img {
-    width: 35%;
+    width: 55%;
     height: auto;
     max-width: 450px;
+  }
+
+  @media (min-width: 1024px) {
+    img {
+      width: 35%;
+    }
   }
 `;
 export const SectionTitle = styled.h1`
@@ -187,12 +193,19 @@ export const TopicAboutUs = styled.li`
   div {
     width: 50%;
     height: auto;
+    min-width: 400px;
     img {
       width: 100%;
       height: auto;
       border-radius: 20px;
+      max-width: 500px;
     }
     .decoration {
+    }
+    @media (min-width: 1024px) {
+      div {
+        width: 70%;
+      }
     }
   }
 
@@ -204,10 +217,10 @@ export const TopicAboutUs = styled.li`
     justify-content: space-between;
     height: inherit;
     gap: 10vh;
+    min-width: 400px;
     h2 {
       font-size: 1.5rem;
       font-weight: 700;
-      line-height: 40px;
       letter-spacing: 0em;
       text-align: center;
       color: var(--secondary-color);
