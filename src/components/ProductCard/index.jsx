@@ -18,7 +18,6 @@ const ProductCard = ({ product }) => {
   }
 
   let location = useLocation();
-  console.log(location);
 
   return (
     <CardContainer key={id}>
