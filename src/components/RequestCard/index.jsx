@@ -3,7 +3,7 @@ import { Header, MainContent, RequestCardContainer, TableNumber, RequestBody, Fo
 import { MdDone } from "react-icons/md"
 import { ImCross } from "react-icons/im"
 
-const ResquestCard = ({ demand }) => {
+const RequestCard = ({ demand }) => {
 
     const { table, date, totalPrice, totalQuantity, status, requests } = demand
 
@@ -69,9 +69,9 @@ const ResquestCard = ({ demand }) => {
 
     Na Dashboard:
 
-    <ResquestCard demand={demand1} />
-    <ResquestCard demand={demand2} />
-    <ResquestCard demand={demand3} />
+    <RequestCard demand={demand1} />
+    <RequestCard demand={demand2} />
+    <RequestCard demand={demand3} />
     */
 
     return (
@@ -129,4 +129,4 @@ const ResquestCard = ({ demand }) => {
         </RequestCardContainer>
     )
 }
-export default ResquestCard
+export default RequestCard
