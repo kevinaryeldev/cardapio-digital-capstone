@@ -76,5 +76,4 @@ export const LineDiv = styled.div`
   top:0;
 }
 `
-
 ;
