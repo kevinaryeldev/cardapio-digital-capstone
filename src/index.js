@@ -11,7 +11,6 @@ ReactDOM.render(
     <Provider>
       <BrowserRouter>
         <App />
-        <GlobalStyle />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,
