@@ -7,7 +7,12 @@ const GlobalStyle  = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         outline:0; 
+        font-family: 'Noto Serif', serif;
     } 
+
+    html{
+        scroll-behavior: smooth;
+    }
 
     :root {
         --primary-color: #21262D;
@@ -21,6 +26,18 @@ const GlobalStyle  = createGlobalStyle`
         --negative-color:#E4A2B0;
         --alert-color:#EBBB49;
         --error-color:#D93025;
+
+        --toastify-color-light: #DDBC8B;
+        --toastify-color-dark: #21262D;
+        --toastify-color-info: #3498db;
+        --toastify-color-success: #07bc0c;
+        --toastify-color-warning: #EBBB49;
+        --toastify-color-error: #D93025;
+
+        --toastify-text-color-light: #21262D;
+        --toastify-text-color-dark: #DDBC8B;
+        --toastify-spinner-color: #21262D;
+        
     }
 
     body {
@@ -28,9 +45,22 @@ const GlobalStyle  = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
     }
 
-    button, a {
+    button, a, input {
         cursor: pointer;
         text-decoration: none;
+        color: inherit;
+        border: none;
+    }
+
+    .App{
+        min-height: 100vh;
+        
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 `;
 export default GlobalStyle
