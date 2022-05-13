@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle  = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
@@ -43,6 +43,7 @@ const GlobalStyle  = createGlobalStyle`
     body {
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+        min-width: 100vw;
     }
 
     button, a, input {
@@ -63,4 +64,4 @@ const GlobalStyle  = createGlobalStyle`
         align-items: center;
     }
 `;
-export default GlobalStyle
+export default GlobalStyle;

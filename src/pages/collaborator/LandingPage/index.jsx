@@ -23,8 +23,10 @@ import { FaBars } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = () => {
+  const history = useHistory();
   const [openLinks, setOpenLinks] = useState(false);
   return (
     <div>
@@ -46,8 +48,12 @@ const LandingPage = () => {
           <h2>Cardápio Digital</h2>
         </LeftContainer>
         <RightContainer>
-          <NavbarButton>Login</NavbarButton>
-          <NavbarButton>Cadastre-se</NavbarButton>
+          <NavbarButton onClick={() => history.push("/login/")}>
+            Login
+          </NavbarButton>
+          <NavbarButton onClick={() => history.push("/signup")}>
+            Cadastre-se
+          </NavbarButton>
         </RightContainer>
       </NavbarContainer>
       {openLinks && (
@@ -98,7 +104,11 @@ const LandingPage = () => {
               </p>
             </section>
           </TopicAboutUs>
-          <TopicAboutUs>
+          <TopicAboutUs invert>
+            <div>
+              <img src={DinnerAboutUs} alt="Exemplo Mesa de Restaurante" />
+              <div className="decoration"></div>
+            </div>
             <section>
               <h2>Maior privacidade</h2>
               <p>
@@ -111,10 +121,6 @@ const LandingPage = () => {
                 sunt in culpa qui officia deserunt mollit anim id est laborum.
               </p>
             </section>
-            <div>
-              <img src={DinnerAboutUs} alt="Exemplo Mesa de Restaurante" />
-              <div className="decoration"></div>
-            </div>
           </TopicAboutUs>
           <TopicAboutUs>
             <div>
