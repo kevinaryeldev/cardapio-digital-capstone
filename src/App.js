@@ -1,12 +1,21 @@
+import { ToastContainer } from "react-toastify";
 import Routes from "./routes";
-import GlobalStyle from './styles/global'
 
 function App() {
   return (
-    <div>
-      <GlobalStyle />
+    <div className="App">
       <Routes />
-      App
+      <ToastContainer
+        position="top-right"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+      />
     </div>
   );
 }
