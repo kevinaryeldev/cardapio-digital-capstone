@@ -3,6 +3,8 @@ import { Header, MainContent, RequestCardContainer, TableNumber, RequestBody, Fo
 import { MdDone } from "react-icons/md"
 import { ImCross } from "react-icons/im"
 
+import formatter from "../../utils/formatter"
+
 const RequestCard = ({ demand }) => {
 
     const { table, date, totalPrice, totalQuantity, status, requests } = demand
@@ -100,7 +102,7 @@ const RequestCard = ({ demand }) => {
             <FooterContent>
                 <div>
                     <span>Qtd.: {totalQuantity}</span>
-                    <span>R$ {totalPrice}</span>
+                    <span>{formatter.format(totalPrice)}</span>
                 </div>
                 <div>
                     {status === "waiting" ? (
