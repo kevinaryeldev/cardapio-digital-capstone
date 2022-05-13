@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle  = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
@@ -32,5 +32,16 @@ const GlobalStyle  = createGlobalStyle`
         cursor: pointer;
         text-decoration: none;
     }
+
+    .App{
+        min-height: 100vh;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        background-color: var(--primary-color);
+    }
 `;
-export default GlobalStyle
+export default GlobalStyle;
