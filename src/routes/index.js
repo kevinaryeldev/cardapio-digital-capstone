@@ -16,7 +16,7 @@ import StatisticsPage from "../pages/collaborator/admin/StatisticsPage";
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/" component={StatisticsPage} />{/*LandingPage*/}
+      <Route exact path="/" component={LandingPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/signup" component={SignUpPage} />
       <Route exact path="/admin" component={DashboardPage} />
