@@ -1,7 +1,7 @@
 import { ModalStyled } from "./style";
 const Modal = ({
   children,
-  setState,
+  state,
   height,
   width,
   top,
@@ -12,7 +12,7 @@ const Modal = ({
 }) => {
   return (
     <ModalStyled
-      setState={setState}
+      state={state}
       height={height}
       width={width}
       top={top}

@@ -9,7 +9,7 @@ export const ModalStyled = styled.div`
   min-height: 100vh;
   min-width: 100vw;
   display: ${(props) =>
-    props.setState ? (props.flex ? "flex" : "block") : "none"};
+    props.state ? (props.flex ? "flex" : "block") : "none"};
   align-content: ${(props) => (props.align ? props.align : "initial")};
   justify-content: ${(props) => (props.justify ? props.justify : "initial")};
   div {
