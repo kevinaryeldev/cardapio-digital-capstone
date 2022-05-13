@@ -6,10 +6,12 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
-    window.localStorage.getItem("@SmartMenu:token")
+    JSON.parse(window.localStorage.getItem("@SmartMenu:token")) || null
   );
 
-  const [id, setId] = useState(window.localStorage.getItem("@SmartMenu:id"));
+  const [id, setId] = useState(
+    JSON.parse(window.localStorage.getItem("@SmartMenu:id")) || null
+  );
 
   useEffect(() => {
     if (token) {
