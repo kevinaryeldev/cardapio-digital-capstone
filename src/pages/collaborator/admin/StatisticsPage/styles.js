@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 
 export const Container = styled.section`
-  background-color: var(--primary-color);
+  background: linear-gradient(296.95deg, var(--primary-color) 0%, var(--primary-color-50) 99.65%);
   @media (min-width: 1024px) {
+    width:100vw;
+    height:100vh;
     display: flex;
+    justify-content:space-between
   }
 `;
 export const BoxContent = styled.div`
