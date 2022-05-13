@@ -6,7 +6,6 @@ function App() {
     <div>
       <GlobalStyle />
       <Routes />
-      App
     </div>
   );
 }
