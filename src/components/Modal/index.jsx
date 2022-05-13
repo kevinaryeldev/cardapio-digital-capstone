@@ -1,8 +1,9 @@
-const Modal = () => {
-    return(
-        <div>
-            Modal
-        </div>
-    )
-}
-export default Modal
+import { ModalStyled } from "./style";
+const Modal = ({ children, setState, height, width }) => {
+  return (
+    <ModalStyled setState={setState} height={height} width={width}>
+      <div>{children}</div>
+    </ModalStyled>
+  );
+};
+export default Modal;
