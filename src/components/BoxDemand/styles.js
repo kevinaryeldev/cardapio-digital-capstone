@@ -9,11 +9,16 @@ flex-direction:column;
 justify-content:space-evenly;
 align-items: center;
 margin: 10px 0;
+border-radius: 16px;
 color:${(props) => (props.color === 'g'? "var(--positive-color)" 
                         : props.color === "r" ? "var(--error-color)" 
                             : props.color === "y" ? "var(--alert-color)":null)};
-    .IconBox{
-        font-size:44px;
+p{
+    color:black;
+}
+@media (min-width:1024px){
+    width:350px; 
+}
 `
 export const TitleCard = styled.span`
     font-size: 16px;
