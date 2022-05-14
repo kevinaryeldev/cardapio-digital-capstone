@@ -1,8 +1,15 @@
+import { Container } from "./style"
+
 const MenuPage = () => {
     return(
-        <div>
-            MenuPage
-        </div>
+        <Container>
+            <header>
+                <a>Entradas</a>
+                <a>Pratos principais</a>
+                <a>Sobremesas</a>
+                <a>Bebidas</a>
+            </header>
+        </Container>
     )
 }
 export default MenuPage
