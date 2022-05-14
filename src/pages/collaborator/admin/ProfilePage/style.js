@@ -32,10 +32,12 @@ h1 {
     text-align: center;
 }
 
-span {
+button {
     font-size: 14px;
     color: var(--secondary-color);
     text-decoration: underline;
+    background-color: transparent;
+    text-align: left;
     &:hover {
         cursor: pointer;
     }
@@ -69,18 +71,24 @@ border-bottom: 2px dashed var(--secondary-color);
 
 div {
     display: flex;
-    justify-content:space-between;
     flex-wrap: wrap;
-    max-width: 330px;
 }
 
 h3 {
     font-size: 16px;
 }
 
+input {
+    max-width: 107px;
+    background-color: transparent;
+    color: var(--terciary-color-50);
+    background-color: var(--primary-color-50);
+    border-radius: 5px;
+    font-size: 16px;
+}
 
 button {
-    width: 43px;
+    width: ${(props) => (props.bgYellow ? "43px" : "auto")};
     font-size: 9px;
     font-weight: 700;
     margin-top: 11px;
@@ -92,17 +100,19 @@ button {
 
     div {
         display: flex;
-        justify-content:space-between;
         flex-wrap: wrap;
-        max-width: 610px;
     }
 
     h3 {
         font-size: 40px;
     }
 
+    input {
+        max-width: 249px;
+        font-size: 40px;
+    }
+
     button {
-        width: 97px;
         font-size: 16px;
         margin-top: 16px;
     }
@@ -114,7 +124,14 @@ export const ImageContainer = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
+margin-right: 50px;
 
+button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    text-align: center;
+}
 `
 
 export const FigureStyled = styled.figure`
@@ -143,10 +160,9 @@ height: 124px;
 
 `
 
-export const NameContainer = styled.div`
+export const FormNameContainer = styled.form`
 display: flex;
 flex-direction: column;
-/* margin-left: 50px; */
 
 `
 
@@ -205,7 +221,7 @@ span {
 }
 `
 
-export const ChangeEmail = styled.section`
+export const ChangeEmail = styled.form`
 display: flex;
 flex-direction: column;
 margin-top: 50px;
@@ -217,23 +233,39 @@ div {
     max-width: 720px;
     font-size: 16px;
 
-    span {
+    button {
         font-size: 16px;
     }
+
+    input {
+        max-width: 107px;
+        margin-left: 10px;
+        background-color: transparent;
+        color: var(--terciary-color-50);
+        background-color: var(--primary-color-50);
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
 }
 
 @media (min-width: 1024px) {
     div {
         font-size: 24px;
 
-        span {
+        button {
+            font-size: 24px;
+        }
+
+        input {
+            max-width: 249px;
             font-size: 24px;
         }
     }
 }
 `
 
-export const ChangePassword = styled.section`
+export const ChangePassword = styled.form`
 display: flex;
 flex-direction: column;
 margin-top: 50px;
@@ -244,10 +276,17 @@ display: flex;
 align-items: flex-end;
 justify-content: space-between;
 flex-wrap: wrap;
-max-width: 560px;
+max-width: 482px;
+
+button {
+    font-size: 15px;
+}
 
 @media (min-width: 1024px) {
-
+    max-width: 662px;
+    button {
+        font-size: 24px;
+    }
 }
 `
 
@@ -260,6 +299,12 @@ span {
     text-decoration: none;
     font-size: 15px;
     margin-bottom: 25px;
+}
+
+span:last-child {
+    font-size: 10px;
+    color: var(--error-color);
+    margin: 10px;
 }
 
 input {
@@ -275,10 +320,14 @@ input {
 
     span {
         font-size: 24px;
-}
+    }
+
+    span:last-child {
+        font-size: 16px;
+        margin: 12px;
+    }
 
 input {
-    /* width: 316px; */
     width: 255px;
     height: 65px;
     font-size: 24px;
