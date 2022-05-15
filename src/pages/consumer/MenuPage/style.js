@@ -6,6 +6,7 @@ export const Container = styled.div`
     background-color: var(--primary-color);
     height: 100vh;
     width: 100vw;
+    overflow: scroll;
 
     .mobile--nav{
         visibility: hidden;
@@ -58,7 +59,6 @@ export const Container = styled.div`
                     width: 100%;
                     color: white;
                     margin-left: 10px;
-                    /* padding: 0px 0px 5px 10px; */
                 }
             }
         }
@@ -66,5 +66,5 @@ export const Container = styled.div`
 `
 
 export const Content = styled.div`
-    margin: 0rem 4rem;
+    margin: 0rem 0rem 3rem 4rem;
 `
