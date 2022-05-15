@@ -8,10 +8,11 @@ height: 337px;
 overflow-y : auto;
 border-radius: 15px;
 padding: 20px 31px 28px 20px;
-margin: 50px 0; 
+margin: 10px 0; 
 
 ::-webkit-scrollbar {
   width: 6px;
+  background-color: var(--primary-color-50);
 }
 
 ::-webkit-scrollbar-track {
@@ -30,8 +31,7 @@ margin: 50px 0;
 @media screen and (min-width: 1024px) {
     width: 300px;
     height: 400px;
-    margin: 65px 89px 50px 89px; 
-
+    //margin: 65px 89px 50px 89px; 
 }
 `
 
