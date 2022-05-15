@@ -21,19 +21,21 @@ const ProductCard = ({ product }) => {
 
   return (
     <CardContainer key={id}>
+      {/*Não precisa desse key => Deve ser colocado Na Dashboard, ao chamar esse componente*/}
       <section className="card--product">
         <div className="product--imageContainer">
           <img src={imageUrl} alt={name} />
+          {/* O nome no objeto que vem da api é img e não imageUrl*/}
         </div>
         <div className="product--description">
           <h3>{name}</h3>
           <p>{description}</p>
         </div>
       </section>
-
       <section className="card--extras">
         <div className="card--ratingContainer">
           {ratingStars.map((state) => {
+            /*as imagens precisam receber key pois irão se repetir*/
             if (state === "full") {
               return <img src={StarYellow} alt="Estrela" />;
             }
@@ -42,6 +44,7 @@ const ProductCard = ({ product }) => {
         </div>
         {/* Verifica em quais das páginas está para renderizar o botão necessário */}
         {location.pathname === "/menu" && <button>Ver Porções</button>}
+        {/* o pathname da página da dashboard é só admin, não precisa entrar em requests (porque esssa é a dashboard da cozinha) */}
         {location.pathname === "/admin/requests" && (
           <>
             <button>Editar</button>
