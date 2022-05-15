@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import {getProducts} from '../../../services/consumer/consumer'
 import ProductCard from '../../../components/ProductCard'
+import {FiSearch} from 'react-icons/fi'
 import { Container, Content } from "./style"
 
 const MenuPage = () => {
@@ -27,12 +28,18 @@ const MenuPage = () => {
 
     return(
         <Container>
-            <header>
+            <nav className='desktop--nav'>
                 <a>Entradas</a>
                 <a>Pratos principais</a>
                 <a>Sobremesas</a>
                 <a>Bebidas</a>
-            </header>
+            </nav>
+            <nav className='mobile--nav'>
+                <div>
+                  <FiSearch color={"#ffffff"} />
+                  <input placeholder='Digite aqui sua pesquisa' />
+                </div>
+            </nav>
             <div className="foodsection">
                 ENTRADAS
             </div>
