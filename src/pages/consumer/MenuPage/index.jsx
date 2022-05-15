@@ -11,7 +11,7 @@ const MenuPage = () => {
     const renderProducts = (value) => {
       return (
         value.map(((product) => {
-            return <ProductCard product={product} />    
+            return <ProductCard product={product} image={product.img} />    
           }
         ))
       )
