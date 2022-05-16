@@ -259,7 +259,15 @@ export const SectionTestimony = styled.section`
 `;
 
 export const SliderTestimony = styled.div`
-  width: 70vh;
-  height: 40vh;
-  background-color: var(--secondary-color);
+  width: 357px;
+
+  @media (min-width: 768px) {
+  width: 600px;
+  height: 406px;
+
+  }
+
+  @media (min-width: 1024px) {
+    width: 750px;
+  }
 `;
