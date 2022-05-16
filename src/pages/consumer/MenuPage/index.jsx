@@ -7,14 +7,19 @@ import { Container, Content } from "./style"
 const MenuPage = () => {
 
     const [products, setProducts] = useState()
+    const [categoryMain, setCategoryMain] = useState("Entradas")
 
-    const renderProducts = (value) => {
+    const renderProducts = (value, category) => {
       return (
-        value.map(((product) => {
+        value.filter((product) => product.category === category).map(((product) => {
             return <ProductCard product={product} image={product.img} />    
           }
         ))
       )
+    }
+
+    const handleMainCategory = (category) => {
+      setCategoryMain(category)
     }
 
     useEffect(() => {
@@ -29,10 +34,10 @@ const MenuPage = () => {
     return(
         <Container>
             <nav className='desktop--nav'>
-                <a>Entradas</a>
-                <a>Pratos principais</a>
-                <a>Sobremesas</a>
-                <a>Bebidas</a>
+                <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
+                <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
+                <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
+                <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
             </nav>
             <nav className='mobile--nav'>
                 <div>
@@ -41,10 +46,10 @@ const MenuPage = () => {
                 </div>
             </nav>
             <div className="foodsection">
-                ENTRADAS
+                {categoryMain}
             </div>
             <Content>
-              {!!products && renderProducts(products)}
+              {!!products && renderProducts(products, categoryMain)}
             </Content>
         </Container>
     )
