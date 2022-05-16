@@ -1,8 +1,23 @@
 import { toast } from "react-toastify";
 import instance from "../index";
 
-export const registerProduct = async (data) => {
-  const token = JSON.parse(window.localStorage.getItem("@SmartMenu:token"));
+export const listProductApi = async (setProducts) => {
+  const userId = window.localStorage.getItem("@SmartMenu:id");
+  const response = await instance
+    .get(`/products/?userId=${userId}`)
+    .then((response) => {
+      setProducts(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      return false;
+    });
+
+  return response;
+};
+
+export const registerProductApi = async (data) => {
+  const token = window.localStorage.getItem("@SmartMenu:token");
   const response = await instance
     .post("/products", data, {
       headers: {
@@ -21,12 +36,31 @@ export const registerProduct = async (data) => {
   return response;
 };
 
-export const deleteProduct = async (productId) => {
-  const token = JSON.parse(window.localStorage.getItem("@SmartMenu:token"));
-  const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
+export const editProductApi = async (productId, data) => {
+  const token = window.localStorage.getItem("@SmartMenu:token");
+  const response = await instance
+    .patch(`/products/${productId}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      toast.success("Produto editado com sucesso!");
+      return response;
+    })
+    .catch((error) => {
+      toast.error("Ocorreu algum erro!");
+      return false;
+    });
+
+  return response;
+};
+
+export const deleteProductApi = async (productId) => {
+  const token = window.localStorage.getItem("@SmartMenu:token");
 
   const response = await instance
-    .post(`/products/${userId}`, {
+    .post(`/products/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
