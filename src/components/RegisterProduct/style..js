@@ -8,6 +8,8 @@ export const Container = styled.div`
 
   padding: 0px 15px;
 
+  position: relative;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -115,5 +117,18 @@ export const ChangeStage = styled.button`
     transition: transform 300ms;
     ${(props) => props.right && "transform: translateX(8px);"};
     ${(props) => props.left && "transform: translateX(-8px);"};
+  }
+`;
+
+export const CloseModal = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+
+  background: none;
+
+  &:hover {
+    color: var(--primary-color-50);
   }
 `;

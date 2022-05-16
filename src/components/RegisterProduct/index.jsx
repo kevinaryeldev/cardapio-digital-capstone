@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 import Modal from "../Modal";
-import { Container } from "./style.";
+import { CloseModal, Container } from "./style.";
+
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import FormInfos from "./FormInfos";
 import FormExtras from "./FormExtras";
@@ -29,17 +31,6 @@ const RegisterProduct = ({ openRegisterProduct, setOpenRegisterProduct }) => {
     const response = await addProduct({ ...registerData, userId });
 
     if (response) {
-      setStage(1);
-      setRegisterData({
-        imageUrl:
-          "https://th.bing.com/th/id/R.66abeb56038e63e5ab4ee3bb8070ccbf?rik=n%2fJP378XqPOtag&pid=ImgRaw&r=0",
-        name: "",
-        description: "",
-        category: "",
-        waitingTime: "",
-        extras: [],
-        portions: [],
-      });
       setOpenRegisterProduct(false);
     }
   };
@@ -82,6 +73,10 @@ const RegisterProduct = ({ openRegisterProduct, setOpenRegisterProduct }) => {
             onSubmitRegister={onSubmitRegister}
           />
         )}
+
+        <CloseModal onClick={() => setOpenRegisterProduct(false)}>
+          <AiOutlineCloseCircle size="24px" />
+        </CloseModal>
       </Container>
     </Modal>
   );
