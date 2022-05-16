@@ -11,15 +11,29 @@ import {
 } from "./style";
 import ProductCard from "../../../../components/ProductCard";
 import RegisterProduct from "../../../../components/RegisterProduct";
+import { useMenu } from "../../../../providers/menu/menu";
+import { useAuth } from "../../../../providers/user/user";
+import { useHistory } from "react-router-dom";
 
-const DashboardPage = (products) => {
+const DashboardPage = () => {
   const inputSearch = useRef();
 
   const Search = () => {
     console.log(inputSearch.current.value);
   };
 
+  const { token } = useAuth();
+  let history = useHistory();
+
+  if (!token) {
+    history.push("/login");
+  }
+
+  const { products } = useMenu();
+
   const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
+  const [openEditProduct, setOpenEditProduct] = useState(false);
+  const [productToBeEdited, setProductToBeEdited] = useState({});
 
   return (
     <>
@@ -52,14 +66,30 @@ const DashboardPage = (products) => {
             </button>
           </DashboardHeader>
           <DashboardProductsContainer>
-            {products.lenght > 0 &&
-              products.map((el) => <ProductCard product={el} />)}
+            {products.length > 0 &&
+              products.map((el) => (
+                <ProductCard
+                  setOpenEditProduct={setOpenEditProduct}
+                  setProductToBeEdited={setProductToBeEdited}
+                  key={"product" + el.id}
+                  product={el}
+                />
+              ))}
           </DashboardProductsContainer>
         </Dashboard>
         {openRegisterProduct && (
           <RegisterProduct
-            openRegisterProduct={openRegisterProduct}
-            setOpenRegisterProduct={setOpenRegisterProduct}
+            type="register"
+            openModal={openRegisterProduct}
+            setOpenModal={setOpenRegisterProduct}
+          />
+        )}
+        {openEditProduct && (
+          <RegisterProduct
+            type="edit"
+            openModal={openEditProduct}
+            setOpenModal={setOpenEditProduct}
+            productToBeEdited={productToBeEdited}
           />
         )}
       </DashboardContainer>
