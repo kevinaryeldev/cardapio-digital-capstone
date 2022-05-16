@@ -10,14 +10,21 @@ export const ModalStyled = styled.div`
   min-width: 100vw;
   display: ${(props) =>
     props.state ? (props.flex ? "flex" : "block") : "none"};
-  align-content: ${(props) => (props.align ? props.align : "initial")};
+  align-items: ${(props) => (props.align ? props.align : "initial")};
   justify-content: ${(props) => (props.justify ? props.justify : "initial")};
   div {
     top: ${(props) => (props.top ? props.top : "0")};
     left: ${(props) => (props.left ? props.left : "0")};
-    position: absolute;
-    box-sizing: content-box;
+    ${(props) => !props.flex && "position: absolute"};
+    ${(props) => !props.flex && "box-sizing: content-box"};
     height: ${(props) => (props.height ? props.height : "auto")};
     width: ${(props) => (props.width ? props.width : "auto")};
+
+    display: ${(props) =>
+      props.state ? (props.flex ? "flex" : "block") : "none"};
+    align-items: ${(props) => (props.align ? props.align : "initial")};
+    justify-content: ${(props) => (props.justify ? props.justify : "initial")};
+
+    padding: ${(props) => props.padding};
   }
 `;
