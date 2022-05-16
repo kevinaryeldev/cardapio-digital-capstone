@@ -36,7 +36,7 @@ const LoginPage = () => {
   let history = useHistory();
 
   if (token) {
-    history.push("/dashboard");
+    history.push("/admin");
   }
 
   const [viewPassword, setViewPassword] = useState({
