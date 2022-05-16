@@ -12,14 +12,13 @@ export const MainContainer = styled.main`
 
   @media (min-width: 1370px) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    background-color: var(--secondary-color);
   }
 `;
 
 export const FormContainer = styled.form`
   width: 100%;
   padding: 70px 15px;
-
-  min-height: 730px;
 
   max-width: 700px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
@@ -66,8 +65,6 @@ export const ImageContainer = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background-color: var(--secondary-color);
   }
 `;
 
