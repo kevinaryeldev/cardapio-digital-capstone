@@ -35,33 +35,17 @@ export const Container = styled.div`
         border-bottom: 1px solid var(--secondary-color-50);
     }
 
+    .product-modal{
+        display: flex;
+        flex-direction: column;
+        background-color:  var(--secondary-color);
+    }
+
     @media screen and (max-width: 500px){
         .desktop--nav{
             display: none;
         }
 
-        .mobile--nav{
-            visibility: visible;
-            background-color: var(--secondary-color);
-            padding: 10px;
-
-            div{
-                display: flex;
-                align-items: center;
-                background-color: var(--primary-color);
-                border-radius: 10px;
-                width: 70vw;
-                margin-left: 10px;
-                padding: 12px 10px;
-
-                input{
-                    background-color: var(--primary-color);
-                    width: 100%;
-                    color: white;
-                    margin-left: 10px;
-                }
-            }
-        }
     }
 `
 
