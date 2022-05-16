@@ -7,12 +7,9 @@ export const loginUser = async (data) => {
     .then((response) => {
       window.localStorage.setItem(
         "@SmartMenu:token",
-        JSON.stringify(response.data.accessToken)
+        response.data.accessToken
       );
-      window.localStorage.setItem(
-        "@SmartMenu:id",
-        JSON.stringify(response.data.user.id)
-      );
+      window.localStorage.setItem("@SmartMenu:id", response.data.user.id);
 
       toast.success("Login realizado com sucesso!");
       return true;
@@ -38,12 +35,9 @@ export const signUpUser = async (data) => {
     .then((response) => {
       window.localStorage.setItem(
         "@SmartMenu:token",
-        JSON.stringify(response.data.accessToken)
+        response.data.accessToken
       );
-      window.localStorage.setItem(
-        "@SmartMenu:id",
-        JSON.stringify(response.data.user.id)
-      );
+      window.localStorage.setItem("@SmartMenu:id", response.data.user.id);
 
       toast.success("Cadastro realizado com sucesso!");
       return true;
@@ -65,82 +59,92 @@ export const getUserData = async (id, token) => {
   const response = await instance
     .get(`/users/${id}`, {
       headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((response) => {
-      return response.data
-    })
+      return response.data;
+    });
 
   return response;
 };
 
 export const patchName = async (data, id, token) => {
   const response = await instance
-    .patch(`/users/${id}`, {
-      name: data
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+    .patch(
+      `/users/${id}`,
+      {
+        name: data,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    )
     .then((response) => {
-      return response.data
-    })
+      return response.data;
+    });
 
   return response;
 };
 
 export const patchEmail = async (data, id, token) => {
   const response = await instance
-    .patch(`/users/${id}`, {
-      email: data
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+    .patch(
+      `/users/${id}`,
+      {
+        email: data,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    )
     .then((response) => {
       toast.success("Email atualizado com sucesso!");
-      return true
+      return true;
     })
     .catch((error) => {
       toast.error("Email inválido");
-      return false
-    })
+      return false;
+    });
 
   return response;
 };
 
 export const patchPassword = async (data, id, token) => {
   const response = await instance
-    .patch(`/users/${id}`, {
-      password: data
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+    .patch(
+      `/users/${id}`,
+      {
+        password: data,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    )
     .then((response) => {
       toast.success("Senha atualizada com sucesso!");
     })
     .catch((error) => {
       toast.error("Senha inválida");
-    })
+    });
 
   return response;
 };
 
 export const postFeedback = async (data) => {
-  const response = await instance
-    .post("/feedbacks", data)
-    .then((response) => {
-      console.log("POSTADO!, AINDA EM CONSTRUÇÃO")
-    })
-    
+  const response = await instance.post("/feedbacks", data).then((response) => {
+    console.log("POSTADO!, AINDA EM CONSTRUÇÃO");
+  });
+
   return response;
 };
