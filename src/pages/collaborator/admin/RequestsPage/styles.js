@@ -6,7 +6,7 @@ export const Container = styled.main`
     var(--primary-color-50),
     var(--primary-color)
   );
-
+  min-height: 100vh;
   @media (min-width: 1024px) {
     width: 100vw;
     display: flex;
@@ -50,60 +50,61 @@ export const BoxNav = styled.nav`
   justify-content: space-between;
   margin: 10px auto;
   @media (min-width: 1024px) {
-    width: 400px;
+    width: 500px;
     margin: 10px 0;
   } ;
 `;
-export const BtnAccepted = styled.button`
-  border: 1px solid var(--positive-color);
-  color: var(--positive-color);
-  width: 80px;
+export const Btnfilter = styled.button`
+  border: 1px solid
+    ${(props) =>
+      props.color === "g"
+        ? "var(--positive-color)"
+        : props.color === "r"
+        ? "var(--negative-color)"
+        : props.color === 'y' 
+        ? "var(--alert-color)"
+        : "var(--primary-color-50)"};
+  color: ${(props) =>
+      props.color === "g"
+        ? "var(--positive-color)"
+        : props.color === "r"
+        ? "var(--negative-color)"
+        : props.color === 'y' 
+        ? "var(--alert-color)"
+        : "var(--primary-color-50)"};
+  width: 60px;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:5px;
+  height:35px;
   :hover {
-    background-color: var(--positive-color);
-    color: white;
+    background-color: ${(props) =>
+      props.color === "g"
+        ? "var(--positive-color)"
+        : props.color === "r"
+        ? "var(--negative-color)"
+        : props.color === 'y' 
+        ? "var(--alert-color)"
+        : "var(--secondary-color)"};
+    color: var(--terciary-color);
   }
   @media (min-width: 1024px) {
     width: 120px;
     height: 40px;
+    font-size: 18px;
   }
-`;
-export const BtnNotAccepted = styled.button`
-  border: 1px solid var(--negative-color);
-  color: var(--negative-color);
-  width: 80px;
-  :hover {
-    background-color: var(--negative-color);
-    color: white;
-  }
-  @media (min-width: 1024px) {
-    width: 120px;
-    height: 40px;
-  }
-`;
-export const BtnInLoad = styled.button`
-  border: 1px solid var(--alert-color);
-  color: var(--alert-color);
-  width: 80px;
-  height: 25px;
-  :hover {
-    background-color: var(--alert-color);
-    color: white;
-  }
-  @media (min-width: 1024px) {
-    width: 120px;
-    height: 40px;
-  }
-`;
+`
 export const BoxCardReq = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content:center;
   gap: 50px;
   width: 100%;
   @media (min-width: 1024px) {
-    margin: 0 auto;
     max-height: 70vh;
     overflow-y: auto;
+    justify-content:flex-start;
 
     ::-webkit-scrollbar-thumb {
       background: var(--secondary-color-50);
