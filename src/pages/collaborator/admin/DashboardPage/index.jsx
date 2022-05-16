@@ -1,6 +1,6 @@
 import Menu from "./../../../../components/Menu";
 import { FaAngleLeft, FaAngleRight, FaSearch } from "react-icons/fa";
-import { useRef } from "react";
+import { useState } from "react";
 import {
   Dashboard,
   DashboardNav,
@@ -10,12 +10,17 @@ import {
   DashboardNavContainer,
 } from "./style";
 import ProductCard from "../../../../components/ProductCard";
+import { useProducts } from "../../../../providers/products/products";
 
-const DashboardPage = (products) => {
-  const inputSearch = useRef();
+const DashboardPage = () => {
+  const { products } = useProducts();
 
-  const Search = () => {
-    console.log(inputSearch.current.value);
+  const [showProducts, setShowProducts] = useState(products);
+
+  const filter = (valueFilter) => {
+    const formatedValue = valueFilter.trim().toUpperCase()
+    const filtered = products.filter((i)=> (i.name).toUpperCase().includes(formatedValue));
+    formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
   };
 
   return (
@@ -31,9 +36,8 @@ const DashboardPage = (products) => {
               <FaSearch size="30px" />
               <input
                 type="text"
-                ref={inputSearch}
                 placeholder="Digite sua pesquisa aqui..."
-                onChange={Search}
+                onChange={(e) => filter(e.target.value)}
               />
             </form>
             <button>
@@ -46,8 +50,7 @@ const DashboardPage = (products) => {
           <button>Adicionar</button>
         </DashboardHeader>
         <DashboardProductsContainer>
-          {products.lenght > 0 &&
-            products.map((el) => <ProductCard product={el} />)}
+          {showProducts.length > 0 ? showProducts.map((item) => <ProductCard key={item.id} product={item} />) : <aside>Nenhuma produto encontrado</aside>}
         </DashboardProductsContainer>
       </Dashboard>
     </DashboardContainer>
