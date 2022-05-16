@@ -5,8 +5,8 @@ import { useLocation } from "react-router-dom";
 
 //FALTA ADICIONAR OS ONCLICKS DOS BOTÕES DE EDITAR E REMOVER
 
-const ProductCard = ({ product, image }) => {
-  const { name, description, rating, id } = product;
+const ProductCard = ({ product }) => {
+  const { name, description, rating, imageUrl, id } = product;
 
   let ratingStars = [];
   for (let i = 1; i <= 5; i++) {
@@ -23,7 +23,7 @@ const ProductCard = ({ product, image }) => {
     <CardContainer key={id}>
       <section className="card--product">
         <div className="product--imageContainer">
-          <img src={image} alt={name} />
+          <img src={imageUrl} alt={name} />
         </div>
         <div className="product--description">
           <h3>{name}</h3>
