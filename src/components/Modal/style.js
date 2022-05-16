@@ -18,7 +18,7 @@ export const ModalStyled = styled.div`
     top: ${(props) => (props.top ? props.top : "0")};
     left: ${(props) => (props.left ? props.left : "0")};
     box-sizing: content-box;
-    min-width: ${(props) => (props.width ? props.width : "fit-content")};
-    min-height: ${(props) => (props.height ? props.height : "fit-content")};
+    width: ${(props) => (props.width ? props.width : "auto")};
+    height: ${(props) => (props.height ? props.height : "auto")};
   }
 `;

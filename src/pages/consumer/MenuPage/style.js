@@ -8,16 +8,14 @@ export const MenuContainer = styled.div`
 
 export const CartContainer = styled.div`
   background-color: var(--secondary-color);
-  height: 740px;
-  width: 740px;
+  min-width: 740px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: end;
   align-items: center;
   padding: 30px;
 `;
-
-export const CartItemsContainer = styled.div``;
 
 export const ButtonRequest = styled.button`
   font-family: "Noto Serif", serif;
