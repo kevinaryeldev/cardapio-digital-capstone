@@ -25,9 +25,20 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import Slider from 'infinite-react-carousel';
+import data from "./testimonials"
+import Carousel from "../../../components/Carousel/index.jsx";
+
 const LandingPage = () => {
   const history = useHistory();
   const [openLinks, setOpenLinks] = useState(false);
+
+  const settings = {
+    arrows: false,
+    centerPadding: 10,
+    dots: true
+  };
+
   return (
     <div>
       <NavbarContainer>
@@ -130,7 +141,15 @@ const LandingPage = () => {
 
       <SectionTestimony id="testimony">
         <SectionTitle>Depoimentos</SectionTitle>
-        <SliderTestimony> </SliderTestimony>
+
+        <SliderTestimony>
+          <Slider {...settings}>
+            {data.map((testimonial, index) => {
+              return <Carousel key={index} testimonial={testimonial} />
+            })}
+          </Slider>
+        </SliderTestimony>
+
       </SectionTestimony>
     </div>
   );
