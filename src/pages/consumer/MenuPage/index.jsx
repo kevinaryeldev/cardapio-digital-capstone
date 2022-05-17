@@ -31,6 +31,22 @@ const MenuPage = () => {
       id: 3,
     },
   ];
+
+  const sendRequest = () => {
+    const time = new Date().toLocaleTimeString().substring(0, 5);
+    const date = new Date().toLocaleDateString().substring(0, 5);
+    const request = {
+      date: `${date} - ${time}`,
+      totalPrice: products.reduce(function (acc, curValue) {
+        return acc + parseFloat(curValue.price);
+      }, 0),
+      totalQuantity: 1,
+      status: "waiting",
+      requests: products,
+    };
+
+    console.log(request);
+  };
   return (
     <MenuContainer>
       MenuPage
@@ -42,9 +58,7 @@ const MenuPage = () => {
               <CartItem product={el} />
             ))}
           </CartList>
-          <ButtonRequest onClick={() => setOpenCart(!openCart)}>
-            Fazer Pedido
-          </ButtonRequest>
+          <ButtonRequest onClick={sendRequest}>Fazer Pedido</ButtonRequest>
         </CartContainer>
       </Modal>
     </MenuContainer>
