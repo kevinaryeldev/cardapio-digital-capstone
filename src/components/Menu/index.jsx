@@ -1,5 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
+
+import {useAuth} from '../../providers/user/user'
 
 import Logo from "../../assets/img/Logo.png";
 import {
@@ -14,6 +16,7 @@ import { FaConciergeBell, FaRegBell } from "react-icons/fa";
 import { Header, BoxImage, LineDiv } from "./styles";
 
 const Menu = () => {
+  const {logout} = useAuth()
   return (
     <>
       <Header>
@@ -23,26 +26,31 @@ const Menu = () => {
 
         <BiMenu className="Menu"></BiMenu>
 
-        <Link to="">
+        <Link to="/admin/requests">
           <FaRegBell></FaRegBell>
         </Link>
-        <Link to="">
+
+        <Link to="/admin/statistics">
           <BiHome></BiHome>
         </Link>
-        <Link to="">
+
+        <Link to="/admin/feedbacks">
           <BiEnvelope></BiEnvelope>
         </Link>
-        <Link to="">
+
+        <Link to="/admin">
           <FaConciergeBell></FaConciergeBell>
         </Link>
-        <Link to="">
-          {" "}
+
+        <Link to="/admin/profile">
           <BiUserCircle></BiUserCircle>
         </Link>
-        <Link to="">
+
+        <Link to="" >
           {" "}
-          <BiLogOut className="btnLogout"></BiLogOut>
+          <BiLogOut className="btnLogout" onClick={logout}></BiLogOut>
         </Link>
+        
       </Header>
       <LineDiv></LineDiv>
     </>

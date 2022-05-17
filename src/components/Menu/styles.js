@@ -6,7 +6,7 @@ export const Header = styled.section`
   width: 100vw;
   height: 60px;
   background-color: var(--primary-color);
-  position:relative;
+  position:fixed;
   & a {
     display: none;
   }
