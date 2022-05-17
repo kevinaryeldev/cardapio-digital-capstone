@@ -134,3 +134,13 @@ export const patchPassword = async (data, id, token) => {
 
   return response;
 };
+
+export const postFeedback = async (data) => {
+  const response = await instance
+    .post("/feedbacks", data)
+    .then((response) => {
+      console.log("POSTADO!, AINDA EM CONSTRUÇÃO")
+    })
+    
+  return response;
+};
