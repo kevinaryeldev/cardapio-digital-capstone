@@ -12,6 +12,7 @@ export const MenuContext = createContext([]);
 
 export const MenuProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     listProductApi(setProducts);
@@ -100,6 +101,8 @@ export const MenuProvider = ({ children }) => {
   return (
     <MenuContext.Provider
       value={{
+        isPaymentModalOpen,
+        setIsPaymentModalOpen,
         products,
         addProduct,
         editProduct,
