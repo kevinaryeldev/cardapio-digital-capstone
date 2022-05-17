@@ -35,17 +35,70 @@ export const Container = styled.div`
         border-bottom: 1px solid var(--secondary-color-50);
     }
 
-    .product-modal{
-        display: flex;
-        flex-direction: column;
-        background-color:  var(--secondary-color);
-    }
-
     @media screen and (max-width: 500px){
         .desktop--nav{
             display: none;
         }
 
+    }
+`
+
+export const ModalContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  var(--secondary-color);
+    padding: 15px;
+    margin-top: 4rem;
+`
+
+export const ModalHeader = styled.div`
+    height: 10rem !important;
+    display: flex;
+    flex-direction: column;
+    span{
+        margin-left: 47rem;
+        width: 15px;
+        text-align: center;
+        margin-top: -12px;
+        cursor: pointer;
+    }
+    .header{
+        display: flex;
+        flex-direction: row;
+        border: 1px solid;
+        height: 10rem !important;
+        .image-place{
+            height: 100%;
+            width: 35%;
+            img{
+                max-width: 150px;
+            }
+        }
+        .product-description{
+            height: 100%;
+            width: 62%;
+        }
+    }
+`
+
+export const ModalBody = styled.div`
+    height: 22rem !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .product-adds{
+        border: 1px solid;
+        height: 100%;
+        width: 35%;
+
+    }
+    .product-size{
+        border: 1px solid;
+        height: 100%;
+        width: 62%;
     }
 `
 

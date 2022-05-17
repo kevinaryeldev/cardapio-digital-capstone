@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 
 //FALTA ADICIONAR OS ONCLICKS DOS BOTÕES DE EDITAR E REMOVER
 
-const ProductCard = ({ product, image }) => {
+const ProductCard = ({ product, image, click }) => {
   const { name, description, rating, id } = product;
 
   let ratingStars = [];
@@ -41,7 +41,7 @@ const ProductCard = ({ product, image }) => {
           })}
         </div>
         {/* Verifica em quais das páginas está para renderizar o botão necessário */}
-        {location.pathname === "/menu" && <button>Ver Porções</button>}
+        {location.pathname === "/menu" && <button onClick={click}>Ver Porções</button>}
         {location.pathname === "/admin/requests" && (
           <>
             <button>Editar</button>
