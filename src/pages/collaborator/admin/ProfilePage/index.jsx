@@ -24,7 +24,7 @@ const ProfilePage = () => {
     const [userInfo, setUserInfo] = useState({})
     const { email, name } = userInfo
 
-    const [image, setImage] = useState("https://upcdn.io/12a1xjkUbsopyEttynTdecm")
+    const [image, setImage] = useState()
     const [defaultImage, setDefaultImage] = useState()
     const [imageInput, setImageInput] = useState(false)
 
@@ -89,14 +89,14 @@ const ProfilePage = () => {
             logoUrl: image
         }
         
-        patchUserData(data)
+        patchUserData(data,id, token, "Foto atualizada!")
         setImageInput(false)
     }
 
     const ChangeName = (data) => {
         patchUserData(data, id, token)
         setNameInput(false)
-        setRestaurantName(data.name, id, token, "Foto atualizada!")
+        setRestaurantName(data.name)
     }
 
     const ChangeMail = () => {
