@@ -9,18 +9,24 @@ import Logo from "../../../../assets/img/Logo.png";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { getUserData, patchUserData } from "../../../../services/users/users";
+import { getUserData, patchUserData, UploadImage } from "../../../../services/users/users";
 import { useAuth } from "../../../../providers/user/user";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { nameSchema, passwordSchema } from "../../../../utils/schemas/UserSettings";
 
+let { Upload } = require("upload-js")
+
 const ProfilePage = () => {
 
-    const { id, token } = useAuth();
+    const { id, token} = useAuth();
     const [userInfo, setUserInfo] = useState({})
     const { email, name } = userInfo
+
+    const [image, setImage] = useState("https://upcdn.io/12a1xjkUbsopyEttynTdecm")
+    const [defaultImage, setDefaultImage] = useState()
+    const [imageInput, setImageInput] = useState(false)
 
     const [nameInput, setNameInput] = useState(false)
     const [restaurantName, setRestaurantName] = useState(name)
@@ -36,6 +42,9 @@ const ProfilePage = () => {
             setUserInfo(response)
             setRestaurantName(response.name)
             setRestaurantEmail(response.email)
+
+            setImage(response.logoUrl)
+            setDefaultImage(response.logoUrl)
         }
         getInfo()
     }, [])
@@ -55,11 +64,39 @@ const ProfilePage = () => {
             resolver: yupResolver(passwordSchema),
         });
 
+    const cancelChangeImage = () => {
+        setImage(defaultImage)
+        setImageInput(false)
+    }
+    
+    const seeImage = async (image) => {
+        setImageInput(true)
+
+        const upload = new Upload({
+            apiKey: "public_12a1xjk5NxMQ7kknSiy9K6odEyzE"
+        })
+
+        const { fileUrl } = await upload.uploadFile({
+            file: image
+        });
+
+        setImage(fileUrl)
+
+    }
+
+    const sendImage = () => {
+        const data = {
+            logoUrl: image
+        }
+        
+        patchUserData(data)
+        setImageInput(false)
+    }
+
     const ChangeName = (data) => {
         patchUserData(data, id, token)
         setNameInput(false)
-        setRestaurantName(data.name)
-
+        setRestaurantName(data.name, id, token, "Foto atualizada!")
     }
 
     const ChangeMail = () => {
@@ -105,10 +142,24 @@ const ProfilePage = () => {
                     <div>
                         <ImageContainer>
                             <FigureStyled>
-                                <img src={Logo} alt="{RESTAURANTE}" />
+                                <img src={image} alt={name} />
                                 <figcaption>{name}</figcaption>
                             </FigureStyled>
-                            <Button bgYellow>Trocar</Button>
+                            {imageInput === false && 
+                                <label htmlFor="uploadImage">Trocar</label>
+                            }
+                            
+                            <input type="file"
+                                id="uploadImage"
+                                style={{ display: "none" }}
+                                onChange={(e) => seeImage(e.target.files[0])} />
+
+                            {imageInput === true && (
+                                <>
+                                    <Button onClick={() => sendImage()}>Confirmar</Button>
+                                    <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
+                                </>
+                            )}
                         </ImageContainer>
                         <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
                             {errors.name && <FormError>{errors.name.message}</FormError>}
