@@ -6,26 +6,24 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("@SmartMenu:token")) || null
+    window.localStorage.getItem("@SmartMenu:token")
   );
 
   const [id, setId] = useState(
-    JSON.parse(window.localStorage.getItem("@SmartMenu:id")) || null
+    window.localStorage.getItem("@SmartMenu:id") || null
   );
 
   useEffect(() => {
     if (token) {
-      window.localStorage.setItem("@SmartMenu:token", JSON.stringify(token));
-      window.localStorage.setItem("@SmartMenu:id", JSON.stringify(id));
+      window.localStorage.setItem("@SmartMenu:token", token);
+      window.localStorage.setItem("@SmartMenu:id", id);
     }
   }, [token]);
 
   const login = async (data) => {
     const response = await loginUser(data);
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("@SmartMenu:token")
-    );
-    const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
+    const accessToken = window.localStorage.getItem("@SmartMenu:token");
+    const userId = window.localStorage.getItem("@SmartMenu:id");
 
     if (response) {
       setId(userId);
@@ -43,10 +41,8 @@ export const UserProvider = ({ children }) => {
 
   const signUp = async (data) => {
     const response = await signUpUser(data);
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("@SmartMenu:token")
-    );
-    const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
+    const accessToken = window.localStorage.getItem("@SmartMenu:token");
+    const userId = window.localStorage.getItem("@SmartMenu:id");
 
     if (response) {
       setId(userId);

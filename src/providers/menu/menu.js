@@ -1,8 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import instance from "../../services";
 import {
-  deleteProduct,
-  registerProduct,
+  deleteProductApi,
+  editProductApi,
+  listProductApi,
+  registerProductApi,
 } from "../../services/products/products";
 
 export const MenuContext = createContext([]);
@@ -10,14 +13,16 @@ export const MenuContext = createContext([]);
 export const MenuProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    listProductApi(setProducts);
+  }, []);
+
   const [categories, setCategories] = useState([
     "Entradas",
     "Pratos Principais",
     "Bebidas",
     "Sobremesas",
   ]);
-
-  useEffect(() => console.log(products), [products]);
 
   const addCategory = (newCategory) => {
     if (categories.includes(newCategory)) {
@@ -56,7 +61,7 @@ export const MenuProvider = ({ children }) => {
   };
 
   const addProduct = async (newProduct) => {
-    const response = await registerProduct(newProduct);
+    const response = await registerProductApi(newProduct);
     if (response) {
       setProducts([...products, response.data]);
       return true;
@@ -65,8 +70,25 @@ export const MenuProvider = ({ children }) => {
     }
   };
 
+  const editProduct = async (productId, newData) => {
+    const response = await editProductApi(productId, newData);
+    if (response) {
+      const updatedProducts = products.map((product) => {
+        if (product.id === productId) {
+          product = { ...product, ...newData };
+          return product;
+        }
+        return product;
+      });
+      setProducts(updatedProducts);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const removeProduct = async (productToBeRemoved) => {
-    const response = await deleteProduct(productToBeRemoved);
+    const response = await deleteProductApi(productToBeRemoved);
     if (response) {
       const updatedProducts = products.filter(
         (product) => product.id !== productToBeRemoved.id
@@ -80,6 +102,7 @@ export const MenuProvider = ({ children }) => {
       value={{
         products,
         addProduct,
+        editProduct,
         removeProduct,
         categories,
         addCategory,
