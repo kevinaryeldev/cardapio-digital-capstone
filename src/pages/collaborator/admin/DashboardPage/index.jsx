@@ -8,12 +8,15 @@ import {
   DashboardContainer,
   DashboardProductsContainer,
   DashboardNavContainer,
+  ConfirmsContainer,
 } from "./style";
 import ProductCard from "../../../../components/ProductCard";
 import RegisterProduct from "../../../../components/RegisterProduct";
 import { useMenu } from "../../../../providers/menu/menu";
 import { useAuth } from "../../../../providers/user/user";
 import { useHistory } from "react-router-dom";
+import Modal from "../../../../components/Modal";
+import Button from "../../../../components/Button";
 
 const DashboardPage = () => {
   const inputSearch = useRef();
@@ -23,6 +26,8 @@ const DashboardPage = () => {
   };
 
   const { token } = useAuth();
+  const { removeProduct } = useMenu();
+
   let history = useHistory();
 
   if (!token) {
@@ -33,7 +38,8 @@ const DashboardPage = () => {
 
   const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
   const [openEditProduct, setOpenEditProduct] = useState(false);
-  const [productToBeEdited, setProductToBeEdited] = useState({});
+  const [productToChange, setProductToChange] = useState({});
+  const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
 
   return (
     <>
@@ -70,7 +76,8 @@ const DashboardPage = () => {
               products.map((el) => (
                 <ProductCard
                   setOpenEditProduct={setOpenEditProduct}
-                  setProductToBeEdited={setProductToBeEdited}
+                  setProductToChange={setProductToChange}
+                  setOpenRemoveProduct={setOpenRemoveProduct}
                   key={"product" + el.id}
                   product={el}
                 />
@@ -89,8 +96,41 @@ const DashboardPage = () => {
             type="edit"
             openModal={openEditProduct}
             setOpenModal={setOpenEditProduct}
-            productToBeEdited={productToBeEdited}
+            productToBeEdited={productToChange}
           />
+        )}
+        {openRemoveProduct && (
+          <Modal
+            setOpenModal={setOpenRemoveProduct}
+            state={openRemoveProduct}
+            flex
+            align="center"
+            justify="center"
+            padding="15px"
+          >
+            <ConfirmsContainer>
+              <h2>Deseja remover este produto?</h2>
+              <Button
+                width="49%"
+                bgBlack
+                onClick={() => {
+                  const response = removeProduct(productToChange);
+                  if (response) {
+                    setOpenRemoveProduct(false);
+                  }
+                }}
+              >
+                Sim
+              </Button>
+              <Button
+                width="49%"
+                bgBlack
+                onClick={() => setOpenRemoveProduct(false)}
+              >
+                Não
+              </Button>
+            </ConfirmsContainer>
+          </Modal>
         )}
       </DashboardContainer>
     </>
