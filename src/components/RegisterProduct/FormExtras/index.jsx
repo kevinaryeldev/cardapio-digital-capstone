@@ -32,10 +32,10 @@ const FormExtras = ({ setStage, setRegisterData, registerData }) => {
       if (
         prevState.extras.filter((extra) => extra.name === data.name).length > 0
       ) {
-        toast.error("Porção já existente!");
+        toast.error("Adicional já existente!");
         return { ...prevState };
       }
-      toast.success("Porção adicionada com sucesso!");
+      toast.success("Adicional acrescentado com sucesso!");
       return { ...prevState, extras: [...prevState.extras, { ...data }] };
     });
   };
