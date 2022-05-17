@@ -23,6 +23,8 @@ const DashboardPage = () => {
     formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
   };
 
+  const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
+
   return (
     <DashboardContainer>
       <Menu />

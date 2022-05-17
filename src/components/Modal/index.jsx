@@ -9,9 +9,12 @@ const Modal = ({
   flex,
   align,
   justify,
+  padding,
+  setState,
 }) => {
   return (
     <ModalStyled
+      id="modalStyled"
       state={state}
       height={height}
       width={width}
@@ -20,8 +23,14 @@ const Modal = ({
       flex={flex}
       align={align}
       justify={justify}
+      padding={padding}
+      onClick={(event) => {
+        if (event.target.id === "modalStyled") {
+          setState(false);
+        }
+      }}
     >
-      <div>{children}</div>
+      <div className="div">{children}</div>
     </ModalStyled>
   );
 };
