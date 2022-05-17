@@ -9,13 +9,12 @@ import Logo from "../../../../assets/img/Logo.png";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { getUserData, patchEmail, patchName, patchPassword } from "../../../../services/users/users";
+import { getUserData, patchUserData } from "../../../../services/users/users";
 import { useAuth } from "../../../../providers/user/user";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import nameSchema from "../../../../utils/schemas/changeName";
-import passwordSchema from "../../../../utils/schemas/changePassword";
+import { nameSchema, passwordSchema } from "../../../../utils/schemas/UserSettings";
 
 const ProfilePage = () => {
 
@@ -28,8 +27,6 @@ const ProfilePage = () => {
 
     const [emailInput, setEmailInput] = useState(false)
     const [restaurantEmail, setRestaurantEmail] = useState(email)
-
-    const [restaurantPassword, setRestaurantPassword] = useState("")
 
     let history = useHistory();
 
@@ -59,29 +56,36 @@ const ProfilePage = () => {
         });
 
     const ChangeName = (data) => {
+        patchUserData(data, id, token)
         setNameInput(false)
-        patchName(restaurantName, id, token)
-        setRestaurantName(restaurantName)
+        setRestaurantName(data.name)
 
     }
 
     const ChangeMail = () => {
-        setEmailInput(false)
+        const data = {
+            email: restaurantEmail
+        }
 
         const patch = async () => {
-            const response = await patchEmail(restaurantEmail, id, token)
-
+            const response = await patchUserData(data, id, token, "Email atualizado com sucesso!", "Email inválido.")
             if (response === true) {
                 setRestaurantEmail(restaurantEmail)
             } else {
                 setRestaurantEmail(email)
             }
         }
+
         patch()
+        setEmailInput(false)
     }
 
     const ChangePass = (data) => {
-        patchPassword(restaurantPassword, id, token)
+        const pass = {
+            password: data.password
+        }
+
+        patchUserData(pass, id, token, "Senha atualizada com sucesso!")
         reset()
     }
 
@@ -114,7 +118,6 @@ const ProfilePage = () => {
                                     type="text"
                                     id="name"
                                     {...register("name")}
-                                    onChange={(e) => setRestaurantName(e.target.value)}
                                 />
                             }
                             {nameInput === false &&
@@ -177,8 +180,7 @@ const ProfilePage = () => {
                                 <input
                                     type="password"
                                     id="password"
-                                    {...register2("password") }
-                                    onChange={(e) => setRestaurantPassword(e.target.value)}
+                                    {...register2("password")}
                                 />
                                 {errors2.password && <FormError>{errors2.password.message}</FormError>}
                             </PasswordDiv>
