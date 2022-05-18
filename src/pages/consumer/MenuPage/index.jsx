@@ -53,13 +53,21 @@ const MenuPage = () => {
       setPortionsPicked(newPortionsArr)
     }
 
+    const handleRemoveExtras = (portion) => {
+      let extraPickedArr = extrasPicked.filter((size) => size.name === portion.name)
+      let otherextrasPickedArr = extrasPicked.filter((size) => size.name !== portion.name)
+      extraPickedArr.pop()
+      const newPickedArr = otherextrasPickedArr.concat(extraPickedArr)
+      setExtrasPicked(newPickedArr)
+    }
+
+
     const handleRemovePortion = (portion) => {
       let sizePickedArr = portionsPicked.filter((size) => size.name === portion.name)
       let otherSizesPickedArr = portionsPicked.filter((size) => size.name !== portion.name)
       sizePickedArr.pop()
       const newPickedArr = otherSizesPickedArr.concat(sizePickedArr)
       setPortionsPicked(newPickedArr)
-
     }
 
     const renderProducts = (value, category) => {
@@ -113,15 +121,15 @@ const MenuPage = () => {
                 <div className='product-adds'>
                   <h2>Adicionais</h2>
                   {!!extras  && extras.map((extra)=>{
-                    const addsPickeds = extrasPicked.filter((size) => size.name === extras.name)
+                    const addsPickeds = extrasPicked.filter((add) => add.name === extra.name)
                     return (
                       <div className='adds'>
-                        <div className='minus' >
+                        <div className='minus' onClick={() => handleRemoveExtras(extra)} >
                           <AiOutlineMinusCircle size="20px" />
                         </div>
                         <p>{extra.name}</p>
                         <p>Preço: {formatter.format(extra.price)}</p>
-                        <div className='plus'>
+                        <div className='plus' onClick={() => handleAddExtras(extra)}>
                           <AiOutlinePlusCircle size="24px" />
                         </div>
                         <p>{addsPickeds.length}</p>
@@ -180,6 +188,10 @@ const MenuPage = () => {
         loadProducts()
         return;
     }, [])
+
+    useEffect(()=>{
+      console.log(extrasPicked);
+    }, [extrasPicked, setExtrasPicked])
 
     return(
       <Container>
