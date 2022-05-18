@@ -42,12 +42,13 @@ const MenuPage = () => {
     const renderProducts = (value, category) => {
       return (
         value.filter((product) => product.category === category).map(((product) => {
-          console.log(product);
-            return (<ProductCard 
-                      product={product} 
-                      productImage={product.imageUrl} 
-                      click={() => handleOpenModal(product)}
-                    />)   
+            return (
+              <ProductCard 
+                product={product} 
+                productImage={product.imageUrl} 
+                click={() => handleOpenModal(product)}
+              />
+            )   
           }
         ))
       )
