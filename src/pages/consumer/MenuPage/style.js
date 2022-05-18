@@ -99,6 +99,33 @@ export const ModalBody = styled.div`
         border: 1px solid;
         height: 100%;
         width: 62%;
+        h2{
+            margin: 1rem;
+        }
+        .sizes{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            max-height: 2.5rem;
+            margin: 0.5rem;
+            p{
+                margin-right: 2rem;
+                width: 5rem;
+                overflow: hidden;
+            }
+            .minus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 5rem;
+            }
+            .plus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 4rem;
+            }
+        }
     }
 `
 
