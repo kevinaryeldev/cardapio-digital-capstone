@@ -48,6 +48,15 @@ const MenuPage = () => {
       setPortionsPicked(newPortionsArr)
     }
 
+    const handleRemoveToPreview = (portion) => {
+      let sizePickedArr = portionsPicked.filter((size) => size.name === portion.name)
+      let otherSizesPickedArr = portionsPicked.filter((size) => size.name !== portion.name)
+      sizePickedArr.pop()
+      const newPickedArr = otherSizesPickedArr.concat(sizePickedArr)
+      setPortionsPicked(newPickedArr)
+
+    }
+
     const renderProducts = (value, category) => {
       return (
         value.filter((product) => product.category === category).map(((product) => {
@@ -110,7 +119,7 @@ const MenuPage = () => {
                     const sizePickeds = portionsPicked.filter((size) => size.name === portion.name)
                     return (
                       <div class="sizes">
-                        <div className='minus'>
+                        <div className='minus' onClick={() => handleRemoveToPreview(portion)}>
                           <AiOutlineMinusCircle size="20px" />
                         </div>
                         <p>{portion.name}</p>
