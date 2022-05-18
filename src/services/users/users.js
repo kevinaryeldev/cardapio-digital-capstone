@@ -55,7 +55,7 @@ export const signUpUser = async (data) => {
   return response;
 };
 
-export const getUserData = async (id, token) => {
+export const getUserData = async (id, token, setUserInfos) => {
   const response = await instance
     .get(`/users/${id}`, {
       headers: {
@@ -64,42 +64,42 @@ export const getUserData = async (id, token) => {
       },
     })
     .then((response) => {
+      setUserInfos(response.data);
       return response.data;
     });
 
   return response;
 };
 
-export const patchUserData = async (data, id, token, toastSucessMessage, toastErrorMessage) => {
-
+export const patchUserData = async (
+  data,
+  id,
+  token,
+  toastSucessMessage,
+  toastErrorMessage,
+  setUserInfos
+) => {
   const response = await instance
-    .patch(`/users/${id}`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${token}`
-        }
-      })
+    .patch(`/users/${id}`, data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
     .then((response) => {
       if (toastSucessMessage) {
         toast.success(toastSucessMessage);
       }
-      return true
+      console.log(response.data)
+      setUserInfos(response.data);
+      return true;
     })
     .catch((error) => {
       if (toastErrorMessage) {
         toast.error(toastErrorMessage);
       }
-      return false
-    })
+      return false;
+    });
 
   return response;
 };
-
-
-
-
-
-
-
