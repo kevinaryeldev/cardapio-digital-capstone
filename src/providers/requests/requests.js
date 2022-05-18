@@ -116,12 +116,12 @@ export const RequestsProvider = ({ children }) => {
     console.log(requests);
   };
 
-  const sendRequestData = async (newRequest) => {
+  const sendRequestData = async (cartProducts) => {
     const token = localStorage.getItem("@SmartMenu:token");
     const id = localStorage.getItem("@SmartMenu:id");
     const data = {
       group: {
-        request: [newRequest],
+        request: cartProducts,
         table: 1,
       },
       userId: id,
