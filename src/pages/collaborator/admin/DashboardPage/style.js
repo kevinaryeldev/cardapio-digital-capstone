@@ -4,7 +4,6 @@ export const DashboardContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-
   @media (min-width: 1024px) {
     flex-direction: row;
   }
@@ -43,7 +42,6 @@ export const DashboardNav = styled.nav`
   button {
     background-color: inherit;
   }
-
   form {
     height: fit-content;
     background-color: var(--primary-color);
@@ -67,16 +65,13 @@ export const DashboardNav = styled.nav`
       padding: 4px 2px;
       font-weight: 600;
     }
-
     input::placeholder {
       color: white;
-
       @media (min-width: 1024px) {
         color: var(--primary-color);
       }
     }
   }
-
   @media (min-width: 1024px) {
     padding: 40px 0px;
   }
@@ -90,7 +85,6 @@ export const DashboardHeader = styled.header`
   border-bottom: 1.5px solid var(--secondary-color);
   padding: 20px 10px;
   margin-bottom: 25px;
-
   @media (min-width: 1024px) {
     padding: 40px 50px;
     margin-bottom: none;
