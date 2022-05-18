@@ -93,13 +93,38 @@ export const ModalBody = styled.div`
         border: 1px solid;
         height: 100%;
         width: 35%;
-
+        h2{
+            margin: 1rem;
+        }
+        .adds{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            max-height: 2.5rem;
+            margin: 0.25rem;
+            p{
+                margin-right: 0.5rem;
+                width: 4.75rem;
+                overflow: hidden;
+            }
+            .minus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 1rem;
+            }
+            .plus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 1rem;
+            }
+        }
     }
     .product-size{
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        /* padding: 1rem; */
         border: 1px solid;
         height: 100%;
         width: 62%;
