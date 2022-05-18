@@ -1,45 +1,152 @@
-import Modal from "../../../components/Modal";
-import { useState } from "react";
+import { useEffect, useState } from 'react'
+import {getProducts} from '../../../services/consumer/consumer'
+import ProductCard from '../../../components/ProductCard'
+import Modal from '../../../components/Modal'
+import {FiSearch} from 'react-icons/fi'
+import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./style"
 import { ButtonRequest, CartContainer, CartList, MenuContainer } from "./style";
 import CartItem from "../../../components/CartItem";
-import { useContext } from "react";
-import { RequestsContext } from "../../../providers/requests/requests";
+import { useRequests } from "../../../providers/requests/requests";
 
 const MenuPage = () => {
-  const { requests, getRequestData, sendRequestData } =
-    useContext(RequestsContext);
-  const [openCart, setOpenCart] = useState(false);
-  const products = [
-    {
-      name: "product 12",
-      price: 1,
-      rating: 4,
-      imageUrl: "https://picsum.photos/200",
-      userId: 2,
-      id: 3,
-      time: 5,
-    },
-  ];
 
-  const handleRequest = () => {
-    setOpenCart(!openCart);
-    sendRequestData(products);
-  };
-  return (
-    <MenuContainer>
-      MenuPage
-      <button onClick={() => setOpenCart(!openCart)}> clickae</button>
-      <Modal flex={"flex"} state={openCart}>
-        <CartContainer>
-          <CartList>
-            {products.map((el) => (
-              <CartItem product={el} />
-            ))}
-          </CartList>
-          <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
-        </CartContainer>
-      </Modal>
-    </MenuContainer>
-  );
-};
-export default MenuPage;
+    const { sendRequestData } = useRequests()
+
+    const [products, setProducts] = useState()
+    const [productInModal, setProductInModal] = useState()
+    const [productsInCart, setProductsInCart] = useState([])
+    const [openCart, setOpenCart] = useState(false);
+    const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
+    const [categoryMain, setCategoryMain] = useState("Entradas")
+
+    const handleMainCategory = (category) => {
+      setCategoryMain(category)
+    }
+
+    const handleOpenModal = (product) => {
+      setShouldOpenProductModal(true)
+      setProductInModal(product)
+    }
+
+    const handleAddProduct = (product) => {
+      setShouldOpenProductModal(false)
+      setOpenCart(true)
+      setProductsInCart([...productsInCart, product])
+    }
+
+    const handleRequest = () => {
+      setOpenCart(!openCart);
+      sendRequestData(productsInCart);
+    };
+
+    const renderProducts = (value, category) => {
+      return (
+        value.filter((product) => product.category === category).map(((product) => {
+          console.log(product);
+            return (<ProductCard 
+                      product={product} 
+                      productImage={product.imageUrl} 
+                      click={() => handleOpenModal(product)}
+                    />)   
+          }
+        ))
+      )
+    }
+
+    const renderModal = (product) => {
+      const extras = product.extras
+      const portions = product.portions
+
+      if(shouldOpenProductModal){
+        return(
+          <Modal 
+            flex 
+            width={"48rem"} 
+            height={"36rem"} 
+            state={shouldOpenProductModal}
+            align="center"
+            justify="center"
+            padding="15px"
+          >
+            <ModalContainer>
+              <ModalHeader>
+                <span onClick={() => setShouldOpenProductModal(false)}>x</span>
+                <div className='header'>
+                  <div className='image-place'>
+                    <img src={product.imageUrl} alt="product-pic" />
+                    <p>estrelas</p>
+                  </div>
+                  <div className='product-description'>
+                    <h1>{product.name}</h1>
+                    <p>{product.description}</p>
+                    <p>{product.waitingTime}</p>
+                    <p>Ver valor nutricional</p>
+                  </div>
+                </div>
+              </ModalHeader>
+              <ModalBody>
+                <div className='product-adds'>
+                  <h2>Adicionais</h2>
+                  {!!extras  && extras.map((extra)=>{
+                    return <p>{extra.name}..........{extra.price}</p>
+                  })}
+                </div>
+                <div className='product-size'>
+                  <h2>Porções</h2>
+                  {!!portions && portions.map((portion) => {
+                    return <p>{portion.name}..........{portion.price}</p>
+                  })}
+                  <button onClick={() => handleAddProduct(product)}>Adicionar ao Pedido</button>
+                </div>
+              </ModalBody>
+            </ModalContainer>
+          </Modal>
+        )
+      }
+    }
+
+    const renderCart = (cartproducts) => {
+      return(
+        <Modal flex={"flex"} state={openCart}>
+          <CartContainer>
+          <spam onClick={() => setOpenCart(false)}>x</spam>
+           <CartList>
+             {cartproducts.map((el) => (
+               <CartItem product={el} />
+             ))}
+           </CartList>
+           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
+         </CartContainer>
+       </Modal>
+      )
+    }
+
+    useEffect(() => {
+        const loadProducts = async() => {
+            const response = await getProducts()
+            setProducts(response)
+        }
+        loadProducts()
+        return;
+    }, [])
+
+    return(
+      <Container>
+        {shouldOpenProductModal && renderModal(productInModal)}
+        <nav className='desktop--nav'>
+            <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
+            <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
+            <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
+            <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
+        </nav>
+        <div className="foodsection">
+            {categoryMain}
+        </div>
+        <Content>
+          {!!products && renderProducts(products, categoryMain)}
+          {openCart && renderCart(productsInCart)}
+        </Content>
+      </Container>
+    )
+}
+export default MenuPage

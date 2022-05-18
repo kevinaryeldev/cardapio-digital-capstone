@@ -1,4 +1,110 @@
-import styled from "styled-components";
+import styled from 'styled-components'
+
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    height: 100vh;
+    width: 100vw;
+    overflow: scroll;
+
+    .mobile--nav{
+        visibility: hidden;
+    }
+
+    .desktop--nav{
+        display: flex;
+        justify-content: space-around;
+        font-family: 'Noto serif', serif;
+        color: var(--primary-color);
+        font-weight: bold;
+        padding: 15px 5px;
+        background-color: var(--secondary-color);
+
+        a:hover{
+            color: var(--primary-color-50);
+        }
+    }
+
+    .foodsection{
+        margin: 3rem 4rem;
+        padding: 2rem;
+        color: var(--secondary-color-50);
+        font-weight: bold;
+        border-top: 1px solid var(--secondary-color-50);
+        border-bottom: 1px solid var(--secondary-color-50);
+    }
+
+    @media screen and (max-width: 500px){
+        .desktop--nav{
+            display: none;
+        }
+
+    }
+`
+
+export const ModalContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color:  var(--secondary-color);
+    padding: 15px;
+    margin-top: 4rem;
+`
+
+export const ModalHeader = styled.div`
+    height: 10rem !important;
+    display: flex;
+    flex-direction: column;
+    span{
+        margin-left: 47rem;
+        width: 15px;
+        text-align: center;
+        margin-top: -12px;
+        cursor: pointer;
+    }
+    .header{
+        display: flex;
+        flex-direction: row;
+        border: 1px solid;
+        height: 10rem !important;
+        .image-place{
+            height: 100%;
+            width: 35%;
+            img{
+                max-width: 150px;
+            }
+        }
+        .product-description{
+            height: 100%;
+            width: 62%;
+        }
+    }
+`
+
+export const ModalBody = styled.div`
+    height: 22rem !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .product-adds{
+        border: 1px solid;
+        height: 100%;
+        width: 35%;
+
+    }
+    .product-size{
+        border: 1px solid;
+        height: 100%;
+        width: 62%;
+    }
+`
+
+export const Content = styled.div`
+    margin: 0rem 0rem 3rem 4rem;
+`
 
 export const MenuContainer = styled.div`
   min-height: 100vh;
