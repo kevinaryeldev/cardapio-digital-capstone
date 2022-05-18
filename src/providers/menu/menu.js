@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import instance from "../../services";
 import {
   deleteProductApi,
   editProductApi,
@@ -89,13 +88,16 @@ export const MenuProvider = ({ children }) => {
   };
 
   const removeProduct = async (productToBeRemoved) => {
-    const response = await deleteProductApi(productToBeRemoved);
+    const response = await deleteProductApi(productToBeRemoved.id);
     if (response) {
       const updatedProducts = products.filter(
         (product) => product.id !== productToBeRemoved.id
       );
       setProducts(updatedProducts);
+      return true;
     }
+
+    return false;
   };
 
   return (

@@ -57,10 +57,12 @@ export const editProductApi = async (productId, data) => {
 };
 
 export const deleteProductApi = async (productId) => {
+  console.log(productId);
   const token = window.localStorage.getItem("@SmartMenu:token");
+  console.log(token);
 
   const response = await instance
-    .post(`/products/${productId}`, {
+    .delete(`/products/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

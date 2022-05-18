@@ -5,7 +5,12 @@ import { useLocation } from "react-router-dom";
 
 //FALTA ADICIONAR OS ONCLICKS DOS BOTÕES DE EDITAR E REMOVER
 
-const ProductCard = ({ product, setOpenEditProduct, setProductToBeEdited }) => {
+const ProductCard = ({
+  product,
+  setOpenEditProduct,
+  setProductToBeEdited,
+  setOpenRemoveProduct,
+}) => {
   const { name, description, rating, imageUrl, id } = product;
 
   let ratingStars = [];
@@ -60,7 +65,14 @@ const ProductCard = ({ product, setOpenEditProduct, setProductToBeEdited }) => {
             >
               Editar
             </button>
-            <button>Remover</button>
+            <button
+              onClick={() => {
+                setProductToBeEdited(product);
+                setOpenRemoveProduct(true);
+              }}
+            >
+              Remover
+            </button>
           </>
         )}
       </section>

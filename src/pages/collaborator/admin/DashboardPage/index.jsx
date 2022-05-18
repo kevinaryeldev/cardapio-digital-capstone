@@ -13,13 +13,21 @@ import {
   DashboardContainer,
   DashboardProductsContainer,
   DashboardNavContainer,
+  ConfirmsContainer,
 } from "./style";
+// import { useMenu } from "../../../../providers/menu/menu";
+import Modal from "../../../../components/Modal";
+import Button from "../../../../components/Button";
+
   
 const DashboardPage = () => {
+    const { token } = useAuth();
     const { products } = useProducts();
+    // const { removeProduct } = useMenu();
 
     const [openEditProduct, setOpenEditProduct] = useState(false);
     const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
+    const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
     const [productToBeEdited, setProductToBeEdited] = useState({});
     const [showProducts, setShowProducts] = useState(products);
 
@@ -29,7 +37,7 @@ const DashboardPage = () => {
     formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
   };
 
-  const { token } = useAuth();
+
   let history = useHistory();
 
   if (!token) {
@@ -66,30 +74,64 @@ const DashboardPage = () => {
         </DashboardHeader>
         <DashboardProductsContainer>
           {!!showProducts &&
-            showProducts.map((el) => (
+            showProducts.map((product) => (
               <ProductCard
                 setOpenEditProduct={setOpenEditProduct}
                 setProductToBeEdited={setProductToBeEdited}
-                key={"product" + el.id}
-                product={el}
+                setOpenRemoveProduct={setOpenRemoveProduct}
+                key={"product" + product.id}
+                product={product}
               />
           ))}
         </DashboardProductsContainer>
       </Dashboard>
-      {!!openRegisterProduct && (
+      {openRegisterProduct && (
         <RegisterProduct
           type="register"
           openModal={openRegisterProduct}
           setOpenModal={setOpenRegisterProduct}
         />
       )}
-      {!!openEditProduct && (
+      {openEditProduct && (
         <RegisterProduct
           type="edit"
           openModal={openEditProduct}
           setOpenModal={setOpenEditProduct}
           productToBeEdited={productToBeEdited}
         />
+      )}
+      {openRemoveProduct && (
+        <Modal
+          setOpenModal={setOpenRemoveProduct}
+          state={openRemoveProduct}
+          flex
+          align="center"
+          justify="center"
+          padding="15px"
+        >
+          <ConfirmsContainer>
+            <h2>Deseja remover este produto?</h2>
+            <Button
+              width="49%"
+              bgBlack
+              // onClick={() => {
+              //   const response = removeProduct(productToBeEdited);
+              //   if (response) {
+              //     setOpenRemoveProduct(false);
+              //   }
+              // }}
+            >
+              Sim
+            </Button>
+            <Button
+              width="49%"
+              bgBlack
+              onClick={() => setOpenRemoveProduct(false)}
+            >
+              Não
+            </Button>
+          </ConfirmsContainer>
+        </Modal>
       )}
     </DashboardContainer>
   );
