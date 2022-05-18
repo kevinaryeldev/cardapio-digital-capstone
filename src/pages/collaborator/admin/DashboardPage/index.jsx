@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { FaAngleLeft, FaAngleRight, FaSearch } from "react-icons/fa";
 import Menu from "./../../../../components/Menu";
@@ -15,21 +15,20 @@ import {
   DashboardNavContainer,
   ConfirmsContainer,
 } from "./style";
-// import { useMenu } from "../../../../providers/menu/menu";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
 
   
 const DashboardPage = () => {
+    let history = useHistory();
     const { token } = useAuth();
-    const { products } = useProducts();
-    // const { removeProduct } = useMenu();
+    const { products, removeProduct } = useProducts();
 
     const [openEditProduct, setOpenEditProduct] = useState(false);
     const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
     const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
     const [productToBeEdited, setProductToBeEdited] = useState({});
-    const [showProducts, setShowProducts] = useState(products);
+    const [showProducts, setShowProducts] = useState();
 
   const filter = (valueFilter) => {
     const formatedValue = valueFilter.trim().toUpperCase()
@@ -37,8 +36,9 @@ const DashboardPage = () => {
     formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
   };
 
-
-  let history = useHistory();
+  useEffect(()=>{
+    setShowProducts(products)
+  },[products])
 
   if (!token) {
     history.push("/login");
@@ -114,12 +114,12 @@ const DashboardPage = () => {
             <Button
               width="49%"
               bgBlack
-              // onClick={() => {
-              //   const response = removeProduct(productToBeEdited);
-              //   if (response) {
-              //     setOpenRemoveProduct(false);
-              //   }
-              // }}
+              onClick={() => {
+                const response = removeProduct(productToBeEdited);
+                if (response) {
+                  setOpenRemoveProduct(false);
+                }
+              }}
             >
               Sim
             </Button>
