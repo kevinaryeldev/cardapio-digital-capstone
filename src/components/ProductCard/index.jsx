@@ -7,12 +7,13 @@ import { useLocation } from "react-router-dom";
 
 const ProductCard = ({
   product,
+  productImage,
   setOpenEditProduct,
   setProductToBeEdited,
   setOpenRemoveProduct,
   click
 }) => {
-  const { name, description, rating, image, id } = product;
+  const { name, description, rating, id } = product;
 
   let ratingStars = [];
   for (let i = 1; i <= 5; i++) {
@@ -29,7 +30,7 @@ const ProductCard = ({
     <CardContainer key={id}>
       <section className="card--product">
         <div className="product--imageContainer">
-          <img src={image} alt={name} />
+          <img src={productImage} alt={name} />
         </div>
         <div className="product--description">
           <h3>{name}</h3>
