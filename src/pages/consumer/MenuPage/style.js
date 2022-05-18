@@ -51,7 +51,7 @@ export const ModalContainer = styled.div`
     align-items: center;
     background-color:  var(--secondary-color);
     padding: 15px;
-    margin-top: 4rem;
+    margin-top: -1rem;
 `
 
 export const ModalHeader = styled.div`
@@ -96,6 +96,10 @@ export const ModalBody = styled.div`
 
     }
     .product-size{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        /* padding: 1rem; */
         border: 1px solid;
         height: 100%;
         width: 62%;
