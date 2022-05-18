@@ -16,6 +16,8 @@ const MenuPage = () => {
 
     const [products, setProducts] = useState()
     const [productInModal, setProductInModal] = useState()
+    const [portionsPicked, setPortionsPicked] = useState([])
+    const [extrasPicked, setExtrasPicked] = useState([])
     const [productsInCart, setProductsInCart] = useState([])
     const [openCart, setOpenCart] = useState(false);
     const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
@@ -105,6 +107,7 @@ const MenuPage = () => {
                 <div className='product-size'>
                   <h2>Porções</h2>
                   {!!portions && portions.map((portion) => {
+                    const sizePickeds = portionsPicked.filter((size) => size.name === portion.name)
                     return (
                       <div class="sizes">
                         <div className='minus'>
@@ -116,7 +119,7 @@ const MenuPage = () => {
                           <AiOutlinePlusCircle size="24px" />
                         </div>
                         <p>
-                          
+                          {sizePickeds.length}
                         </p>
                       </div>
                     )
