@@ -13,7 +13,7 @@ const MenuPage = () => {
     const { sendRequestData } = useRequests()
 
     const [products, setProducts] = useState()
-    const [imageInModal, setImageInModal] = useState()
+    // const [imageInModal, setImageInModal] = useState()
     const [productInModal, setProductInModal] = useState()
     const [productsInCart, setProductsInCart] = useState([])
     const [openCart, setOpenCart] = useState(false);
@@ -24,10 +24,10 @@ const MenuPage = () => {
       setCategoryMain(category)
     }
 
-    const handleOpenModal = (product, image) => {
+    const handleOpenModal = (product) => {
       setShouldOpenProductModal(true)
       setProductInModal(product)
-      setImageInModal(image)
+      // setImageInModal(image)
     }
 
     const handleAddProduct = (product) => {
@@ -49,14 +49,14 @@ const MenuPage = () => {
             return (<ProductCard 
                       product={product} 
                       productImage={product.imageUrl} 
-                      click={() => handleOpenModal(product, product.imageUrl)}
+                      click={() => handleOpenModal(product)}
                     />)   
           }
         ))
       )
     }
 
-    const renderModal = (product, image) => {
+    const renderModal = (product) => {
       const extras = product.extras
       const portions = product.portions
 
@@ -76,7 +76,7 @@ const MenuPage = () => {
                 <span onClick={() => setShouldOpenProductModal(false)}>x</span>
                 <div className='header'>
                   <div className='image-place'>
-                    <img src={image} alt="product-pic" />
+                    <img src={product.imageUrl} alt="product-pic" />
                     <p>estrelas</p>
                   </div>
                   <div className='product-description'>
@@ -135,7 +135,7 @@ const MenuPage = () => {
 
     return(
       <Container>
-        {shouldOpenProductModal && renderModal(productInModal, imageInModal)}
+        {shouldOpenProductModal && renderModal(productInModal)}
         <nav className='desktop--nav'>
             <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
             <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
