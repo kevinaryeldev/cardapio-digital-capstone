@@ -21,6 +21,7 @@ const MenuPage = () => {
     const [openCart, setOpenCart] = useState(false);
     const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
     const [categoryMain, setCategoryMain] = useState("Entradas")
+    const [orderPreview, setOrderPreview] = useState({})
 
     const handleMainCategory = (category) => {
       setCategoryMain(category)
@@ -42,12 +43,12 @@ const MenuPage = () => {
       sendRequestData(productsInCart);
     };
 
-    const handleAddToPreview = (portion) => {
+    const handleAddPortion = (portion) => {
       const newPortionsArr = [...portionsPicked, portion]
       setPortionsPicked(newPortionsArr)
     }
 
-    const handleRemoveToPreview = (portion) => {
+    const handleRemovePortion = (portion) => {
       let sizePickedArr = portionsPicked.filter((size) => size.name === portion.name)
       let otherSizesPickedArr = portionsPicked.filter((size) => size.name !== portion.name)
       sizePickedArr.pop()
@@ -95,13 +96,11 @@ const MenuPage = () => {
                 <div className='header'>
                   <div className='image-place'>
                     <img src={product.imageUrl} alt="product-pic" />
-                    <p>estrelas</p>
                   </div>
                   <div className='product-description'>
                     <h1>{product.name}</h1>
                     <p>{product.description}</p>
-                    <p>{product.waitingTime}</p>
-                    <p>Ver valor nutricional</p>
+                    <p>Tempo estimado de espera: {product.waitingTime}</p>
                   </div>
                 </div>
               </ModalHeader>
@@ -131,17 +130,15 @@ const MenuPage = () => {
                     const sizePickeds = portionsPicked.filter((size) => size.name === portion.name)
                     return (
                       <div class="sizes">
-                        <div className='minus' onClick={() => handleRemoveToPreview(portion)}>
+                        <div className='minus' onClick={() => handleRemovePortion(portion)}>
                           <AiOutlineMinusCircle size="20px" />
                         </div>
                         <p>{portion.name}</p>
                         <p>Preço: {formatter.format(portion.price)}</p>
-                        <div className='plus' onClick={() => handleAddToPreview(portion)}>
+                        <div className='plus' onClick={() => handleAddPortion(portion)}>
                           <AiOutlinePlusCircle size="24px" />
                         </div>
-                        <p>
-                          {sizePickeds.length}
-                        </p>
+                        <p>{sizePickeds.length}</p>
                       </div>
                     )
                   })}
