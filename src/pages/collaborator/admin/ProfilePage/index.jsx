@@ -1,259 +1,459 @@
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { nameSchema, passwordSchema } from "../../../../utils/schemas/UserSettings";
-import Menu from "../../../../components/Menu"
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  nameSchema,
+  passwordSchema,
+} from "../../../../utils/schemas/UserSettings";
+import Menu from "../../../../components/Menu";
 import Button from "../../../../components/Button";
 import { useAuth } from "../../../../providers/user/user";
 import FormError from "../../../../components/FormComponents/Error";
-import { getUserData, patchUserData } from "../../../../services/users/users";
-import { 
-    ChangeColors, 
-    ChangeEmail, 
-    ChangePassword, 
-    ConfigContainer, 
-    Container, 
-    FigureStyled, 
-    FormNameContainer, 
-    ImageContainer, 
-    Main, 
-    MainInfo, 
-    PasswordContainer, 
-    PasswordDiv, 
-    SelectColor 
-} from "./style"
+import {
+  ChangeColors,
+  ChangeEmail,
+  ChangePassword,
+  ConfigContainer,
+  Container,
+  FigureStyled,
+  FormNameContainer,
+  ImageContainer,
+  Main,
+  MainInfo,
+  PasswordContainer,
+  PasswordDiv,
+  SelectColor,
+} from "./style";
 
-let { Upload } = require("upload-js")
+let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
+  let history = useHistory();
+  const { token, userInfos, changeUserInfos } = useAuth();
+  const { email, name, logoUrl, theme, categories } = userInfos;
 
-    let history = useHistory();
-    const { id, token} = useAuth();
-    const [userInfo, setUserInfo] = useState({})
-    const { email, name } = userInfo
+  const [inputsChange, setInputsChange] = useState({
+    name: {
+      editable: false,
+      value: name,
+    },
+    email: {
+      editable: false,
+      value: email,
+    },
+    logo: {
+      editable: false,
+      originValue: logoUrl,
+      value: logoUrl,
+    },
+    themes: {
+      primary: {
+        editable: false,
+        value: theme?.primaryColor,
+      },
+      secondary: {
+        editable: false,
+        value: theme?.secondaryColor,
+      },
+      terciary: {
+        editable: false,
+        value: theme?.terciaryColor,
+      },
+    },
+  });
 
-    const [image, setImage] = useState()
-    const [defaultImage, setDefaultImage] = useState()
-    const [nameInput, setNameInput] = useState(false)
-    const [imageInput, setImageInput] = useState(false)
-    const [emailInput, setEmailInput] = useState(false)
-    const [restaurantName, setRestaurantName] = useState(name)
-    const [restaurantEmail, setRestaurantEmail] = useState(email)
+  //A 1ª renderização desse componente vem com userInfos um objeto vazio, daí o useEffect realiza essa função para atualizar as informações!
+  const updateUserInfos = () => {
+    setInputsChange({
+      name: {
+        editable: false,
+        value: name,
+      },
+      email: {
+        editable: false,
+        value: email,
+      },
+      logo: {
+        editable: false,
+        originValue: logoUrl,
+        value: logoUrl,
+      },
+      themes: {
+        primary: {
+          editable: false,
+          value: theme?.primaryColor,
+        },
+        secondary: {
+          editable: false,
+          value: theme?.secondaryColor,
+        },
+        terciary: {
+          editable: false,
+          value: theme?.terciaryColor,
+        },
+      },
+    });
+  };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors } } = useForm({
-            resolver: yupResolver(nameSchema),
+  useEffect(() => {
+    updateUserInfos();
+  }, [userInfos]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(nameSchema),
+  });
+
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    reset,
+    formState: { errors: errors2 },
+  } = useForm({
+    resolver: yupResolver(passwordSchema),
+  });
+
+  const cancelChangeImage = () => {
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        logo: {
+          editable: false,
+          originValue: prevState.logo.originValue,
+          value: prevState.logo.originValue,
+        },
+      };
+    });
+  };
+
+  const seeImage = async (image) => {
+    if (!image) {
+      return;
+    }
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        logo: {
+          editable: true,
+          originValue: prevState.logo.originValue,
+          value: prevState.logo.value,
+        },
+      };
+    });
+
+    const upload = new Upload({
+      apiKey: "public_12a1xjk5NxMQ7kknSiy9K6odEyzE",
+    });
+
+    const { fileUrl } = await upload.uploadFile({
+      file: image,
+    });
+
+    if (fileUrl) {
+      setInputsChange((prevState) => {
+        return {
+          ...prevState,
+          logo: {
+            editable: true,
+            originValue: prevState.logo.originValue,
+            value: fileUrl,
+          },
+        };
+      });
+    } else {
+      setInputsChange((prevState) => {
+        return {
+          ...prevState,
+          logo: {
+            editable: false,
+            originValue: prevState.logo.originValue,
+            value: prevState.logo.value,
+          },
+        };
+      });
+    }
+  };
+
+  const sendImage = async () => {
+    const data = {
+      logoUrl: inputsChange.logo.value,
+    };
+
+    await changeUserInfos(
+      data,
+      "Imagem atualizada com sucesso",
+      "Ocorreu algum erro!"
+    );
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        logo: {
+          editable: false,
+          originValue: prevState.logo.originValue,
+          value: prevState.logo.value,
+        },
+      };
+    });
+  };
+
+  const ChangeName = async (data) => {
+    await changeUserInfos(
+      data,
+      "Nome atualizado com sucesso",
+      "Ocorreu algum erro e o nome não foi atualizado!"
+    );
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        name: {
+          editable: false,
+          value: data.name,
+        },
+      };
+    });
+  };
+
+  const ChangeMail = async () => {
+    const data = {
+      email: inputsChange.email.value,
+    };
+
+    const patch = async (event) => {
+      const response = await changeUserInfos(
+        data,
+        "Email atualizado com sucesso!",
+        "Email inválido!"
+      );
+
+      if (response) {
+        setInputsChange((prevState) => {
+          return {
+            ...prevState,
+            email: {
+              editable: true,
+              value: data.email,
+            },
+          };
         });
-
-    const {
-        register: register2,
-        handleSubmit: handleSubmit2,
-        reset,
-        formState: { errors: errors2 } } = useForm({
-            resolver: yupResolver(passwordSchema),
+      } else {
+        setInputsChange((prevState) => {
+          return {
+            ...prevState,
+            email: {
+              editable: true,
+              value: email,
+            },
+          };
         });
+      }
+    };
 
-    const cancelChangeImage = () => {
-        setImage(defaultImage)
-        setImageInput(false)
-    }
-    
-    const seeImage = async (image) => {
-        setImageInput(true)
+    await patch();
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        email: {
+          editable: false,
+          value: prevState.email.value,
+        },
+      };
+    });
+  };
 
-        const upload = new Upload({
-            apiKey: "public_12a1xjk5NxMQ7kknSiy9K6odEyzE"
-        })
+  const ChangePass = async (data) => {
+    const pass = {
+      password: data.password,
+    };
 
-        const { fileUrl } = await upload.uploadFile({
-            file: image
-        });
+    await changeUserInfos(
+      pass,
+      "Senha atualizada com sucesso!",
+      "Ocorreu algum erro e a senha não foi atualizada!"
+    );
+    reset();
+  };
 
-        setImage(fileUrl)
-    }
+  if (!token) {
+    history.push("/");
+  }
 
-    const sendImage = () => {
-        const data = {
-            logoUrl: image
-        }
-        
-        patchUserData(data,id, token, "Foto atualizada!")
-        setImageInput(false)
-    }
+  return (
+    <Container>
+      <nav>
+        <Menu />
+      </nav>
 
-    const ChangeName = (data) => {
-        patchUserData(data, id, token)
-        setNameInput(false)
-        setRestaurantName(data.name)
-    }
+      <Main>
+        <h1>Configurações</h1>
+        <MainInfo>
+          <div>
+            <ImageContainer>
+              <FigureStyled>
+                <img
+                  src={inputsChange.logo.value}
+                  alt={inputsChange.name.value}
+                />
+                <figcaption>{inputsChange.name.value}</figcaption>
+              </FigureStyled>
+              {!inputsChange.logo.editable && (
+                <label htmlFor="uploadImage">Trocar</label>
+              )}
 
-    const ChangeMail = () => {
-        const data = {
-            email: restaurantEmail
-        }
+              <input
+                type="file"
+                id="uploadImage"
+                style={{ display: "none" }}
+                onChange={(e) => seeImage(e.target.files[0])}
+              />
 
-        const patch = async () => {
-            const response = await patchUserData(data, id, token, "Email atualizado com sucesso!", "Email inválido.")
-            if (response === true) {
-                setRestaurantEmail(restaurantEmail)
-            } else {
-                setRestaurantEmail(email)
-            }
-        }
+              {inputsChange.logo.editable && (
+                <>
+                  <Button onClick={() => sendImage()}>Confirmar</Button>
+                  <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
+                </>
+              )}
+            </ImageContainer>
+            <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
+              {!!errors.name && <FormError>{errors.name.message}</FormError>}
+              {!inputsChange.name.editable && (
+                <h3>{inputsChange.name.value}</h3>
+              )}
+              {inputsChange.name.editable && (
+                <input type="text" id="name" {...register("name")} />
+              )}
+              {inputsChange.name.editable === false && (
+                <button
+                  onClick={() =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        name: {
+                          editable: true,
+                          value: prevState.name.value,
+                        },
+                      };
+                    })
+                  }
+                >
+                  Modificar nome
+                </button>
+              )}
+              {inputsChange.name.editable === true && (
+                <button type="submit">Confirmar</button>
+              )}
+            </FormNameContainer>
+          </div>
+        </MainInfo>
+        <ConfigContainer>
+          <ChangeColors>
+            <h6>Selecione suas cores</h6>
+            <div>
+              <SelectColor>
+                <input type="color" name="primaryColor" id="primaryColor" />
+                <span>Primária</span>
+              </SelectColor>
+              <SelectColor mid>
+                <input type="color" name="secondaryColor" id="secondaryColor" />
+                <span>Secundária</span>
+              </SelectColor>
+              <SelectColor>
+                <input type="color" name="terciaryColor" id="terciaryColor" />
+                <span>Terciária</span>
+              </SelectColor>
+            </div>
+          </ChangeColors>
+          <ChangeEmail>
+            <h6>Endereço de Email</h6>
+            <div>
+              {!inputsChange.email.editable && (
+                <p>
+                  Seu endereço de email é{" "}
+                  <strong>{inputsChange.email.value}</strong>
+                </p>
+              )}
+              {inputsChange.email.editable && (
+                <p>
+                  Seu endereço de email é
+                  <input
+                    type="email"
+                    id="email"
+                    onChange={(event) =>
+                      setInputsChange((prevState) => {
+                        return {
+                          ...prevState,
+                          email: {
+                            editable: prevState.email.editable,
+                            value: event.target.value,
+                          },
+                        };
+                      })
+                    }
+                  />
+                </p>
+              )}
 
-        patch()
-        setEmailInput(false)
-    }
-
-    const ChangePass = (data) => {
-        const pass = {
-            password: data.password
-        }
-
-        patchUserData(pass, id, token, "Senha atualizada com sucesso!")
-        reset()
-    }
-
-    useEffect(() => {
-        const getInfo = async () => {
-            const response = await getUserData(id, token)
-            setUserInfo(response)
-            setRestaurantName(response.name)
-            setRestaurantEmail(response.email)
-
-            setImage(response.logoUrl)
-            setDefaultImage(response.logoUrl)
-        }
-        getInfo()
-    }, [])
-
-    if (!token) {
-        history.push("/");
-    }
-
-    return (
-        <Container>
-            <nav>
-                <Menu />
-            </nav>
-
-            <Main>
-                <h1>Configurações</h1>
-                <MainInfo>
-                    <div>
-                        <ImageContainer>
-                            <FigureStyled>
-                                <img src={image} alt={name} />
-                                <figcaption>{name}</figcaption>
-                            </FigureStyled>
-                            {!imageInput && 
-                                <label htmlFor="uploadImage">Trocar</label>
-                            }
-                            
-                            <input type="file"
-                                id="uploadImage"
-                                style={{ display: "none" }}
-                                onChange={(e) => seeImage(e.target.files[0])} />
-
-                            {imageInput && (
-                                <>
-                                    <Button onClick={() => sendImage()}>Confirmar</Button>
-                                    <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
-                                </>
-                            )}
-                        </ImageContainer>
-                        <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
-                            {!!errors.name && <FormError>{errors.name.message}</FormError>}
-                            {!nameInput && <h3>{restaurantName}</h3>}
-                            {nameInput &&
-                                <input
-                                    type="text"
-                                    id="name"
-                                    {...register("name")}
-                                />
-                            }
-                            {nameInput === false &&
-                                <button onClick={() => setNameInput(true)}>Modificar nome</button>
-                            }
-                            {nameInput === true &&
-                                <button type="submit">Confirmar</button>
-                            }
-
-                        </FormNameContainer>
-                    </div>
-                </MainInfo>
-                <ConfigContainer>
-                    <ChangeColors>
-                        <h6>Selecione suas cores</h6>
-                        <div>
-                            <SelectColor>
-                                <input type="color" name="" id="" />
-                                <span>Primária</span>
-                            </SelectColor>
-                            <SelectColor mid>
-                                <input type="color" name="" id="" />
-                                <span>Secundária</span>
-                            </SelectColor>
-                            <SelectColor>
-                                <input type="color" name="" id="" />
-                                <span>Terciária</span>
-                            </SelectColor>
-                        </div>
-                    </ChangeColors>
-                    <ChangeEmail>
-                        <h6>Endereço de Email</h6>
-                        <div>
-                            {!emailInput &&
-                                <p>Seu endereço de email é <strong>{restaurantEmail}</strong></p>
-                            }
-                            {emailInput &&
-                                <p>Seu endereço de email é
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        onChange={(e) => setRestaurantEmail(e.target.value)}
-                                    />
-                                </p>
-                            }
-
-                            {!emailInput &&
-                                <button onClick={() => setEmailInput(true)}>Trocar</button>
-                            }
-                            {emailInput &&
-                                <button onClick={() => ChangeMail()}>Confirmar</button>
-                            }
-                        </div>
-                    </ChangeEmail>
-                    <ChangePassword onSubmit={handleSubmit2(ChangePass)}>
-                        <h6>Senha</h6>
-                        <PasswordContainer>
-                            <PasswordDiv>
-                                <span>Nova senha</span>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    {...register2("password")}
-                                />
-                                {!!errors2.password && <FormError>{errors2.password.message}</FormError>}
-                            </PasswordDiv>
-                            <PasswordDiv>
-                                <span>Confirmar senha</span>
-                                <input
-                                    type="password"
-                                    id="passwordConfirmation"
-                                    {...register2("passwordConfirmation")}
-                                />
-                                {!!errors2.passwordConfirmation && <FormError>{errors2.passwordConfirmation.message}</FormError>}
-                            </PasswordDiv>
-                            <button type="submit">Salvar nova senha</button>
-                        </PasswordContainer>
-                    </ChangePassword>
-                </ConfigContainer>
-            </Main>
-        </Container>
-    )
-}
-export default ProfilePage
+              {!inputsChange.email.editable && (
+                <button
+                  onClick={() =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        email: {
+                          editable: true,
+                          value: prevState.email.value,
+                        },
+                      };
+                    })
+                  }
+                >
+                  Trocar
+                </button>
+              )}
+              {inputsChange.email.editable && (
+                <button type="button" onClick={() => ChangeMail()}>
+                  Confirmar
+                </button>
+              )}
+            </div>
+          </ChangeEmail>
+          <ChangePassword onSubmit={handleSubmit2(ChangePass)}>
+            <h6>Senha</h6>
+            <PasswordContainer>
+              <PasswordDiv>
+                <span>Nova senha</span>
+                <input
+                  type="password"
+                  id="password"
+                  {...register2("password")}
+                />
+                {!!errors2.password && (
+                  <FormError>{errors2.password.message}</FormError>
+                )}
+              </PasswordDiv>
+              <PasswordDiv>
+                <span>Confirmar senha</span>
+                <input
+                  type="password"
+                  id="passwordConfirmation"
+                  {...register2("passwordConfirmation")}
+                />
+                {!!errors2.passwordConfirmation && (
+                  <FormError>{errors2.passwordConfirmation.message}</FormError>
+                )}
+              </PasswordDiv>
+              <button type="submit">Salvar nova senha</button>
+            </PasswordContainer>
+          </ChangePassword>
+        </ConfigContainer>
+      </Main>
+    </Container>
+  );
+};
+export default ProfilePage;
