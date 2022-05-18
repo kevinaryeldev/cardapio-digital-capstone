@@ -5,7 +5,6 @@ export const Container = styled.div`
 width: 100vw;
 display: flex;
 flex-direction: column;
-
 background: linear-gradient(296.95deg, var(--primary-color) 0%, var(--primary-color-50) 99.65%);
 
 @media (min-width: 1024px) {
@@ -126,12 +125,37 @@ flex-direction: column;
 align-items: center;
 margin-right: 50px;
 
+label {
+    font-size: 9px;
+    padding: 5px;
+    margin-top: 15px;
+    font-weight: 700;
+    height: 24px;
+    border-radius:  15px;
+    border: none;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), inset 0px -4px 4px rgba(0, 0, 0, 0.25);
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 button {
     background-color: var(--secondary-color);
     color: var(--primary-color);
     text-decoration: none;
     text-align: center;
 }
+
+@media screen and (min-width: 1024px) {
+    label {
+        height: 42px;
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+    
 `
 
 export const FigureStyled = styled.figure`
@@ -145,8 +169,8 @@ align-items: center;
 justify-content: center;
 
 img {
-    width: 64px;
-    height: 64px;
+    width: 75%;
+    height: 75%;
 }
 
 figcaption { 

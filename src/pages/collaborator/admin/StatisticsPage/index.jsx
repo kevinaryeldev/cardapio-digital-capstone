@@ -20,12 +20,13 @@ const StatisticsPage = () => {
     { name: "Coca Coca lata", qtd: 33 },
     { name: "Coca Coca 2l", qtd: 33 },
     { name: "Coca Coca 600 ml", qtd: 33 },
+    { name: "Coca Coca lata", qtd: 33 }
   ];
   return (
     <Container>
       <Menu></Menu>
       <BoxContent>
-        <Title>Estatisticas</Title>
+        <Title>Estatísticas</Title>
         <Subtitle>Pedidos</Subtitle>
         <LineDiv></LineDiv>
         <ContentDemand>

@@ -6,8 +6,8 @@ export const Header = styled.section`
   width: 100vw;
   height: 60px;
   background-color: var(--primary-color);
-  position:relative;
-  & a {
+  position:fixed;
+  a {
     display: none;
   }
   .Menu{
@@ -27,15 +27,15 @@ export const Header = styled.section`
   height:100vh;
   flex-direction: column;
   align-items: center;
-  align-self:baseline;
-  & a{
+  align-self: baseline;
+  a{
      display:block;
      color:var(--terciary-color);
      font-size:32px;
      margin-top: 20px;
      cursor:pointer; 
   }
-  & a:hover{
+  a:hover{
     color:var(--secondary-color);
   } 
   .Menu{
@@ -48,6 +48,34 @@ export const Header = styled.section`
   }
 }
 `;
+export const NavMenuMobile = styled.nav`
+width:150px;
+height: 180px;
+background-color:var(--primary-color);
+position:absolute;
+top:60px;
+right: 0;
+display:flex;
+flex-direction: column;
+justify-content: center;
+gap:5px;
+.links {
+  margin-left: 10px;
+  display: block !important;
+  color:var(--secondary-color);
+  font-size:16px;
+  display:flex !important;
+  align-items:center !important;
+  width:130px;
+  .icons{
+    margin-right:10px;
+    margin-left:5px;
+  }
+}
+`
+  
+
+
 export const BoxImage = styled.figure`
     height: 100%;
     width: 60px;
@@ -76,5 +104,4 @@ export const LineDiv = styled.div`
   top:0;
 }
 `
-
 ;
