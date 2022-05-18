@@ -13,7 +13,6 @@ const MenuPage = () => {
     const { sendRequestData } = useRequests()
 
     const [products, setProducts] = useState()
-    // const [imageInModal, setImageInModal] = useState()
     const [productInModal, setProductInModal] = useState()
     const [productsInCart, setProductsInCart] = useState([])
     const [openCart, setOpenCart] = useState(false);
@@ -27,14 +26,12 @@ const MenuPage = () => {
     const handleOpenModal = (product) => {
       setShouldOpenProductModal(true)
       setProductInModal(product)
-      // setImageInModal(image)
     }
 
     const handleAddProduct = (product) => {
       setShouldOpenProductModal(false)
       setOpenCart(true)
-      const newArr = [...productsInCart, product]
-      setProductsInCart(newArr)
+      setProductsInCart([...productsInCart, product])
     }
 
     const handleRequest = () => {
