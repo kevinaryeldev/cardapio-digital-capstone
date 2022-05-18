@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const ProductCard = ({
   product,
   setOpenEditProduct,
-  setProductToChange,
+  setProductToBeEdited,
   setOpenRemoveProduct,
 }) => {
   const { name, description, rating, imageUrl, id } = product;
@@ -59,7 +59,7 @@ const ProductCard = ({
           <>
             <button
               onClick={() => {
-                setProductToChange(product);
+                setProductToBeEdited(product);
                 setOpenEditProduct(true);
               }}
             >
@@ -67,7 +67,7 @@ const ProductCard = ({
             </button>
             <button
               onClick={() => {
-                setProductToChange(product);
+                setProductToBeEdited(product);
                 setOpenRemoveProduct(true);
               }}
             >

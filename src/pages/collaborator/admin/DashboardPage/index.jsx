@@ -15,7 +15,7 @@ import {
   DashboardNavContainer,
   ConfirmsContainer,
 } from "./style";
-import { useMenu } from "../../../../providers/menu/menu";
+// import { useMenu } from "../../../../providers/menu/menu";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
 
@@ -23,7 +23,7 @@ import Button from "../../../../components/Button";
 const DashboardPage = () => {
     const { token } = useAuth();
     const { products } = useProducts();
-    const { removeProduct } = useMenu();
+    // const { removeProduct } = useMenu();
 
     const [openEditProduct, setOpenEditProduct] = useState(false);
     const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
@@ -114,12 +114,12 @@ const DashboardPage = () => {
             <Button
               width="49%"
               bgBlack
-              onClick={() => {
-                const response = removeProduct(productToBeEdited);
-                if (response) {
-                  setOpenRemoveProduct(false);
-                }
-              }}
+              // onClick={() => {
+              //   const response = removeProduct(productToBeEdited);
+              //   if (response) {
+              //     setOpenRemoveProduct(false);
+              //   }
+              // }}
             >
               Sim
             </Button>
