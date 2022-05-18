@@ -204,7 +204,7 @@ h6 {
 
 `
 
-export const ChangeColors = styled.section`
+export const ChangeColors = styled.form`
 display: flex;
 flex-direction: column;
 
@@ -213,6 +213,19 @@ div {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+button {
+    width: 97px;
+    text-align: center;
+    line-height: 0px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-top: 15px;
+    &:hover {
+        color: var(--secondary-color);
+    }
 }
 `
 
@@ -243,6 +256,23 @@ span {
     color: var(--terciary-color);
     text-decoration: none;
 }
+`
+
+export const ChangeCollorsButtonDiv = styled.div`
+button {
+    width: 97px;
+    text-align: center;
+    line-height: 0px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-top: 15px;
+    margin-right: 15px;
+    &:hover {
+        color: var(--secondary-color);
+    }
+}
+
 `
 
 export const ChangeEmail = styled.form`

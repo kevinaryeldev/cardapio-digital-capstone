@@ -19,6 +19,7 @@ export const UserProvider = ({ children }) => {
   );
 
   const [userInfos, setUserInfos] = useState({});
+  const [colorTheme, setColorTheme] = useState({});
 
   useEffect(() => {
     getUserData(id, token, setUserInfos);
@@ -94,7 +95,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, changeUserInfos }}
+      value={{ token, id, login, logout, signUp, userInfos, colorTheme, setColorTheme, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>
