@@ -43,6 +43,11 @@ const MenuPage = () => {
       sendRequestData(productsInCart);
     };
 
+    const handleAddExtras = (extra) => {
+      const newExtraArr = [...extrasPicked, extra]
+      setExtrasPicked(newExtraArr)
+    }
+
     const handleAddPortion = (portion) => {
       const newPortionsArr = [...portionsPicked, portion]
       setPortionsPicked(newPortionsArr)
