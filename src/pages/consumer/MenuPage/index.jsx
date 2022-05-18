@@ -10,7 +10,7 @@ import { useRequests } from "../../../providers/requests/requests";
 
 const MenuPage = () => {
 
-    const { requests, getRequestData, sendRequestData } = useRequests()
+    const { sendRequestData } = useRequests()
 
     const [products, setProducts] = useState()
     const [imageInModal, setImageInModal] = useState()
@@ -45,10 +45,11 @@ const MenuPage = () => {
     const renderProducts = (value, category) => {
       return (
         value.filter((product) => product.category === category).map(((product) => {
+          console.log(product);
             return (<ProductCard 
                       product={product} 
-                      image={product.img} 
-                      click={() => handleOpenModal(product, product.img)}
+                      productImage={product.imageUrl} 
+                      click={() => handleOpenModal(product, product.imageUrl)}
                     />)   
           }
         ))
