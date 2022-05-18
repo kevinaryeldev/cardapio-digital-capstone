@@ -22,19 +22,8 @@ const MenuPage = () => {
   ];
 
   const handleRequest = () => {
-    const time = new Date().toLocaleTimeString().substring(0, 5);
-    const date = new Date().toLocaleDateString().substring(0, 5);
-    const newRequest = {
-      date: `${date} - ${time}`,
-      totalPrice: products.reduce(function (acc, curValue) {
-        return acc + parseFloat(curValue.price);
-      }, 0),
-      totalQuantity: 1,
-      status: "waiting",
-      requests: products,
-    };
     setOpenCart(!openCart);
-    sendRequestData(newRequest);
+    sendRequestData(products);
   };
   return (
     <MenuContainer>
