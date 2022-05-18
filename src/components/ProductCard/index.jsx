@@ -5,7 +5,12 @@ import { useLocation } from "react-router-dom";
 
 //FALTA ADICIONAR OS ONCLICKS DOS BOTÕES DE EDITAR E REMOVER
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({
+  product,
+  setOpenEditProduct,
+  setProductToBeEdited,
+  setOpenRemoveProduct,
+}) => {
   const { name, description, rating, imageUrl, id } = product;
 
   let ratingStars = [];
@@ -33,19 +38,41 @@ const ProductCard = ({ product }) => {
 
       <section className="card--extras">
         <div className="card--ratingContainer">
-          {ratingStars.map((state) => {
+          {ratingStars.map((state, index) => {
             if (state === "full") {
-              return <img src={StarYellow} alt="Estrela" />;
+              return (
+                <img
+                  key={"starYellow" + index}
+                  src={StarYellow}
+                  alt="Estrela"
+                />
+              );
             }
-            return <img src={StarGray} alt="Estrela" />;
+            return (
+              <img key={"starGray" + index} src={StarGray} alt="Estrela" />
+            );
           })}
         </div>
         {/* Verifica em quais das páginas está para renderizar o botão necessário */}
         {location.pathname === "/menu" && <button>Ver Porções</button>}
-        {location.pathname === "/admin/requests" && (
+        {location.pathname === "/admin" && (
           <>
-            <button>Editar</button>
-            <button>Remover</button>
+            <button
+              onClick={() => {
+                setProductToBeEdited(product);
+                setOpenEditProduct(true);
+              }}
+            >
+              Editar
+            </button>
+            <button
+              onClick={() => {
+                setProductToBeEdited(product);
+                setOpenRemoveProduct(true);
+              }}
+            >
+              Remover
+            </button>
           </>
         )}
       </section>

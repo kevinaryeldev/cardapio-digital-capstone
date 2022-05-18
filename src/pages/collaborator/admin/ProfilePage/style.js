@@ -5,7 +5,6 @@ export const Container = styled.div`
 width: 100vw;
 display: flex;
 flex-direction: column;
-
 background: linear-gradient(296.95deg, var(--primary-color) 0%, var(--primary-color-50) 99.65%);
 
 @media (min-width: 1024px) {

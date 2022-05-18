@@ -1,14 +1,21 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
-  deleteProduct,
-  registerProduct,
+  deleteProductApi,
+  editProductApi,
+  listProductApi,
+  registerProductApi,
 } from "../../services/products/products";
 
 export const MenuContext = createContext([]);
 
 export const MenuProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  useEffect(() => {
+    listProductApi(setProducts);
+  }, []);
 
   const [categories, setCategories] = useState([
     "Entradas",
@@ -16,8 +23,6 @@ export const MenuProvider = ({ children }) => {
     "Bebidas",
     "Sobremesas",
   ]);
-
-  useEffect(() => console.log(products), [products]);
 
   const addCategory = (newCategory) => {
     if (categories.includes(newCategory)) {
@@ -56,7 +61,7 @@ export const MenuProvider = ({ children }) => {
   };
 
   const addProduct = async (newProduct) => {
-    const response = await registerProduct(newProduct);
+    const response = await registerProductApi(newProduct);
     if (response) {
       setProducts([...products, response.data]);
       return true;
@@ -65,21 +70,44 @@ export const MenuProvider = ({ children }) => {
     }
   };
 
+  const editProduct = async (productId, newData) => {
+    const response = await editProductApi(productId, newData);
+    if (response) {
+      const updatedProducts = products.map((product) => {
+        if (product.id === productId) {
+          product = { ...product, ...newData };
+          return product;
+        }
+        return product;
+      });
+      setProducts(updatedProducts);
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const removeProduct = async (productToBeRemoved) => {
-    const response = await deleteProduct(productToBeRemoved);
+    const response = await deleteProductApi(productToBeRemoved.id);
     if (response) {
       const updatedProducts = products.filter(
         (product) => product.id !== productToBeRemoved.id
       );
       setProducts(updatedProducts);
+      return true;
     }
+
+    return false;
   };
 
   return (
     <MenuContext.Provider
       value={{
+        isPaymentModalOpen,
+        setIsPaymentModalOpen,
         products,
         addProduct,
+        editProduct,
         removeProduct,
         categories,
         addCategory,

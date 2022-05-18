@@ -1,22 +1,28 @@
 import styled from "styled-components";
 
-export const Container = styled.main`
-  background: linear-gradient(
-    135deg,
-    var(--primary-color-50),
-    var(--primary-color)
-  );
-  min-height: 100vh;
-  @media (min-width: 1024px) {
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
+ export const Container = styled.main`
+ background: linear-gradient(
+  135deg,
+  var(--primary-color-50),
+  var(--primary-color)
+);
+min-height: 100vh;
+width:100vw;
+@media (min-width: 1024px) {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+}
+`
 export const BoxContent = styled.section`
-  width: 80%;
-  margin: 20px auto;
-`;
+width: 80%;
+margin: 20px auto;
+@media (min-width:1024px){
+    width:87%;
+    justify-content:flex-start;
+    margin: 20px 60px 20px auto;
+  }
+`
 export const InputArea = styled.div`
   width: 100%;
   height: 30px;
@@ -98,7 +104,7 @@ export const Btnfilter = styled.button`
 export const BoxCardReq = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content:center;
+  justify-content:space-between;
   gap: 50px;
   width: 100%;
   @media (min-width: 1024px) {
