@@ -33,14 +33,11 @@ const MenuPage = () => {
       status: "waiting",
       requests: products,
     };
-    getRequestData();
     setOpenCart(!openCart);
-    console.log(newRequest);
     sendRequestData(newRequest);
   };
   return (
     <MenuContainer>
-      <button onClick={() => console.log(requests)}>eu aq</button>
       MenuPage
       <button onClick={() => setOpenCart(!openCart)}> clickae</button>
       <Modal flex={"flex"} state={openCart}>
