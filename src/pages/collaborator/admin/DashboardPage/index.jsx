@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { FaAngleLeft, FaAngleRight, FaSearch } from "react-icons/fa";
 import Menu from "./../../../../components/Menu";
@@ -13,15 +13,22 @@ import {
   DashboardContainer,
   DashboardProductsContainer,
   DashboardNavContainer,
+  ConfirmsContainer,
 } from "./style";
+import Modal from "../../../../components/Modal";
+import Button from "../../../../components/Button";
+
   
 const DashboardPage = () => {
-    const { products } = useProducts();
+    let history = useHistory();
+    const { token } = useAuth();
+    const { products, removeProduct } = useProducts();
 
     const [openEditProduct, setOpenEditProduct] = useState(false);
     const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
+    const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
     const [productToBeEdited, setProductToBeEdited] = useState({});
-    const [showProducts, setShowProducts] = useState(products);
+    const [showProducts, setShowProducts] = useState();
 
   const filter = (valueFilter) => {
     const formatedValue = valueFilter.trim().toUpperCase()
@@ -29,8 +36,9 @@ const DashboardPage = () => {
     formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
   };
 
-  const { token } = useAuth();
-  let history = useHistory();
+  useEffect(()=>{
+    setShowProducts(products)
+  },[products])
 
   if (!token) {
     history.push("/login");
@@ -66,30 +74,64 @@ const DashboardPage = () => {
         </DashboardHeader>
         <DashboardProductsContainer>
           {!!showProducts &&
-            showProducts.map((el) => (
+            showProducts.map((product) => (
               <ProductCard
                 setOpenEditProduct={setOpenEditProduct}
                 setProductToBeEdited={setProductToBeEdited}
-                key={"product" + el.id}
-                product={el}
+                setOpenRemoveProduct={setOpenRemoveProduct}
+                key={"product" + product.id}
+                product={product}
               />
           ))}
         </DashboardProductsContainer>
       </Dashboard>
-      {!!openRegisterProduct && (
+      {openRegisterProduct && (
         <RegisterProduct
           type="register"
           openModal={openRegisterProduct}
           setOpenModal={setOpenRegisterProduct}
         />
       )}
-      {!!openEditProduct && (
+      {openEditProduct && (
         <RegisterProduct
           type="edit"
           openModal={openEditProduct}
           setOpenModal={setOpenEditProduct}
           productToBeEdited={productToBeEdited}
         />
+      )}
+      {openRemoveProduct && (
+        <Modal
+          setOpenModal={setOpenRemoveProduct}
+          state={openRemoveProduct}
+          flex
+          align="center"
+          justify="center"
+          padding="15px"
+        >
+          <ConfirmsContainer>
+            <h2>Deseja remover este produto?</h2>
+            <Button
+              width="49%"
+              bgBlack
+              onClick={() => {
+                const response = removeProduct(productToBeEdited);
+                if (response) {
+                  setOpenRemoveProduct(false);
+                }
+              }}
+            >
+              Sim
+            </Button>
+            <Button
+              width="49%"
+              bgBlack
+              onClick={() => setOpenRemoveProduct(false)}
+            >
+              Não
+            </Button>
+          </ConfirmsContainer>
+        </Modal>
       )}
     </DashboardContainer>
   );

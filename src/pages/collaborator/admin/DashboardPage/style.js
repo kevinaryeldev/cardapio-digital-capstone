@@ -112,3 +112,35 @@ export const DashboardProductsContainer = styled.ul`
   display: flex;
   flex-wrap: wrap;
 `;
+
+export const ConfirmsContainer = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+
+  h2 {
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  button {
+    width: 49%;
+    max-width: 150px;
+
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+`;

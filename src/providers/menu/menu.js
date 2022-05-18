@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import instance from "../../services";
 import {
   deleteProductApi,
   editProductApi,
@@ -12,6 +11,7 @@ export const MenuContext = createContext([]);
 
 export const MenuProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     listProductApi(setProducts);
@@ -88,18 +88,23 @@ export const MenuProvider = ({ children }) => {
   };
 
   const removeProduct = async (productToBeRemoved) => {
-    const response = await deleteProductApi(productToBeRemoved);
+    const response = await deleteProductApi(productToBeRemoved.id);
     if (response) {
       const updatedProducts = products.filter(
         (product) => product.id !== productToBeRemoved.id
       );
       setProducts(updatedProducts);
+      return true;
     }
+
+    return false;
   };
 
   return (
     <MenuContext.Provider
       value={{
+        isPaymentModalOpen,
+        setIsPaymentModalOpen,
         products,
         addProduct,
         editProduct,

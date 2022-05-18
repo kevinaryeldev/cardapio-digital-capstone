@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { useAuth } from "../../providers/user/user";
 
 import Logo from "../../assets/img/Logo.png";
 import {
@@ -11,37 +13,69 @@ import {
 } from "react-icons/bi";
 import { FaConciergeBell, FaRegBell } from "react-icons/fa";
 
-import { Header, BoxImage, LineDiv } from "./styles";
+import { Header, BoxImage, NavMenuMobile, LineDiv } from "./styles";
 
 const Menu = () => {
+  const [showMenuMobile, setShowMobile] = useState(false);
+  const showMenu = () => {
+    showMenuMobile === false ? setShowMobile(true) : setShowMobile(false);
+    setTimeout(() => {
+      setShowMobile(false);
+    }, 4000);
+  };
+  const { logout } = useAuth();
   return (
     <>
       <Header>
         <BoxImage>
-            <img src={Logo} alt="Logotipo"/>
+          <img src={Logo} alt="Logotipo" />
         </BoxImage>
 
-        <BiMenu className="Menu"></BiMenu>
+        <BiMenu className="Menu" onClick={showMenu}></BiMenu>
 
-        <Link to="">
+        {showMenuMobile === true ? (
+          <NavMenuMobile>
+            <Link to="/admin/requests" className="links">
+              <FaRegBell className="icons"></FaRegBell>Requisiçoes
+            </Link>
+            <Link to="/admin/statistics" className="links">
+              <BiHome className="icons"></BiHome>Estatisticas
+            </Link>
+            <Link to="/admin/feedbacks" className="links">
+              <BiEnvelope className="icons"></BiEnvelope>Feedbacks
+            </Link>
+            <Link to="/admin" className="links">
+              <FaConciergeBell className="icons"></FaConciergeBell>Comandas
+            </Link>
+            <Link to="/admin/profile" className="links">
+              <BiUserCircle className="icons"></BiUserCircle>Perfil
+            </Link>
+          </NavMenuMobile>
+        ) : null}
+
+        <Link to="/admin/requests">
           <FaRegBell></FaRegBell>
         </Link>
-        <Link to="">
+
+        <Link to="/admin/statistics">
           <BiHome></BiHome>
         </Link>
-        <Link to="">
+
+        <Link to="/admin/feedbacks">
           <BiEnvelope></BiEnvelope>
         </Link>
-        <Link to="">
+
+        <Link to="/admin">
           <FaConciergeBell></FaConciergeBell>
         </Link>
-        <Link to="">
-          {" "}
+
+        <Link to="/admin/profile">
           <BiUserCircle></BiUserCircle>
         </Link>
+
         <Link to="">
           {" "}
-          <BiLogOut className="btnLogout"></BiLogOut>
+          <BiLogOut className="btnLogout" onClick={logout}></BiLogOut>
         </Link>
       </Header>
       <LineDiv></LineDiv>
