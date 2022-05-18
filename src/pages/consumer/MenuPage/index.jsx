@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 import {getProducts} from '../../../services/consumer/consumer'
 import ProductCard from '../../../components/ProductCard'
 import Modal from '../../../components/Modal'
-import {FiSearch} from 'react-icons/fi'
 import { AiOutlineCloseCircle, AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./style"
-import { ButtonRequest, CartContainer, CartList, MenuContainer } from "./style";
+import { ButtonRequest, CartContainer, CartList } from "./style";
 import CartItem from "../../../components/CartItem";
 import { useRequests } from "../../../providers/requests/requests";
 import formatter from "../../../utils/formatter";
