@@ -109,7 +109,20 @@ const MenuPage = () => {
                 <div className='product-adds'>
                   <h2>Adicionais</h2>
                   {!!extras  && extras.map((extra)=>{
-                    return <p>{extra.name}..........{extra.price}</p>
+                    const addsPickeds = extrasPicked.filter((size) => size.name === extras.name)
+                    return (
+                      <div className='adds'>
+                        <div className='minus' >
+                          <AiOutlineMinusCircle size="20px" />
+                        </div>
+                        <p>{extra.name}</p>
+                        <p>Preço: {formatter.format(extra.price)}</p>
+                        <div className='plus'>
+                          <AiOutlinePlusCircle size="24px" />
+                        </div>
+                        <p>{addsPickeds.length}</p>
+                      </div>
+                    ) 
                   })}
                 </div>
                 <div className='product-size'>
