@@ -1,4 +1,5 @@
 import { useAuth } from "../../../../providers/user/user";
+import { useFeedbacks } from "../../../../providers/feedbacks/feedbacks";
 
 import Menu from "../../../../components/Menu";
 import {
@@ -16,34 +17,7 @@ import { Redirect } from "react-router-dom";
 
 const FeedbacksPage = () => {
   const { token } = useAuth();
-
-  //Exemplo de feedbacks
-  const feedbacks = [
-    {
-      author: "Lorem Ipsum",
-      createdAt: new Date().toLocaleString("pt-BR"),
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. ",
-    },
-    {
-      author: "Lorem Ipsum",
-      createdAt: new Date().toLocaleString("pt-BR"),
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. ",
-    },
-    {
-      author: "Lorem Ipsum",
-      createdAt: new Date().toLocaleString("pt-BR"),
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. ",
-    },
-    {
-      author: "Lorem Ipsum",
-      createdAt: new Date().toLocaleString("pt-BR"),
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi felis turpis, consectetur a ultrices pharetra, tristique tristique sem. Vestibulum facilisis facilisis est at tempor. Morbi lobortis hendrerit tempus. ",
-    },
-  ];
+  const { feedbacksList } = useFeedbacks();
 
   if (!token) {
     <Redirect to="/" />;
@@ -54,7 +28,7 @@ const FeedbacksPage = () => {
       <Menu />
       <BoxContent>
         <Title>Feedbacks</Title>
-        {feedbacks.map((comment, index) => (
+        {feedbacksList.map((comment, index) => (
           <Feedback key={index}>
             <CommentHeader>
               <Subtitle>{comment.author}</Subtitle>
