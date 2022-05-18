@@ -70,7 +70,10 @@ const MenuPage = () => {
           >
             <ModalContainer>
               <ModalHeader>
-                <span onClick={() => setShouldOpenProductModal(false)}>x</span>
+                <AiOutlineCloseCircle size="24px" />
+                <span onClick={() => setShouldOpenProductModal(false)}>
+                  <AiOutlineCloseCircle size="24px" />
+                </span>
                 <div className='header'>
                   <div className='image-place'>
                     <img src={product.imageUrl} alt="product-pic" />
