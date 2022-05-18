@@ -1,53 +1,45 @@
-import { ChangeColors, ChangeEmail, ChangePassword, ConfigContainer, Container, FigureStyled, FormNameContainer, ImageContainer, Main, MainInfo, PasswordContainer, PasswordDiv, SelectColor } from "./style"
-
-import Menu from "../../../../components/Menu"
-import Button from "../../../../components/Button";
-import FormError from "../../../../components/FormComponents/Error";
-
-import Logo from "../../../../assets/img/Logo.png";
-
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import { getUserData, patchUserData, UploadImage } from "../../../../services/users/users";
-import { useAuth } from "../../../../providers/user/user";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { nameSchema, passwordSchema } from "../../../../utils/schemas/UserSettings";
+import Menu from "../../../../components/Menu"
+import Button from "../../../../components/Button";
+import { useAuth } from "../../../../providers/user/user";
+import FormError from "../../../../components/FormComponents/Error";
+import { getUserData, patchUserData } from "../../../../services/users/users";
+import { 
+    ChangeColors, 
+    ChangeEmail, 
+    ChangePassword, 
+    ConfigContainer, 
+    Container, 
+    FigureStyled, 
+    FormNameContainer, 
+    ImageContainer, 
+    Main, 
+    MainInfo, 
+    PasswordContainer, 
+    PasswordDiv, 
+    SelectColor 
+} from "./style"
 
 let { Upload } = require("upload-js")
 
 const ProfilePage = () => {
 
+    let history = useHistory();
     const { id, token} = useAuth();
     const [userInfo, setUserInfo] = useState({})
     const { email, name } = userInfo
 
     const [image, setImage] = useState()
     const [defaultImage, setDefaultImage] = useState()
-    const [imageInput, setImageInput] = useState(false)
-
     const [nameInput, setNameInput] = useState(false)
-    const [restaurantName, setRestaurantName] = useState(name)
-
+    const [imageInput, setImageInput] = useState(false)
     const [emailInput, setEmailInput] = useState(false)
+    const [restaurantName, setRestaurantName] = useState(name)
     const [restaurantEmail, setRestaurantEmail] = useState(email)
-
-    let history = useHistory();
-
-    useEffect(() => {
-        const getInfo = async () => {
-            const response = await getUserData(id, token)
-            setUserInfo(response)
-            setRestaurantName(response.name)
-            setRestaurantEmail(response.email)
-
-            setImage(response.logoUrl)
-            setDefaultImage(response.logoUrl)
-        }
-        getInfo()
-    }, [])
 
     const {
         register,
@@ -81,7 +73,6 @@ const ProfilePage = () => {
         });
 
         setImage(fileUrl)
-
     }
 
     const sendImage = () => {
@@ -126,6 +117,19 @@ const ProfilePage = () => {
         reset()
     }
 
+    useEffect(() => {
+        const getInfo = async () => {
+            const response = await getUserData(id, token)
+            setUserInfo(response)
+            setRestaurantName(response.name)
+            setRestaurantEmail(response.email)
+
+            setImage(response.logoUrl)
+            setDefaultImage(response.logoUrl)
+        }
+        getInfo()
+    }, [])
+
     if (!token) {
         history.push("/");
     }
@@ -145,7 +149,7 @@ const ProfilePage = () => {
                                 <img src={image} alt={name} />
                                 <figcaption>{name}</figcaption>
                             </FigureStyled>
-                            {imageInput === false && 
+                            {!imageInput && 
                                 <label htmlFor="uploadImage">Trocar</label>
                             }
                             
@@ -154,7 +158,7 @@ const ProfilePage = () => {
                                 style={{ display: "none" }}
                                 onChange={(e) => seeImage(e.target.files[0])} />
 
-                            {imageInput === true && (
+                            {imageInput && (
                                 <>
                                     <Button onClick={() => sendImage()}>Confirmar</Button>
                                     <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
@@ -162,9 +166,9 @@ const ProfilePage = () => {
                             )}
                         </ImageContainer>
                         <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
-                            {errors.name && <FormError>{errors.name.message}</FormError>}
-                            {nameInput === false && <h3>{restaurantName}</h3>}
-                            {nameInput === true &&
+                            {!!errors.name && <FormError>{errors.name.message}</FormError>}
+                            {!nameInput && <h3>{restaurantName}</h3>}
+                            {nameInput &&
                                 <input
                                     type="text"
                                     id="name"
@@ -202,10 +206,10 @@ const ProfilePage = () => {
                     <ChangeEmail>
                         <h6>Endereço de Email</h6>
                         <div>
-                            {emailInput === false &&
+                            {!emailInput &&
                                 <p>Seu endereço de email é <strong>{restaurantEmail}</strong></p>
                             }
-                            {emailInput === true &&
+                            {emailInput &&
                                 <p>Seu endereço de email é
                                     <input
                                         type="email"
@@ -215,10 +219,10 @@ const ProfilePage = () => {
                                 </p>
                             }
 
-                            {emailInput === false &&
+                            {!emailInput &&
                                 <button onClick={() => setEmailInput(true)}>Trocar</button>
                             }
-                            {emailInput === true &&
+                            {emailInput &&
                                 <button onClick={() => ChangeMail()}>Confirmar</button>
                             }
                         </div>
@@ -233,7 +237,7 @@ const ProfilePage = () => {
                                     id="password"
                                     {...register2("password")}
                                 />
-                                {errors2.password && <FormError>{errors2.password.message}</FormError>}
+                                {!!errors2.password && <FormError>{errors2.password.message}</FormError>}
                             </PasswordDiv>
                             <PasswordDiv>
                                 <span>Confirmar senha</span>
@@ -242,7 +246,7 @@ const ProfilePage = () => {
                                     id="passwordConfirmation"
                                     {...register2("passwordConfirmation")}
                                 />
-                                {errors2.passwordConfirmation && <FormError>{errors2.passwordConfirmation.message}</FormError>}
+                                {!!errors2.passwordConfirmation && <FormError>{errors2.passwordConfirmation.message}</FormError>}
                             </PasswordDiv>
                             <button type="submit">Salvar nova senha</button>
                         </PasswordContainer>
