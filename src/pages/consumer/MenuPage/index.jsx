@@ -4,14 +4,43 @@ import ProductCard from '../../../components/ProductCard'
 import Modal from '../../../components/Modal'
 import {FiSearch} from 'react-icons/fi'
 import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./style"
+import { ButtonRequest, CartContainer, CartList, MenuContainer } from "./style";
+import CartItem from "../../../components/CartItem";
+import { useRequests } from "../../../providers/requests/requests";
 
 const MenuPage = () => {
 
+    const { requests, getRequestData, sendRequestData } = useRequests()
+
     const [products, setProducts] = useState()
-    const [productInModal, setProductInModal] = useState()
     const [imageInModal, setImageInModal] = useState()
-    const [categoryMain, setCategoryMain] = useState("Entradas")
+    const [productInModal, setProductInModal] = useState()
+    const [productsInCart, setProductsInCart] = useState([])
+    const [openCart, setOpenCart] = useState(false);
     const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
+    const [categoryMain, setCategoryMain] = useState("Entradas")
+
+    const handleMainCategory = (category) => {
+      setCategoryMain(category)
+    }
+
+    const handleOpenModal = (product, image) => {
+      setShouldOpenProductModal(true)
+      setProductInModal(product)
+      setImageInModal(image)
+    }
+
+    const handleAddProduct = (product) => {
+      setShouldOpenProductModal(false)
+      setOpenCart(true)
+      const newArr = [...productsInCart, product]
+      setProductsInCart(newArr)
+    }
+
+    const handleRequest = () => {
+      setOpenCart(!openCart);
+      sendRequestData(productsInCart);
+    };
 
     const renderProducts = (value, category) => {
       return (
@@ -69,7 +98,7 @@ const MenuPage = () => {
                   {!!portions && portions.map((portion) => {
                     return <p>{portion.name}..........{portion.price}</p>
                   })}
-                  <button>Adicionar ao Pedido</button>
+                  <button onClick={() => handleAddProduct(product)}>Adicionar ao Pedido</button>
                 </div>
               </ModalBody>
             </ModalContainer>
@@ -78,14 +107,20 @@ const MenuPage = () => {
       }
     }
 
-    const handleMainCategory = (category) => {
-      setCategoryMain(category)
-    }
-
-    const handleOpenModal = (product, image) => {
-      setShouldOpenProductModal(true)
-      setProductInModal(product)
-      setImageInModal(image)
+    const renderCart = (cartproducts) => {
+      return(
+        <Modal flex={"flex"} state={openCart}>
+          <CartContainer>
+          <spam onClick={() => setOpenCart(false)}>x</spam>
+           <CartList>
+             {cartproducts.map((el) => (
+               <CartItem product={el} />
+             ))}
+           </CartList>
+           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
+         </CartContainer>
+       </Modal>
+      )
     }
 
     useEffect(() => {
@@ -99,7 +134,7 @@ const MenuPage = () => {
 
     return(
       <Container>
-        {!!productInModal && renderModal(productInModal, imageInModal)}
+        {shouldOpenProductModal && renderModal(productInModal, imageInModal)}
         <nav className='desktop--nav'>
             <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
             <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
@@ -111,6 +146,7 @@ const MenuPage = () => {
         </div>
         <Content>
           {!!products && renderProducts(products, categoryMain)}
+          {openCart && renderCart(productsInCart)}
         </Content>
       </Container>
     )

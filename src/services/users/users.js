@@ -7,12 +7,9 @@ export const loginUser = async (data) => {
     .then((response) => {
       window.localStorage.setItem(
         "@SmartMenu:token",
-        JSON.stringify(response.data.accessToken)
+        response.data.accessToken
       );
-      window.localStorage.setItem(
-        "@SmartMenu:id",
-        JSON.stringify(response.data.user.id)
-      );
+      window.localStorage.setItem("@SmartMenu:id", response.data.user.id);
 
       toast.success("Login realizado com sucesso!");
       return true;
@@ -38,12 +35,9 @@ export const signUpUser = async (data) => {
     .then((response) => {
       window.localStorage.setItem(
         "@SmartMenu:token",
-        JSON.stringify(response.data.accessToken)
+        response.data.accessToken
       );
-      window.localStorage.setItem(
-        "@SmartMenu:id",
-        JSON.stringify(response.data.user.id)
-      );
+      window.localStorage.setItem("@SmartMenu:id", response.data.user.id);
 
       toast.success("Cadastro realizado com sucesso!");
       return true;
@@ -61,76 +55,51 @@ export const signUpUser = async (data) => {
   return response;
 };
 
-export const getUserData = async (id, token) => {
+export const getUserData = async (id, token, setUserInfos) => {
   const response = await instance
     .get(`/users/${id}`, {
       headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((response) => {
-      return response.data
-    })
+      setUserInfos(response.data);
+      return response.data;
+    });
 
   return response;
 };
 
-export const patchName = async (data, id, token) => {
+export const patchUserData = async (
+  data,
+  id,
+  token,
+  toastSucessMessage,
+  toastErrorMessage,
+  setUserInfos
+) => {
   const response = await instance
-    .patch(`/users/${id}`, {
-      name: data
-    }, {
+    .patch(`/users/${id}`, data, {
       headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((response) => {
-      return response.data
-    })
-
-  return response;
-};
-
-export const patchEmail = async (data, id, token) => {
-  const response = await instance
-    .patch(`/users/${id}`, {
-      email: data
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+      if (toastSucessMessage) {
+        toast.success(toastSucessMessage);
       }
-    })
-    .then((response) => {
-      toast.success("Email atualizado com sucesso!");
-      return true
+      console.log(response.data)
+      setUserInfos(response.data);
+      return true;
     })
     .catch((error) => {
-      toast.error("Email inválido");
-      return false
-    })
-
-  return response;
-};
-
-export const patchPassword = async (data, id, token) => {
-  const response = await instance
-    .patch(`/users/${id}`, {
-      password: data
-    }, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Authorization": `Bearer ${token}`
+      if (toastErrorMessage) {
+        toast.error(toastErrorMessage);
       }
-    })
-    .then((response) => {
-      toast.success("Senha atualizada com sucesso!");
-    })
-    .catch((error) => {
-      toast.error("Senha inválida");
-    })
+      return false;
+    });
 
   return response;
 };

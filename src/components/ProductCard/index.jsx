@@ -5,8 +5,14 @@ import { useLocation } from "react-router-dom";
 
 //FALTA ADICIONAR OS ONCLICKS DOS BOTÕES DE EDITAR E REMOVER
 
-const ProductCard = ({ product, image, click }) => {
-  const { name, description, rating, id } = product;
+const ProductCard = ({
+  product,
+  setOpenEditProduct,
+  setProductToBeEdited,
+  setOpenRemoveProduct,
+  click
+}) => {
+  const { name, description, rating, image, id } = product;
 
   let ratingStars = [];
   for (let i = 1; i <= 5; i++) {
@@ -33,19 +39,42 @@ const ProductCard = ({ product, image, click }) => {
 
       <section className="card--extras">
         <div className="card--ratingContainer">
-          {ratingStars.map((state) => {
+          {ratingStars.map((state, index) => {
             if (state === "full") {
-              return <img src={StarYellow} alt="Estrela" />;
+              return (
+                <img
+                  key={"starYellow" + index}
+                  src={StarYellow}
+                  alt="Estrela"
+                />
+              );
             }
-            return <img src={StarGray} alt="Estrela" />;
+            return (
+              <img key={"starGray" + index} src={StarGray} alt="Estrela" />
+            );
           })}
         </div>
         {/* Verifica em quais das páginas está para renderizar o botão necessário */}
-        {location.pathname === "/menu" && <button onClick={click}>Ver Porções</button>}
-        {location.pathname === "/admin/requests" && (
+        {location.pathname === "/menu" && (
+          <button onClick={click}>Ver Porções</button>)}
+        {location.pathname === "/admin" && (
           <>
-            <button>Editar</button>
-            <button>Remover</button>
+            <button
+              onClick={() => {
+                setProductToBeEdited(product);
+                setOpenEditProduct(true);
+              }}
+            >
+              Editar
+            </button>
+            <button
+              onClick={() => {
+                setProductToBeEdited(product);
+                setOpenRemoveProduct(true);
+              }}
+            >
+              Remover
+            </button>
           </>
         )}
       </section>

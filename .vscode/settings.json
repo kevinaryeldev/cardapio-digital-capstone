@@ -12,6 +12,8 @@
     "components",
     "routes",
     "signUp page",
-    "login page"
+    "login page",
+    "dashboard page",
+    "profile page"
   ]
 }

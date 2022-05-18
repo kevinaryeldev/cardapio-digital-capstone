@@ -25,9 +25,20 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import Slider from 'infinite-react-carousel';
+import data from "./testimonials"
+import Carousel from "../../../components/Carousel/index.jsx";
+
 const LandingPage = () => {
   const history = useHistory();
   const [openLinks, setOpenLinks] = useState(false);
+
+  const settings = {
+    arrows: false,
+    centerPadding: 10,
+    dots: true
+  };
+
   return (
     <div>
       <NavbarContainer>
@@ -75,10 +86,7 @@ const LandingPage = () => {
       <SectionLanding id="home">
         <SectionTitle>Aplicativo de Cardápio Digital</SectionTitle>
         <MainDescription>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500. Modernize seu estabelecimento alimentício com a
-          aplicação do futuro!
+          Modernize seu estabelecimento alimentício com a aplicação do futuro!
         </MainDescription>
         <img src={TabletLandingPage} alt="" />
       </SectionLanding>
@@ -94,14 +102,13 @@ const LandingPage = () => {
             <section>
               <h2>Sustentável</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Defendemos a importância da sustentabilidade em nosso negócio.
+              <p>
+                <strong> Aplicativo de Cardápio Digital</strong> nasceu com o propósito de diminuir o uso de materiais não sustentáveis para cardápios e comandas de restaurantes.
               </p>
+              </p>
+
+
             </section>
           </TopicAboutUs>
           <TopicAboutUs invert>
@@ -112,13 +119,7 @@ const LandingPage = () => {
             <section>
               <h2>Maior privacidade</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Com este sistema, seus clientes se sentirão mais confortáveis para realizar os seus pedidos. Com o total controle do cardápio em sua mesa, o inconveniente de chamar o garçom se torna praticamente nulo.
               </p>
             </section>
           </TopicAboutUs>
@@ -130,13 +131,8 @@ const LandingPage = () => {
             <section>
               <h2>Controle total do restaurante</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Tenha todo o restaurante em suas mãos!
+                <p>Crie, modifique seus produtos. Controle o estoque em tempo real. Administre os pedidos e tenha acesso a Feedbacks de clientes.</p>
               </p>
             </section>
           </TopicAboutUs>
@@ -145,7 +141,15 @@ const LandingPage = () => {
 
       <SectionTestimony id="testimony">
         <SectionTitle>Depoimentos</SectionTitle>
-        <SliderTestimony> </SliderTestimony>
+
+        <SliderTestimony>
+          <Slider {...settings}>
+            {data.map((testimonial, index) => {
+              return <Carousel key={index} testimonial={testimonial} />
+            })}
+          </Slider>
+        </SliderTestimony>
+
       </SectionTestimony>
     </div>
   );

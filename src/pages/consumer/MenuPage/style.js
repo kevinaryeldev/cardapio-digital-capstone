@@ -105,3 +105,39 @@ export const ModalBody = styled.div`
 export const Content = styled.div`
     margin: 0rem 0rem 3rem 4rem;
 `
+
+export const MenuContainer = styled.div`
+  min-height: 100vh;
+  width: 100vw;
+  min-width: 500px;
+`;
+
+export const CartContainer = styled.div`
+  background-color: var(--secondary-color);
+  min-width: 740px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+  padding: 30px;
+`;
+
+export const ButtonRequest = styled.button`
+  font-family: "Noto Serif", serif;
+  font-size: 23px;
+  padding: 19px 29px;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+  border-radius: 24px;
+  width: fit-content;
+`;
+export const CartList = styled.ul`
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+`;

@@ -1,14 +1,20 @@
 import styled from 'styled-components'
-
-export const Container = styled.section`
-  background-color: var(--primary-color);
-  @media (min-width: 1024px) {
-    display: flex;
-  }
-`;
+export const Container = styled.main`
+background: linear-gradient(
+ 135deg,
+ var(--primary-color-50),
+ var(--primary-color)
+);
+min-height: 100vh;
+width:100vw;
+@media (min-width: 1024px) {
+ display: flex;
+ justify-content: space-between;
+}
+`
 export const BoxContent = styled.div`
-  width: 90%;
-  margin: 0 auto;
+  width: 80%;
+  margin: 60px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,8 +27,9 @@ export const BoxContent = styled.div`
   @media (min-width:1024px){
     width:87%;
     justify-content:flex-start;
+    margin: 20px 60px 20px auto;
   }
-`;
+`
 export const ContentDemand = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,7 +61,7 @@ export const ContentControl =styled.div`
     display:flex;
     width:100%;
     justify-content:space-between;
-    align-items: center;
+    align-items: flex-start;
     gap:15px;
   }
 `
@@ -64,8 +71,27 @@ export const ControlItems = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 190px;
+  min-height: 190px;
   border-radius:16px;
+  padding-bottom:10px;
+  /* overflow-y: auto;
+  
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary-color-50);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      background-color: var(--primary-color-50);
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px var(--primary-color-50);
+      border-radius: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    } */
   ul {
     width: 90%;
     margin: 0 auto;
@@ -75,7 +101,7 @@ export const ControlItems = styled.div`
     justify-content: space-between;
   }
    @media (min-width:1024px){
-    height:250px;
+    min-height:250px;
   }
 `;
 export const TitleBox = styled.h3`
@@ -89,10 +115,11 @@ export const AllRaised = styled.div`
   align-items: center;
   flex-direction: column;
   margin-top: 20px;
-  height: 190px;
+  min-height: 190px;
   border-radius:16px;
+  padding-bottom:10px;
   @media (min-width:1024px){
     margin-top:0;
-    height:250px;
+    min-height:250px;
   }
 `;

@@ -1,35 +1,49 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { loginUser, signUpUser } from "../../services/users/users";
+import {
+  getUserData,
+  loginUser,
+  patchUserData,
+  signUpUser,
+} from "../../services/users/users";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
-    JSON.parse(window.localStorage.getItem("@SmartMenu:token")) || null
+    window.localStorage.getItem("@SmartMenu:token")
   );
 
   const [id, setId] = useState(
-    JSON.parse(window.localStorage.getItem("@SmartMenu:id")) || null
+    window.localStorage.getItem("@SmartMenu:id") || null
   );
+
+  const [userInfos, setUserInfos] = useState({});
+
+  useEffect(() => {
+    getUserData(id, token, setUserInfos);
+  }, []);
 
   useEffect(() => {
     if (token) {
-      window.localStorage.setItem("@SmartMenu:token", JSON.stringify(token));
-      window.localStorage.setItem("@SmartMenu:id", JSON.stringify(id));
+      window.localStorage.setItem("@SmartMenu:token", token);
+      window.localStorage.setItem("@SmartMenu:id", id);
     }
   }, [token]);
 
   const login = async (data) => {
     const response = await loginUser(data);
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("@SmartMenu:token")
-    );
-    const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
+    const accessToken = window.localStorage.getItem("@SmartMenu:token");
+    const userId = window.localStorage.getItem("@SmartMenu:id");
 
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
+      const responseUserInfos = await getUserData(
+        userId,
+        accessToken,
+        setUserInfos
+      );
     }
   };
 
@@ -39,23 +53,49 @@ export const UserProvider = ({ children }) => {
     toast.success("Logout realizado com sucesso!");
     setToken(null);
     setId(null);
+    setUserInfos({});
   };
 
   const signUp = async (data) => {
     const response = await signUpUser(data);
-    const accessToken = JSON.parse(
-      window.localStorage.getItem("@SmartMenu:token")
-    );
-    const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
+    const accessToken = window.localStorage.getItem("@SmartMenu:token");
+    const userId = window.localStorage.getItem("@SmartMenu:id");
 
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
+      const responseUserInfos = await getUserData(
+        userId,
+        accessToken,
+        setUserInfos
+      );
     }
   };
 
+  const changeUserInfos = async (
+    newData,
+    toastSucessMessage,
+    toastErrorMessage
+  ) => {
+    const updateUserInfos = await patchUserData(
+      newData,
+      id,
+      token,
+      toastSucessMessage,
+      toastErrorMessage,
+      setUserInfos
+    );
+    console.log(updateUserInfos)
+    if (updateUserInfos) {
+      return true;
+    }
+    return false;
+  };
+
   return (
-    <UserContext.Provider value={{ token, id, login, logout, signUp }}>
+    <UserContext.Provider
+      value={{ token, id, login, logout, signUp, userInfos, changeUserInfos }}
+    >
       {children}
     </UserContext.Provider>
   );
