@@ -94,7 +94,21 @@ const MenuPage = () => {
                 <div className='product-size'>
                   <h2>Porções</h2>
                   {!!portions && portions.map((portion) => {
-                    return <p>{portion.name}..........{portion.price}</p>
+                    return (
+                      <div class="sizes">
+                        <div className='minus'>
+                          <AiOutlineMinusCircle size="20px" />
+                        </div>
+                        <p>{portion.name}</p>
+                        <p>Preço: {formatter.format(portion.price)}</p>
+                        <div className='plus' onClick={() => handleAddToPreview(portion)}>
+                          <AiOutlinePlusCircle size="24px" />
+                        </div>
+                        <p>
+                          
+                        </p>
+                      </div>
+                    )
                   })}
                   <button onClick={() => handleAddProduct(product)}>Adicionar ao Pedido</button>
                 </div>
