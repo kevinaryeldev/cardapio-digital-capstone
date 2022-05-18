@@ -39,6 +39,11 @@ const MenuPage = () => {
       sendRequestData(productsInCart);
     };
 
+    const handleAddToPreview = (portion) => {
+      const newPortionsArr = [...portionsPicked, portion]
+      setPortionsPicked(newPortionsArr)
+    }
+
     const renderProducts = (value, category) => {
       return (
         value.filter((product) => product.category === category).map(((product) => {
