@@ -40,7 +40,7 @@ export const Feedback = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 
   background-color: var(--terciary-color);
   border-radius: 15px;
@@ -48,12 +48,12 @@ export const Feedback = styled.div`
 
 export const CommentHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  width: 87%;
+  width: 92%;
+  padding: 5px 15px;
+  border-bottom: 1px solid black;
 `;
-
-export const Subtitle = styled.h2``;
 
 export const Details = styled.span`
   font-size: 18px;
@@ -62,9 +62,8 @@ export const Details = styled.span`
 
 export const Text = styled.p`
   font-size: 18px;
+  text-align: justify;
 
   width: 90%;
   padding: 5px;
-
-  border-top: 1px solid black;
 `;

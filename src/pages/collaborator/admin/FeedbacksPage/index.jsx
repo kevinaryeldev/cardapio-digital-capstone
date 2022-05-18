@@ -31,7 +31,6 @@ const FeedbacksPage = () => {
         {feedbacksList.map((comment, index) => (
           <Feedback key={index}>
             <CommentHeader>
-              <Subtitle>{comment.author}</Subtitle>
               <Details>{comment.createdAt}</Details>
             </CommentHeader>
             <Text>{comment.content}</Text>
