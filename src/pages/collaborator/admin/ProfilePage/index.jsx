@@ -9,27 +9,30 @@ import Logo from "../../../../assets/img/Logo.png";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import { getUserData, patchEmail, patchName, patchPassword } from "../../../../services/users/users";
+import { getUserData, patchUserData, UploadImage } from "../../../../services/users/users";
 import { useAuth } from "../../../../providers/user/user";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import nameSchema from "../../../../utils/schemas/changeName";
-import passwordSchema from "../../../../utils/schemas/changePassword";
+import { nameSchema, passwordSchema } from "../../../../utils/schemas/UserSettings";
+
+let { Upload } = require("upload-js")
 
 const ProfilePage = () => {
 
-    const { id, token } = useAuth();
+    const { id, token} = useAuth();
     const [userInfo, setUserInfo] = useState({})
     const { email, name } = userInfo
+
+    const [image, setImage] = useState()
+    const [defaultImage, setDefaultImage] = useState()
+    const [imageInput, setImageInput] = useState(false)
 
     const [nameInput, setNameInput] = useState(false)
     const [restaurantName, setRestaurantName] = useState(name)
 
     const [emailInput, setEmailInput] = useState(false)
     const [restaurantEmail, setRestaurantEmail] = useState(email)
-
-    const [restaurantPassword, setRestaurantPassword] = useState("")
 
     let history = useHistory();
 
@@ -39,6 +42,9 @@ const ProfilePage = () => {
             setUserInfo(response)
             setRestaurantName(response.name)
             setRestaurantEmail(response.email)
+
+            setImage(response.logoUrl)
+            setDefaultImage(response.logoUrl)
         }
         getInfo()
     }, [])
@@ -58,30 +64,65 @@ const ProfilePage = () => {
             resolver: yupResolver(passwordSchema),
         });
 
-    const ChangeName = (data) => {
-        setNameInput(false)
-        patchName(restaurantName, id, token)
-        setRestaurantName(restaurantName)
+    const cancelChangeImage = () => {
+        setImage(defaultImage)
+        setImageInput(false)
+    }
+    
+    const seeImage = async (image) => {
+        setImageInput(true)
+
+        const upload = new Upload({
+            apiKey: "public_12a1xjk5NxMQ7kknSiy9K6odEyzE"
+        })
+
+        const { fileUrl } = await upload.uploadFile({
+            file: image
+        });
+
+        setImage(fileUrl)
 
     }
 
+    const sendImage = () => {
+        const data = {
+            logoUrl: image
+        }
+        
+        patchUserData(data,id, token, "Foto atualizada!")
+        setImageInput(false)
+    }
+
+    const ChangeName = (data) => {
+        patchUserData(data, id, token)
+        setNameInput(false)
+        setRestaurantName(data.name)
+    }
+
     const ChangeMail = () => {
-        setEmailInput(false)
+        const data = {
+            email: restaurantEmail
+        }
 
         const patch = async () => {
-            const response = await patchEmail(restaurantEmail, id, token)
-
+            const response = await patchUserData(data, id, token, "Email atualizado com sucesso!", "Email inválido.")
             if (response === true) {
                 setRestaurantEmail(restaurantEmail)
             } else {
                 setRestaurantEmail(email)
             }
         }
+
         patch()
+        setEmailInput(false)
     }
 
     const ChangePass = (data) => {
-        patchPassword(restaurantPassword, id, token)
+        const pass = {
+            password: data.password
+        }
+
+        patchUserData(pass, id, token, "Senha atualizada com sucesso!")
         reset()
     }
 
@@ -101,10 +142,24 @@ const ProfilePage = () => {
                     <div>
                         <ImageContainer>
                             <FigureStyled>
-                                <img src={Logo} alt="{RESTAURANTE}" />
+                                <img src={image} alt={name} />
                                 <figcaption>{name}</figcaption>
                             </FigureStyled>
-                            <Button bgYellow>Trocar</Button>
+                            {imageInput === false && 
+                                <label htmlFor="uploadImage">Trocar</label>
+                            }
+                            
+                            <input type="file"
+                                id="uploadImage"
+                                style={{ display: "none" }}
+                                onChange={(e) => seeImage(e.target.files[0])} />
+
+                            {imageInput === true && (
+                                <>
+                                    <Button onClick={() => sendImage()}>Confirmar</Button>
+                                    <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
+                                </>
+                            )}
                         </ImageContainer>
                         <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
                             {errors.name && <FormError>{errors.name.message}</FormError>}
@@ -114,7 +169,6 @@ const ProfilePage = () => {
                                     type="text"
                                     id="name"
                                     {...register("name")}
-                                    onChange={(e) => setRestaurantName(e.target.value)}
                                 />
                             }
                             {nameInput === false &&
@@ -177,8 +231,7 @@ const ProfilePage = () => {
                                 <input
                                     type="password"
                                     id="password"
-                                    {...register2("password") }
-                                    onChange={(e) => setRestaurantPassword(e.target.value)}
+                                    {...register2("password")}
                                 />
                                 {errors2.password && <FormError>{errors2.password.message}</FormError>}
                             </PasswordDiv>

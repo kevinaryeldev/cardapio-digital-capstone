@@ -70,81 +70,36 @@ export const getUserData = async (id, token) => {
   return response;
 };
 
-export const patchName = async (data, id, token) => {
+export const patchUserData = async (data, id, token, toastSucessMessage, toastErrorMessage) => {
+
   const response = await instance
-    .patch(
-      `/users/${id}`,
-      {
-        name: data,
-      },
+    .patch(`/users/${id}`,
+      data,
       {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${token}`
+        }
+      })
     .then((response) => {
-      return response.data;
-    });
-
-  return response;
-};
-
-export const patchEmail = async (data, id, token) => {
-  const response = await instance
-    .patch(
-      `/users/${id}`,
-      {
-        email: data,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      if (toastSucessMessage) {
+        toast.success(toastSucessMessage);
       }
-    )
-    .then((response) => {
-      toast.success("Email atualizado com sucesso!");
-      return true;
+      return true
     })
     .catch((error) => {
-      toast.error("Email inválido");
-      return false;
-    });
-
-  return response;
-};
-
-export const patchPassword = async (data, id, token) => {
-  const response = await instance
-    .patch(
-      `/users/${id}`,
-      {
-        password: data,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      if (toastErrorMessage) {
+        toast.error(toastErrorMessage);
       }
-    )
-    .then((response) => {
-      toast.success("Senha atualizada com sucesso!");
+      return false
     })
-    .catch((error) => {
-      toast.error("Senha inválida");
-    });
 
   return response;
 };
 
-export const postFeedback = async (data) => {
-  const response = await instance.post("/feedbacks", data).then((response) => {
-    console.log("POSTADO!, AINDA EM CONSTRUÇÃO");
-  });
 
-  return response;
-};
+
+
+
+
+
