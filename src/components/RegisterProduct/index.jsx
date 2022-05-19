@@ -9,13 +9,15 @@ import FormInfos from "./FormInfos";
 import FormExtras from "./FormExtras";
 import FormPortions from "./FormPortions";
 import { useMenu } from "../../providers/menu/menu";
-
+import { listProductApi } from "../../services/products/products";
+import { useProducts } from "../../providers/products/products";
 const RegisterProduct = ({
   openModal,
   setOpenModal,
   type,
   productToBeEdited,
 }) => {
+  const { setProducts } = useProducts();
   const [stage, setStage] = useState(1);
   const [registerData, setRegisterData] = useState(
     productToBeEdited || {
@@ -35,15 +37,14 @@ const RegisterProduct = ({
   const onSubmitRegister = async () => {
     const userId = JSON.parse(window.localStorage.getItem("@SmartMenu:id"));
     let response;
-
     if (type === "register") {
       response = await addProduct({ ...registerData, userId });
     } else if (type === "edit") {
       response = await editProduct(productToBeEdited.id, { ...registerData });
     }
-
     if (response) {
       setOpenModal(false);
+      listProductApi(setProducts);
     }
   };
 
