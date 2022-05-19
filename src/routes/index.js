@@ -24,9 +24,9 @@ const Routes = () => {
       <Route path="/admin/feedbacks" component={FeedbacksPage} />
       <Route path="/admin/statistics" component={StatisticsPage} />
       <Route path="/admin/profile" component={ProfilePage} />
-      <Route path="/home" component={HomePage} />
-      <Route path="/menu" component={MenuPage} />
-      <Route path="/cart" component={CartPage} />
+      <Route exact path="/home" component={HomePage} />
+      <Route exact path="/menu" component={MenuPage} />
+      <Route exact path="/cart" component={CartPage} />
     </Switch>
   );
 };

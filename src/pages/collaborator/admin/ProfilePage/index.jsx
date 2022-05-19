@@ -13,6 +13,8 @@ import { useAuth } from "../../../../providers/user/user";
 import FormError from "../../../../components/FormComponents/Error";
 
 import {
+  ChangeCollorsButtonDiv,
+  ChangeColors,
   ChangeEmail,
   ChangePassword,
   Container,
@@ -29,7 +31,7 @@ let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
   let history = useHistory();
-  const { token, userInfos, changeUserInfos } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -47,16 +49,14 @@ const ProfilePage = () => {
       value: logoUrl,
     },
     themes: {
+      editable: false,
       primary: {
-        editable: false,
         value: theme?.primaryColor,
       },
       secondary: {
-        editable: false,
         value: theme?.secondaryColor,
       },
       terciary: {
-        editable: false,
         value: theme?.terciaryColor,
       },
     },
@@ -83,16 +83,14 @@ const ProfilePage = () => {
         value: logoUrl,
       },
       themes: {
+        editable: false,
         primary: {
-          editable: false,
           value: theme?.primaryColor,
         },
         secondary: {
-          editable: false,
           value: theme?.secondaryColor,
         },
         terciary: {
-          editable: false,
           value: theme?.terciaryColor,
         },
       },
@@ -105,6 +103,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     updateUserInfos();
+    console.log(userInfos)
   }, [userInfos]);
 
   const {
@@ -123,6 +122,11 @@ const ProfilePage = () => {
   } = useForm({
     resolver: yupResolver(passwordSchema),
   });
+
+  const {
+    register: register3,
+    handleSubmit: handleSubmit3
+  } = useForm();
 
   const {
     register: registerCategory,
@@ -234,6 +238,106 @@ const ProfilePage = () => {
       };
     });
   };
+
+  const setUserColors = (data) => {
+
+    const hexToRGBConverter = (hexColor, type) => {
+      const r = parseInt(hexColor.substr(1, 2), 16)
+      const g = parseInt(hexColor.substr(3, 2), 16)
+      const b = parseInt(hexColor.substr(5, 2), 16)
+
+
+      if (type === "primary") {
+        const rgba50 = `rgba(${r + 39},${g + 55},${b + 49})`
+        return rgba50;
+
+      } else if (type === "secondary") {
+        const rgba50 = `rgba(${r - 37},${g - 38},${b - 39})`
+        return rgba50;
+
+      } else {
+        const rgba50 = `rgba(${r - 26},${g - 26},${b - 26})`
+        return rgba50;
+      }
+
+    }
+
+    const RGBtoHexConverter = (rgba) => {
+      const color = rgba.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
+      const hex = `#${((1 << 24) + (parseInt(color[0]) << 16) + (parseInt(color[1]) << 8) + parseInt(color[2])).toString(16).slice(1)}`
+
+      return hex
+    }
+
+    const primary50rgba = hexToRGBConverter(data.primaryColor, "primary")
+    const secondary50rgba = hexToRGBConverter(data.secondaryColor, "secondary")
+    const terciary50rgba = hexToRGBConverter(data.terciaryColor, "terciary")
+
+
+    const primary50 = RGBtoHexConverter(primary50rgba)
+    const secondary50 = RGBtoHexConverter(secondary50rgba)
+    const terciary50 = RGBtoHexConverter(terciary50rgba)
+
+    const datas = {
+      primaryColor: inputsChange.themes.primary.value,
+      primaryColor50: primary50,
+      secondaryColor: inputsChange.themes.secondary.value,
+      secondaryColor50: secondary50,
+      terciaryColor: inputsChange.themes.terciary.value,
+      terciaryColor50: terciary50
+    }
+
+    console.log(datas)
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        themes: {
+          editable: true,
+          primary: prevState.themes.primary,
+          secondary: prevState.themes.secondary,
+          terciary: prevState.themes.terciary
+        }
+      };
+    })
+
+
+    setColorTheme(datas)
+    setColorChange(true)
+  }
+
+  const setColorsAPI = async () => {
+
+    console.log(colorTheme)
+    const data = {
+      theme: colorTheme
+    }
+
+    await changeUserInfos(
+      data,
+      "Tema atualizado com sucesso!"
+    );
+
+    window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(colorTheme));
+  }
+
+  const resetColors = () => {
+    console.log(userInfos.theme, "TEMA DO USUARIO")
+    setColorTheme(userInfos.theme)
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        themes: {
+          editable: false,
+          primary: prevState.themes.primary,
+          secondary: prevState.themes.secondary,
+          terciary: prevState.themes.terciary
+        }
+      };
+    })
+  }
+
 
   const ChangeMail = async () => {
     const data = {
@@ -437,19 +541,80 @@ const ProfilePage = () => {
 
           <div className="content content__column">
             <h6>Selecione suas cores</h6>
-            <ThemeArea>
+            <ThemeArea onSubmit={handleSubmit3(setUserColors)}>
               <SelectColor>
-                <input type="color" name="primaryColor" id="primaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.primary.value}
+                  {...register3("primaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: {
+                            value: event.target.value,
+                          },
+                          secondary: prevState.themes.secondary,
+                          terciary: prevState.themes.terciary
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Primária</span>
               </SelectColor>
               <SelectColor mid>
-                <input type="color" name="secondaryColor" id="secondaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.secondary.value}
+                  {...register3("secondaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: prevState.themes.primary,
+                          secondary: {
+                            value: event.target.value,
+                          },
+                          terciary: prevState.themes.terciary
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Secundária</span>
               </SelectColor>
               <SelectColor>
-                <input type="color" name="terciaryColor" id="terciaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.terciary.value}
+                  {...register3("terciaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: prevState.themes.primary,
+                          secondary: prevState.themes.secondary,
+                          terciary: {
+                            value: event.target.value,
+                          },
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Terciária</span>
               </SelectColor>
+              <Button type="submit">Confirmar</Button>
+              {inputsChange.themes.editable === true && (
+                <ChangeCollorsButtonDiv>
+                  <Button onClick={() => setColorsAPI()}>Salvar</Button>
+                  <Button onClick={() => resetColors()}>Redefinir</Button>
+                </ChangeCollorsButtonDiv>
+              )}
             </ThemeArea>
           </div>
 
@@ -505,7 +670,7 @@ const ProfilePage = () => {
                     }
                   >
                     {inputsChange.category.value === "empty" ||
-                    inputsChange.category.value === ""
+                      inputsChange.category.value === ""
                       ? "Adicionar"
                       : "Editar"}
                   </button>
@@ -613,7 +778,7 @@ const ProfilePage = () => {
           </div>
         </section>
       </Main>
-    </Container>
+    </Container >
   );
 };
 
