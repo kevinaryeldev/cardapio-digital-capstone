@@ -7,6 +7,7 @@ import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./st
 import { ButtonRequest, CartContainer, CartList, MenuContainer } from "./style";
 import CartItem from "../../../components/CartItem";
 import { useRequests } from "../../../providers/requests/requests";
+import { useAuth } from '../../../providers/user/user'
 
 const MenuPage = () => {
 
@@ -18,6 +19,8 @@ const MenuPage = () => {
     const [openCart, setOpenCart] = useState(false);
     const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
     const [categoryMain, setCategoryMain] = useState("Entradas")
+
+    const { id } = useAuth();
 
     const handleMainCategory = (category) => {
       setCategoryMain(category)
@@ -123,7 +126,7 @@ const MenuPage = () => {
 
     useEffect(() => {
         const loadProducts = async() => {
-            const response = await getProducts()
+            const response = await getProducts(id)
             setProducts(response)
         }
         loadProducts()
