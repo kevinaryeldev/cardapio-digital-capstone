@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { FaAngleLeft, FaAngleRight, FaSearch } from "react-icons/fa";
 import Menu from "./../../../../components/Menu";
@@ -15,59 +15,87 @@ import {
   DashboardNavContainer,
   ConfirmsContainer,
 } from "./style";
-// import { useMenu } from "../../../../providers/menu/menu";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
+import { useMenu } from "../../../../providers/menu/menu";
 
-  
 const DashboardPage = () => {
-    const { token } = useAuth();
-    const { products } = useProducts();
-    // const { removeProduct } = useMenu();
+  let history = useHistory();
+  const { token } = useAuth();
+  const { products, removeProduct } = useProducts();
+  const { categories } = useMenu();
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
+  const [openEditProduct, setOpenEditProduct] = useState(false);
+  const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
+  const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
+  const [productToBeEdited, setProductToBeEdited] = useState({});
+  const [showProducts, setShowProducts] = useState();
 
-    const [openEditProduct, setOpenEditProduct] = useState(false);
-    const [openRegisterProduct, setOpenRegisterProduct] = useState(false);
-    const [openRemoveProduct, setOpenRemoveProduct] = useState(false);
-    const [productToBeEdited, setProductToBeEdited] = useState({});
-    const [showProducts, setShowProducts] = useState(products);
+  const productsInCategory = products.filter(
+    (el) => el.category === categories[currentCategoryIndex]
+  );
 
   const filter = (valueFilter) => {
-    const formatedValue = valueFilter.trim().toUpperCase()
-    const filtered = products.filter((i)=> (i.name).toUpperCase().includes(formatedValue));
-    formatedValue === "" ? setShowProducts(products) : setShowProducts(filtered);
+    const formatedValue = valueFilter.trim().toUpperCase();
+    const filtered = productsInCategory.filter((i) =>
+      i.name.toUpperCase().includes(formatedValue)
+    );
+    formatedValue === ""
+      ? setShowProducts(productsInCategory)
+      : setShowProducts(filtered);
   };
 
-
-  let history = useHistory();
+  useEffect(() => {
+    setShowProducts(productsInCategory);
+  }, [products, currentCategoryIndex]);
 
   if (!token) {
     history.push("/login");
   }
+  const ChangeCategory = (num) => {
+    num > 0
+      ? currentCategoryIndex < categories.length - 1
+        ? setCurrentCategoryIndex(currentCategoryIndex + 1)
+        : setCurrentCategoryIndex(0)
+      : currentCategoryIndex === 0
+      ? setCurrentCategoryIndex(categories.length - 1)
+      : setCurrentCategoryIndex(currentCategoryIndex - 1);
+  };
 
   return (
     <DashboardContainer>
-      <Menu />
+      <div>
+        <Menu />
+      </div>
       <Dashboard>
         <DashboardNavContainer>
-        <DashboardNav>
-          <button>
-            <FaAngleLeft size="30px" color="white" />
-          </button>
-          <form action="">
-            <FaSearch size="30px" />
-            <input
-              type="text"
-              placeholder="Digite sua pesquisa aqui..."
-              onChange={(e) => filter(e.target.value)}
-            />
-          </form>
-          <button>
-            <FaAngleRight size="30px" color="white" />
-          </button>
-        </DashboardNav>
+          <DashboardNav>
+            <button>
+              <FaAngleLeft
+                size="30px"
+                color="white"
+                onClick={() => ChangeCategory(-1)}
+              />
+            </button>
+            <form action="">
+              <FaSearch size="30px" />
+              <input
+                type="text"
+                placeholder="Digite sua pesquisa aqui..."
+                onChange={(e) => filter(e.target.value)}
+              />
+            </form>
+            <button>
+              <FaAngleRight
+                size="30px"
+                color="white"
+                onClick={() => ChangeCategory(1)}
+              />
+            </button>
+          </DashboardNav>
         </DashboardNavContainer>
         <DashboardHeader>
-          <h2>ENTRADAS</h2>
+          <h2>{categories[currentCategoryIndex].toUpperCase()}</h2>
           <button onClick={() => setOpenRegisterProduct(true)}>
             Adicionar
           </button>
@@ -76,13 +104,14 @@ const DashboardPage = () => {
           {!!showProducts &&
             showProducts.map((product) => (
               <ProductCard
+                productImage={product.imageUrl}
                 setOpenEditProduct={setOpenEditProduct}
                 setProductToBeEdited={setProductToBeEdited}
                 setOpenRemoveProduct={setOpenRemoveProduct}
                 key={"product" + product.id}
                 product={product}
               />
-          ))}
+            ))}
         </DashboardProductsContainer>
       </Dashboard>
       {openRegisterProduct && (
@@ -114,12 +143,12 @@ const DashboardPage = () => {
             <Button
               width="49%"
               bgBlack
-              // onClick={() => {
-              //   const response = removeProduct(productToBeEdited);
-              //   if (response) {
-              //     setOpenRemoveProduct(false);
-              //   }
-              // }}
+              onClick={() => {
+                const response = removeProduct(productToBeEdited);
+                if (response) {
+                  setOpenRemoveProduct(false);
+                }
+              }}
             >
               Sim
             </Button>

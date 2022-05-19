@@ -1,6 +1,10 @@
 import * as yup from "yup";
 
-const passwordSchema = yup.object().shape({
+export const nameSchema = yup.object().shape({
+  name: yup.string().required("Nome Obrigatório").trim("Nome Obrigatório"),
+});
+
+export const passwordSchema = yup.object().shape({
   password: yup
     .string()
     .required("Senha Obrigatória")
@@ -17,4 +21,9 @@ const passwordSchema = yup.object().shape({
     .oneOf([yup.ref("password")], "Senhas Incompatíveis"),
 });
 
-export default passwordSchema;
+export const categorySchema = yup.object().shape({
+  category: yup
+    .string()
+    .required("Categoria Obrigatória")
+    .trim("Categoria Obrigatória"),
+});
