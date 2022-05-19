@@ -17,7 +17,7 @@ export const FeedbacksProvider = ({ children }) => {
         },
       })
       .then((res) => setFeedbacksList(res.data));
-  }, [feedbacksList]);
+  }, []);
 
   return (
     <FeedbacksContext.Provider value={{ feedbacksList }}>

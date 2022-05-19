@@ -34,7 +34,7 @@ const Menu = () => {
 
         <BiMenu className="Menu" onClick={showMenu}></BiMenu>
 
-        {showMenuMobile === true ? (
+        {showMenuMobile && (
           <NavMenuMobile>
             <Link to="/admin/requests" className="links">
               <FaRegBell className="icons"></FaRegBell>Requisiçoes
@@ -51,8 +51,15 @@ const Menu = () => {
             <Link to="/admin/profile" className="links">
               <BiUserCircle className="icons"></BiUserCircle>Perfil
             </Link>
+            <Link to="/home" className="links">
+              <MdRestaurantMenu className="icons"></MdRestaurantMenu>
+              Área do Cliente
+            </Link>
+            <Link to="" className="links">
+              <BiLogOut onClick={logout} className="icons"></BiLogOut> Logout
+            </Link>
           </NavMenuMobile>
-        ) : null}
+        )}
 
         <Link to="/admin/requests">
           <FaRegBell></FaRegBell>
@@ -79,7 +86,6 @@ const Menu = () => {
         </Link>
 
         <Link to="">
-          {" "}
           <BiLogOut className="btnLogout" onClick={logout}></BiLogOut>
         </Link>
       </Header>
