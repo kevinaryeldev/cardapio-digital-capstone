@@ -21,6 +21,8 @@ export const RequestsProvider = ({ children }) => {
         console.log(error);
       });
     setRequests(data);
+    
+    return data
   };
 
   const sendRequestData = async (cartProducts) => {
