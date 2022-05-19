@@ -31,7 +31,7 @@ let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
   let history = useHistory();
-  const { token, userInfos, colorTheme, setColorTheme, changeUserInfos } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -229,7 +229,7 @@ const ProfilePage = () => {
       const r = parseInt(hexColor.substr(1, 2), 16)
       const g = parseInt(hexColor.substr(3, 2), 16)
       const b = parseInt(hexColor.substr(5, 2), 16)
-      // const rgba = `rgba(${r},${g},${b})`
+
 
       if (type === "primary") {
         const rgba50 = `rgba(${r + 39},${g + 55},${b + 49})`
@@ -287,6 +287,7 @@ const ProfilePage = () => {
 
 
     setColorTheme(datas)
+    setColorChange(true)
   }
 
   const setColorsAPI = async () => {
@@ -300,11 +301,25 @@ const ProfilePage = () => {
       data,
       "Tema atualizado com sucesso!"
     );
+
+    window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(colorTheme));
   }
 
   const resetColors = () => {
     console.log(userInfos.theme, "TEMA DO USUARIO")
     setColorTheme(userInfos.theme)
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        themes: {
+          editable: false,
+          primary: prevState.themes.primary,
+          secondary: prevState.themes.secondary,
+          terciary: prevState.themes.terciary
+        }
+      };
+    })
   }
 
 
