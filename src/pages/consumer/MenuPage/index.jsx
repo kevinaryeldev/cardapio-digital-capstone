@@ -95,16 +95,17 @@ const MenuPage = () => {
       userId: id,
     };
 
-    if(demmandPart.requests.length > 0){
+    const requests = demmandPart.requests
 
+    if (requests[0]) {
       const totalPrice = demmandPart.requests
         .map(({ portionsPrice, extrasPrice }) => portionsPrice + extrasPrice)
         .reduce((acc, currentValue) => acc + currentValue);
-  git s
+
       const totalQuantity = demmandPart.requests
         .map(
           ({ portions, extras }) =>
-            parseFloat(portions.length) + parseFloat(extras.length)
+            parseFloat(portions.length) + parseFloat(!!extras && extras.length)
         )
         .reduce((acc, currentValue) => acc + currentValue);
       const demmand = {
@@ -113,9 +114,10 @@ const MenuPage = () => {
         quantity: totalQuantity,
       };
       sendRequestData(demmand)
-    }else {
+    } else {
       toast.error("Adicione ao menos item no carrinho!");
     }
+
   };
 
   const handleAddExtras = (extra) => {
