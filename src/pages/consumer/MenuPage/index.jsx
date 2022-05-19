@@ -32,7 +32,7 @@ const MenuPage = () => {
       setProductInModal(product)
     }
 
-    const handleAddProduct = (product) => {
+    const handleAddProductToCart = (product) => {
       setShouldOpenProductModal(false)
       setOpenCart(true)
       setProductsInCart([...productsInCart, product])
@@ -154,16 +154,16 @@ const MenuPage = () => {
                       </div>
                     )
                   })}
-                  <button onClick={() => handleAddProduct(product)}>Adicionar ao Pedido</button>
                 </div>
               </ModalBody>
+                  <button onClick={() => handleAddProductToCart(product)}>Adicionar ao Pedido</button>
             </ModalContainer>
           </Modal>
         )
       }
     }
 
-    const renderCart = (cartproducts) => {
+    const renderCart = (cartproducts, portions) => {
       return(
         <Modal flex={"flex"} state={openCart}>
           <CartContainer>
@@ -171,8 +171,8 @@ const MenuPage = () => {
               <AiOutlineCloseCircle size="24px" />
             </span>
             <CartList>
-              {cartproducts.map((el) => (
-                <CartItem product={el} />
+              {cartproducts.map((product) => (
+                <CartItem product={product} portions={portions} />
               ))}
             </CartList>
             <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
@@ -208,7 +208,7 @@ const MenuPage = () => {
         </div>
         <Content>
           {!!products && renderProducts(products, categoryMain)}
-          {openCart && renderCart(productsInCart)}
+          {openCart && renderCart(productsInCart, portionsPicked, extrasPicked)}
         </Content>
       </Container>
     )
