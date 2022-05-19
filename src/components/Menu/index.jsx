@@ -13,7 +13,7 @@ import {
 } from "react-icons/bi";
 import { FaConciergeBell, FaRegBell } from "react-icons/fa";
 
-import { Header, BoxImage, NavMenuMobile, LineDiv } from "./styles";
+import { Header, BoxImage, NavMenuMobile } from "./styles";
 
 const Menu = () => {
   const [showMenuMobile, setShowMobile] = useState(false);
@@ -78,7 +78,6 @@ const Menu = () => {
           <BiLogOut className="btnLogout" onClick={logout}></BiLogOut>
         </Link>
       </Header>
-      <LineDiv></LineDiv>
     </>
   );
 };
