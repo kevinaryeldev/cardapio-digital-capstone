@@ -22,13 +22,13 @@ export const UserProvider = ({ children }) => {
   const [userInfos, setUserInfos] = useState({});
   const [colorTheme, setColorTheme] = useState(defaultTheme);
   const [colorChange, setColorChange] = useState(false);
-
   const [categories, setCategories] = useState([
     "Entradas",
     "Pratos Principais",
     "Bebidas",
     "Sobremesas",
   ]);
+  const [table, setTable] = useState(0)
 
   useEffect(() => {
     if (token && id) {
@@ -43,9 +43,7 @@ export const UserProvider = ({ children }) => {
 
     if(userInfos.theme){
       setColorTheme(userInfos.theme)
-
     }
-    console.log(userInfos)
   }, [userInfos])
   
   useEffect(() => {
@@ -113,7 +111,6 @@ export const UserProvider = ({ children }) => {
       toastErrorMessage,
       setUserInfos
     );
-    console.log(updateUserInfos);
     if (updateUserInfos) {
       return true;
     }
@@ -122,7 +119,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
+      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, table, setTable, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>
