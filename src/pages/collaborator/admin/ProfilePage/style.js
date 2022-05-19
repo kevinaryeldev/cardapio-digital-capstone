@@ -252,6 +252,23 @@ export const SelectColor = styled.div`
   }
 `;
 
+export const ChangeCollorsButtonDiv = styled.div`
+button {
+    width: 97px;
+    text-align: center;
+    line-height: 0px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-top: 15px;
+    margin-right: 15px;
+    &:hover {
+        color: var(--secondary-color);
+    }
+}
+
+`
+
 export const ChangeEmail = styled.form`
   width: 100%;
   display: flex;
