@@ -37,24 +37,24 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if(userInfos.categories){
+    if (userInfos.categories) {
       setCategories(userInfos.categories)
     }
 
-    if(userInfos.theme){
+    if (userInfos.theme) {
       setColorTheme(userInfos.theme)
     }
   }, [userInfos])
-  
+
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
-      getUserData(setUserInfos);
+      getUserData(id, token, setUserInfos);
       console.log(userInfos);
     }
   }, [token]);
-  
+
   const login = async (data) => {
     const response = await loginUser(data);
     const accessToken = window.localStorage.getItem("@SmartMenu:token");
@@ -67,7 +67,7 @@ export const UserProvider = ({ children }) => {
         userId,
         accessToken,
         setUserInfos
-        );
+      );
 
     }
   };
@@ -91,8 +91,11 @@ export const UserProvider = ({ children }) => {
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
-      const responseUserInfos = await getUserData(setUserInfos);
-      console.log(userInfos);
+      const responseUserInfos = await getUserData(
+        userId,
+        accessToken,
+        setUserInfos
+      );
     }
   };
 
