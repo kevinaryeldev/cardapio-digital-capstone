@@ -221,6 +221,18 @@ export const ThemeArea = styled.form`
       color: var(--secondary-color-50);
     }
   }
+
+  #table,
+  input{
+    background-color: transparent;
+    border: 1px solid var(--primary-color-50);
+    width: 100%;
+    font-size: 16px;
+    ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+  }
 `;
 
 export const SelectColor = styled.div`
