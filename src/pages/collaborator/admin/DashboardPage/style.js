@@ -17,11 +17,16 @@ export const Dashboard = styled.main`
   flex-direction: column;
   align-items: center;
   min-width: 500px;
+  margin-top: 57px;
+  @media (min-width: 1024px) {
+    margin-left: 77px;
+    margin-top: 0px;
+  }
 `;
 
 export const DashboardNavContainer = styled.div`
   height: fit-content;
-  width: 100%;
+  width: 90%;
   background-color: var(--secondary-color);
   border-bottom: 3px solid var(--primary-color);
   margin-bottom: 25px;
@@ -33,7 +38,7 @@ export const DashboardNavContainer = styled.div`
 `;
 
 export const DashboardNav = styled.nav`
-  width: 90%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -111,11 +116,11 @@ export const DashboardProductsContainer = styled.ul`
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 `;
 
 export const ConfirmsContainer = styled.div`
   width: 100%;
-
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
