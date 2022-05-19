@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRequests } from "../../../providers/requests/requests";
 import { getProducts } from "../../../services/consumer/consumer";
-import { useAuth } from '../../../providers/user/user'
+import { useAuth } from "../../../providers/user/user";
 import formatter from "../../../utils/formatter";
 
 import {
@@ -77,7 +77,32 @@ const MenuPage = () => {
 
   const handleRequest = () => {
     setOpenCart(!openCart);
-    sendRequestData(productsInCart);
+
+    const demmandPart = {
+      table: "3", //Alterar para o state table que estará no contexto global em algum provider
+      date: new Date(),
+      status: "opened",
+      requests: [...productsInCart],
+      userId: id,
+    };
+
+    const totalPrice = demmandPart.requests
+      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
+      .reduce((acc, currentValue) => acc + currentValue);
+
+    const totalQuantity = demmandPart.requests
+      .map(
+        ({ portions, extras }) =>
+          parseFloat(portions.length) + parseFloat(extras.length)
+      )
+      .reduce((acc, currentValue) => acc + currentValue);
+    const demmand = {
+      ...demmandPart,
+      price: totalPrice,
+      quantity: totalQuantity,
+    };
+
+    sendRequestData(demmand);
   };
 
   const handleAddExtras = (extra) => {
@@ -197,7 +222,7 @@ const MenuPage = () => {
                       (size) => size.name === portion.name
                     );
                     return (
-                      <div key={index} class="sizes">
+                      <div key={index} className="sizes">
                         <div
                           className="minus"
                           onClick={() => handleRemovePortion(portion)}
@@ -249,41 +274,41 @@ const MenuPage = () => {
   };
 
   useEffect(() => {
-    const loadProducts = async() => {
-        const response = await getProducts(id)
-        setProducts(response)
-    }
-    loadProducts()
+    const loadProducts = async () => {
+      const response = await getProducts(id);
+      setProducts(response);
+    };
+    loadProducts();
     return;
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setShouldRenderError(false)
-    if(portionsPicked.length == 0 && openCart){
-      setShouldRenderError(true)
+    setShouldRenderError(false);
+    if (portionsPicked.length == 0 && openCart) {
+      setShouldRenderError(true);
     }
     return;
-  }, [portionsPicked, setPortionsPicked, openCart, setOpenCart])
+  }, [portionsPicked, setPortionsPicked, openCart, setOpenCart]);
 
-    return(
-      <Container>
-        {shouldOpenProductModal && renderModal(productInModal)}
-        <nav className='desktop--nav'>
-            <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
-            <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
-            <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
-            <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
-        </nav>
-        <div className="foodsection">
-          {categoryMain}
+  return (
+    <Container>
+      {shouldOpenProductModal && renderModal(productInModal)}
+      <nav className="desktop--nav">
+        <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
+        <div onClick={() => handleMainCategory("Pratos principais")}>
+          Pratos principais
         </div>
-        <Content>
-          {!!products && renderProducts(products, categoryMain)}
-          {openCart && renderCart(productsInCart, portionsPicked, extrasPicked)}
-        </Content>
-        <ButtonOpenCart onClick={() => setOpenCart(true)}>
-          <FaConciergeBell />
-        </ButtonOpenCart>
+        <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
+        <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
+      </nav>
+      <div className="foodsection">{categoryMain}</div>
+      <Content>
+        {!!products && renderProducts(products, categoryMain)}
+        {openCart && renderCart(productsInCart, portionsPicked, extrasPicked)}
+      </Content>
+      <ButtonOpenCart onClick={() => setOpenCart(true)}>
+        <FaConciergeBell />
+      </ButtonOpenCart>
     </Container>
   );
 };
