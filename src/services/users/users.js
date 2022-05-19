@@ -55,31 +55,19 @@ export const signUpUser = async (data) => {
   return response;
 };
 
-export const getUserData = async (setUserInfos) => {
-  const userId = window.localStorage.getItem("@SmartMenu:id");
-  const accessToken = window.localStorage.getItem("@SmartMenu:token");
-
-  if (userId && accessToken) {
-    const response = await instance
-      .get(`/users/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        setUserInfos(response.data);
-        window.localStorage.setItem(
-          "@SmartMenu:theme",
-          JSON.stringify(response.data.theme)
-        );
-        return response.data;
-      });
-
+export const getUserData = async (id, token, setUserInfos) => {
+  const response = await instance
+    .get(`/users/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      setUserInfos(response.data);
+      return response.data;
+    });
     return response;
-  }
-
-  return false;
 };
 
 export const patchUserData = async (

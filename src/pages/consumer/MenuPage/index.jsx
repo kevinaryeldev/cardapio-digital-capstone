@@ -24,21 +24,21 @@ import CartItem from "../../../components/CartItem";
 import Modal from "../../../components/Modal";
 import ProductCard from "../../../components/ProductCard";
 import { toast } from "react-toastify";
+import { useProducts } from "../../../providers/products/products";
+import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-  const { id } = useAuth();
   const { sendRequestData } = useRequests();
-
-  const [products, setProducts] = useState();
+  const { products } = useProducts();
+  const { categories } = useMenu();
   const [productInModal, setProductInModal] = useState();
   const [portionsPicked, setPortionsPicked] = useState([]);
   const [extrasPicked, setExtrasPicked] = useState([]);
   const [productsInCart, setProductsInCart] = useState([]);
-  const [categoryMain, setCategoryMain] = useState("Entradas");
+  const [categoryMain, setCategoryMain] = useState(categories[0]);
   const [openCart, setOpenCart] = useState(false);
   const [shouldRenderError, setShouldRenderError] = useState(false);
   const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
-
   const handleMainCategory = (category) => {
     setCategoryMain(category);
   };
@@ -47,6 +47,7 @@ const MenuPage = () => {
     setShouldOpenProductModal(true);
     setProductInModal(product);
   };
+  console.log(categories);
 
   const handleAddProductToCart = ({ name, imageUrl, userId, id }) => {
     const request = {
@@ -76,33 +77,35 @@ const MenuPage = () => {
   };
 
   const handleRequest = () => {
+  //   setOpenCart(!openCart);
+
+  //   const demmandPart = {
+  //     table: "3", //Alterar para o state table que estará no contexto global em algum provider
+  //     date: new Date(),
+  //     status: "opened",
+  //     requests: [...productsInCart],
+  //     userId: id,
+  //   };
+
+  //   const totalPrice = demmandPart.requests
+  //     .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
+  //     .reduce((acc, currentValue) => acc + currentValue);
+
+  //   const totalQuantity = demmandPart.requests
+  //     .map(
+  //       ({ portions, extras }) =>
+  //         parseFloat(portions.length) + parseFloat(extras.length)
+  //     )
+  //     .reduce((acc, currentValue) => acc + currentValue);
+  //   const demmand = {
+  //     ...demmandPart,
+  //     price: totalPrice,
+  //     quantity: totalQuantity,
+  //   };
+
+  //   sendRequestData(demmand);
     setOpenCart(!openCart);
-
-    const demmandPart = {
-      table: "3", //Alterar para o state table que estará no contexto global em algum provider
-      date: new Date(),
-      status: "opened",
-      requests: [...productsInCart],
-      userId: id,
-    };
-
-    const totalPrice = demmandPart.requests
-      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
-      .reduce((acc, currentValue) => acc + currentValue);
-
-    const totalQuantity = demmandPart.requests
-      .map(
-        ({ portions, extras }) =>
-          parseFloat(portions.length) + parseFloat(extras.length)
-      )
-      .reduce((acc, currentValue) => acc + currentValue);
-    const demmand = {
-      ...demmandPart,
-      price: totalPrice,
-      quantity: totalQuantity,
-    };
-
-    sendRequestData(demmand);
+    sendRequestData(productsInCart);
   };
 
   const handleAddExtras = (extra) => {
@@ -274,15 +277,6 @@ const MenuPage = () => {
   };
 
   useEffect(() => {
-    const loadProducts = async () => {
-      const response = await getProducts(id);
-      setProducts(response);
-    };
-    loadProducts();
-    return;
-  }, []);
-
-  useEffect(() => {
     setShouldRenderError(false);
     if (portionsPicked.length == 0 && openCart) {
       setShouldRenderError(true);
@@ -294,12 +288,18 @@ const MenuPage = () => {
     <Container>
       {shouldOpenProductModal && renderModal(productInModal)}
       <nav className="desktop--nav">
-        <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
-        <div onClick={() => handleMainCategory("Pratos principais")}>
-          Pratos principais
+        <div onClick={() => handleMainCategory(categories[0])}>
+          {categories[0]}
         </div>
-        <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
-        <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
+        <div onClick={() => handleMainCategory(categories[1])}>
+          {categories[1]}
+        </div>
+        <div onClick={() => handleMainCategory(categories[2])}>
+          {categories[2]}
+        </div>
+        <div onClick={() => handleMainCategory(categories[3])}>
+          {categories[3]}
+        </div>
       </nav>
       <div className="foodsection">{categoryMain}</div>
       <Content>

@@ -19,17 +19,35 @@ export const UserProvider = ({ children }) => {
     window.localStorage.getItem("@SmartMenu:id") || null
   );
 
-  const [userInfos, setUserInfos] = useState("");
-  const [colorTheme, setColorTheme] = useState();
+  const [userInfos, setUserInfos] = useState({});
+  const [colorTheme, setColorTheme] = useState(defaultTheme);
   const [colorChange, setColorChange] = useState(false);
-  const [islogged, setIsLogged] = useState(false);
+
+  const [categories, setCategories] = useState([
+    "Entradas",
+    "Pratos Principais",
+    "Bebidas",
+    "Sobremesas",
+  ]);
 
   useEffect(() => {
-    if (userInfos) {
-      setUserInfos(userInfos);
+    if (token && id) {
+      getUserData(id, token, setUserInfos);
     }
-  }, [userInfos]);
+  }, []);
 
+  useEffect(() => {
+    if(userInfos.categories){
+      setCategories(userInfos.categories)
+    }
+
+    if(userInfos.theme){
+      setColorTheme(userInfos.theme)
+
+    }
+    console.log(userInfos)
+  }, [userInfos])
+  
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
@@ -38,17 +56,7 @@ export const UserProvider = ({ children }) => {
       console.log(userInfos);
     }
   }, [token]);
-
-  useEffect(() => {
-    if (islogged === true) {
-      setColorTheme(
-        JSON.parse(window.localStorage.getItem("@SmartMenu:theme"))
-      );
-    } else {
-      setColorTheme(defaultTheme);
-    }
-  }, [islogged]);
-
+  
   const login = async (data) => {
     const response = await loginUser(data);
     const accessToken = window.localStorage.getItem("@SmartMenu:token");
@@ -57,9 +65,12 @@ export const UserProvider = ({ children }) => {
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
-      const responseUserInfos = await getUserData(setUserInfos);
-      console.log(userInfos);
-      setIsLogged(true);
+      const responseUserInfos = await getUserData(
+        userId,
+        accessToken,
+        setUserInfos
+        );
+
     }
   };
 
@@ -71,7 +82,7 @@ export const UserProvider = ({ children }) => {
     setToken(null);
     setId(null);
     setUserInfos({});
-    setIsLogged(false);
+    setColorTheme(defaultTheme)
   };
 
   const signUp = async (data) => {
@@ -109,20 +120,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{
-        token,
-        id,
-        login,
-        logout,
-        signUp,
-        userInfos,
-        colorTheme,
-        setColorTheme,
-        colorChange,
-        setColorChange,
-        changeUserInfos,
-        setUserInfos
-      }}
+      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>
