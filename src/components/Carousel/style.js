@@ -5,7 +5,7 @@ color: var(--primary-color);
 padding: 25px;
 padding-bottom: 50px;
 margin: 0 40px;
-background-color: var(--secondary-color);
+background-color: #DDBC8B;
 border-radius: 25px;
 
 p {
