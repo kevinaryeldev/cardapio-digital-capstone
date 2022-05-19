@@ -1,11 +1,29 @@
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
+import {MdMenuBook} from 'react-icons/md'
 import PaymentButton from '../../../components/Payment&Thanks/Button'
+import { useRequests } from '../../../providers/requests/requests'
+import {useEffect,useState} from 'react'
 const Container = styled.main`
 max-width:100vw;
 min-height:100vh;
 background-color: var(--primary-color);
-.BtnSeeMenu{
+.BtnDesktop{
+    display:none;
+}
+.BtnMobile{
+    display:block;
+    font-size:32px;
+    color:var(--primary-color-50);
+   
+}
+.productImage{
+        width:161px;
+        height:108px;
+        margin-right: 70px;
+    }
+@media(min-width:1024px){
+    .BtnDesktop{
     width:200px;
     height:50px;
     font-size:24px;
@@ -15,13 +33,18 @@ background-color: var(--primary-color);
     display:flex;
     align-items:center;
     justify-content: center;
+    }
+    .BtnMobile{
+        display:none;
+    }
+  
 }
+
 `
 const Header = styled.div`
 background-color:var(--secondary-color);
 height:70px;
 width:100vw;
-
 `
 const BoxHeader = styled.div`
 width:80%;
@@ -32,29 +55,57 @@ align-items: center;
 justify-content:space-between;  
 `
 const Title = styled.h1`
-font-size:24px;
+font-size: 16px;
 font-weight:700;
-`
-const BoxGroupsRequest = styled.ul`
-width:80%;
-margin:10px auto;
-`
-const GroupsRequestContent = styled.li`
-width:100%;
-height:200px;
-border:1px solid var(--secondary-color);
-position:relative;
-display:flex;
-margin-bottom:10px;
-span{
-    position:absolute;
-    font-size:16px;
-    bottom:5px;
-    right:5px;
-    color: var(--terciary-color);
+@media (min-width:1024px){
+font-size:24px;
+
 }
 `
+const BoxGroupsRequest = styled.ul`
+width:90%;
+margin:10px auto;
+border:1px solid var(--secondary-color);
+display:flex;
+flex-direction:column;
+justify-content: center;
+align-items:center;
+position:relative;
+padding-bottom: 30px;
+ span{
+        position:absolute;
+        font-size:16px;
+        color: var(--terciary-color);
+        bottom:5px;
+        right:10px;
+    }
+@media (min-width:1024px){
+    width:80%;
+    
+    margin:30px auto;
+    padding:0;
+}
+`
+const GroupsRequestContent = styled.li`
+width: 90%;
+flex-direction:column;
+margin: 10px auto;
+display:flex;
+color:var(--secondary-color);
 
+@media (min-width:1024px){
+height:166px;
+display:flex;
+margin-bottom:10px;
+flex-direction:row;
+align-items:center;
+}
+`
+const Product = styled.div`
+    display:flex;
+    flex-direction:column;
+   
+`
 const Time = styled.span`
 color:var(--terciary-color);
 `
@@ -68,23 +119,64 @@ margin:0 10px 10px auto;
 `
 const CartPage = () => {
     
+    const [productsCart, setProductsCart] = useState([])
+    const {getRequestData} = useRequests()
+   
+    useEffect(() => {
+        const loadProducts = async() => {
+            const response = await getRequestData()
+            setProductsCart(response)
+        }
+        loadProducts()
+        return;
+    }, []) 
+
+    // const totalPrice = (array) => {
+    //     console.log(array)
+    //     array.reduce((a,b)=>{
+    //         const extraPrice = b.extra.reduce((a,b)=>a+Number(b.price),0)
+    //         const portionPrice = b.portions.reduce((a,b)=>a+Number(b.price),0)
+    //         const totalSum = extraPrice + portionPrice
+
+    //         return a + totalSum
+    //     },0)
+    //     console.log(totalPortion)
+
+    // }
+    
     return(
         <Container>
             <Header>
                 <BoxHeader>
                 <Title>Histórico de pedidos</Title>
-                <Link to='/menu' className='BtnSeeMenu'>Ver Cardapio</Link>  
+                    <Link to='/menu'><MdMenuBook className='BtnMobile'></MdMenuBook></Link>
+                    
+                    <Link to='/menu' className='BtnDesktop'>Ver Cardapio</Link> 
                 </BoxHeader>     
             </Header>
              
-            <BoxGroupsRequest>
-                <GroupsRequestContent>
-                <span>Total:R$ {"xx,xx"}</span>   
-                </GroupsRequestContent>
-                <GroupsRequestContent>
-            <span>Total:R$ {"xx,xx"}</span>   
-                </GroupsRequestContent>
-            </BoxGroupsRequest>
+             {productsCart.map((product)=>
+                < BoxGroupsRequest key={product.id}>
+                    {product.group.request.map((req,index)=>
+
+                        <GroupsRequestContent key={index}>
+                           
+                            <img src={req.imageUrl} alt='imagem do produto' className="productImage"/>
+                            <Product>
+                            <h2>{req.name}</h2>
+                            
+                            {req.portions.map(({name,price},index)=>
+                                   <div key={index}>
+                                    <p>Porçoes: {name}</p>
+                                    </div> 
+                            )}
+                            </Product>
+                        </GroupsRequestContent>
+                    )}
+                    <span>Preço: {"xxx"}</span> 
+                </ BoxGroupsRequest>
+             )}
+
             <BoxFooter>
             <Time>Tempo de permanência: {"1:43:22s"}</Time>
             <PaymentButton/>

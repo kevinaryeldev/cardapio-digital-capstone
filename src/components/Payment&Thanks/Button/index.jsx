@@ -1,4 +1,4 @@
-import PaymentThanksModal from ".."
+import PaymentThanksModal from "../Payment"
 import { useMenu } from "../../../providers/menu/menu"
 import Button from "../../Button"
 import Modal from "../../Modal"

@@ -113,7 +113,8 @@ export const RequestsProvider = ({ children }) => {
         console.log(error);
       });
     setRequests(data);
-    console.log(requests);
+    
+    return data
   };
 
   const sendRequestData = async (cartProducts) => {
