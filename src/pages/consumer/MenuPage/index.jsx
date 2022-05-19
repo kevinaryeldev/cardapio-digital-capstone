@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRequests } from "../../../providers/requests/requests";
+import { getProducts } from "../../../services/consumer/consumer";
+import { useAuth } from "../../../providers/user/user";
 import formatter from "../../../utils/formatter";
 
 import {
@@ -17,7 +19,6 @@ import {
   ButtonOpenCart,
 } from "./style";
 import { ButtonRequest, CartContainer, CartList } from "./style";
-
 import CartItem from "../../../components/CartItem";
 import Modal from "../../../components/Modal";
 import ProductCard from "../../../components/ProductCard";
@@ -26,9 +27,11 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-  const { sendRequestData } = useRequests();
-  const { products } = useProducts();
+  const {id} = useAuth()
   const { categories } = useMenu();
+  const { products } = useProducts();
+  const { sendRequestData } = useRequests();
+
   const [productInModal, setProductInModal] = useState();
   const [portionsPicked, setPortionsPicked] = useState([]);
   const [extrasPicked, setExtrasPicked] = useState([]);
@@ -37,6 +40,7 @@ const MenuPage = () => {
   const [openCart, setOpenCart] = useState(false);
   const [shouldRenderError, setShouldRenderError] = useState(false);
   const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
+
   const handleMainCategory = (category) => {
     setCategoryMain(category);
   };
@@ -45,14 +49,14 @@ const MenuPage = () => {
     setShouldOpenProductModal(true);
     setProductInModal(product);
   };
-  console.log(categories);
 
-  const handleAddProductToCart = ({ name, imageUrl, userId, id }) => {
+  const handleAddProductToCart = ({ name, imageUrl, waitingTime, userId, id }) => {
     const request = {
       name: name,
       imageUrl: imageUrl,
       userId: userId,
       id: id,
+      waitingTime: waitingTime,
       portions: portionsPicked,
       portionsPrice: portionsPicked.reduce((a, b) => a + Number(b.price), 0),
     };
@@ -76,7 +80,32 @@ const MenuPage = () => {
 
   const handleRequest = () => {
     setOpenCart(!openCart);
-    sendRequestData(productsInCart);
+
+    const demmandPart = {
+      table: "3", //Alterar para o state table que estará no contexto global em algum provider
+      date: new Date(),
+      status: "opened",
+      requests: [...productsInCart],
+      userId: id,
+    };
+
+    const totalPrice = demmandPart.requests
+      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
+      .reduce((acc, currentValue) => acc + currentValue);
+
+    const totalQuantity = demmandPart.requests
+      .map(
+        ({ portions, extras }) =>
+          parseFloat(portions.length) + parseFloat(extras.length)
+      )
+      .reduce((acc, currentValue) => acc + currentValue);
+    const demmand = {
+      ...demmandPart,
+      price: totalPrice,
+      quantity: totalQuantity,
+    };
+
+    sendRequestData(demmand);
   };
 
   const handleAddExtras = (extra) => {
@@ -196,7 +225,7 @@ const MenuPage = () => {
                       (size) => size.name === portion.name
                     );
                     return (
-                      <div key={index} class="sizes">
+                      <div key={index} className="sizes">
                         <div
                           className="minus"
                           onClick={() => handleRemovePortion(portion)}
@@ -229,7 +258,7 @@ const MenuPage = () => {
     }
   };
 
-  const renderCart = (cartproducts, portions) => {
+  const renderCart = (cartproducts) => {
     return (
       <Modal flex={"flex"} state={openCart}>
         <CartContainer>
@@ -238,7 +267,7 @@ const MenuPage = () => {
           </span>
           <CartList>
             {cartproducts.map((product, index) => (
-              <CartItem key={index} product={product} portions={portions} />
+              <CartItem key={index} product={product}/>
             ))}
           </CartList>
           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
@@ -275,7 +304,7 @@ const MenuPage = () => {
       <div className="foodsection">{categoryMain}</div>
       <Content>
         {!!products && renderProducts(products, categoryMain)}
-        {openCart && renderCart(productsInCart, portionsPicked, extrasPicked)}
+        {openCart && renderCart(productsInCart)}
       </Content>
       <ButtonOpenCart onClick={() => setOpenCart(true)}>
         <FaConciergeBell />

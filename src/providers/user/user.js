@@ -52,7 +52,8 @@ export const UserProvider = ({ children }) => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
-      getUserData(id, token, setUserInfos);
+      getUserData(setUserInfos);
+      console.log(userInfos);
     }
   }, [token]);
   
@@ -92,11 +93,8 @@ export const UserProvider = ({ children }) => {
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
-      const responseUserInfos = await getUserData(
-        userId,
-        accessToken,
-        setUserInfos
-      );
+      const responseUserInfos = await getUserData(setUserInfos);
+      console.log(userInfos);
     }
   };
 

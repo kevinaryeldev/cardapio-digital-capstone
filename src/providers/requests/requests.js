@@ -25,10 +25,10 @@ export const RequestsProvider = ({ children }) => {
     return data
   };
 
-  const sendRequestData = async (cartProducts) => {
-    const response = await addRequestApi(cartProducts);
+  const sendRequestData = async (demmand) => {
+    const response = await addRequestApi(demmand);
     if (response) {
-      getRequestData();
+      await getRequestData();
       return true;
     } else {
       return false;
