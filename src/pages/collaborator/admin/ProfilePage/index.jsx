@@ -13,7 +13,6 @@ import FormError from "../../../../components/FormComponents/Error";
 
 import {
   ChangeCollorsButtonDiv,
-  ChangeColors,
   ChangeEmail,
   ChangePassword,
   Container,
@@ -31,7 +30,7 @@ import { getUserData } from "../../../../services/users/users";
 let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
-  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos, setCategories } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos, setCategories, table, setTable } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -103,7 +102,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     updateUserInfos();
-    console.log(userInfos)
+    setTable(userInfos.tableQuantity)
   }, [userInfos]);
 
   const {
@@ -287,8 +286,6 @@ const ProfilePage = () => {
       terciaryColor50: terciary50
     }
 
-    console.log(datas)
-
     setInputsChange((prevState) => {
       return {
         ...prevState,
@@ -307,8 +304,6 @@ const ProfilePage = () => {
   }
 
   const setColorsAPI = async () => {
-
-    console.log(colorTheme)
     const data = {
       theme: colorTheme
     }
@@ -320,7 +315,6 @@ const ProfilePage = () => {
   }
 
   const resetColors = () => {
-    console.log(userInfos.theme, "TEMA DO USUARIO")
     setColorTheme(userInfos.theme)
 
     setInputsChange((prevState) => {
@@ -458,6 +452,18 @@ const ProfilePage = () => {
       };
     });
   };
+
+  const changeTableQty = async () => {
+
+    const data = {
+      tableQuantity: Number(table),
+    };
+
+    await changeUserInfos(
+      data,
+      "Quantidade de Mesas atualizado."
+    );
+  }
 
   if (!token) {
     return <Redirect to="/"/>
@@ -681,6 +687,25 @@ const ProfilePage = () => {
                     )}
                 </>
               )}
+            </ThemeArea>
+          </div>
+          <div className="content content__column">
+            <h6>Define a quantidade de mesas no estabelecimento</h6>
+            <ThemeArea>
+              <>
+                <input
+                  type="number"
+                  id="table"
+                  value={table}
+                  onChange={(e) => setTable(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => changeTableQty()}
+                >
+                  Confirmar
+                </button>
+              </>
             </ThemeArea>
           </div>
         </section>

@@ -67,6 +67,7 @@ const SignUpPage = () => {
         terciaryColor50: "#E5E5E5",
       },
       categories: ["Entradas", "Pratos Principais", "Bebidas", "Sobremesas"],
+      tableQuantity: 0
     });
   };
 
