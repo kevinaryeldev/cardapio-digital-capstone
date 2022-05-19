@@ -29,10 +29,7 @@ const FormPortions = ({
 
   const { portions } = registerData;
 
-  useEffect(() => console.log(errors), [errors]);
-
   const onSubmit = (data) => {
-    console.log(registerData);
     let newData = data
     newData.productName = registerData.name
     setRegisterData((prevState) => {
