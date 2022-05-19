@@ -27,7 +27,7 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-  const {id} = useAuth()
+  const { id, currentTable} = useAuth()
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -40,6 +40,8 @@ const MenuPage = () => {
   const [openCart, setOpenCart] = useState(false);
   const [shouldRenderError, setShouldRenderError] = useState(false);
   const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
+
+  console.log(currentTable, "MESA ATUAL")
 
   const handleMainCategory = (category) => {
     setCategoryMain(category);
