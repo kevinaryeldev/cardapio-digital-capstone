@@ -18,10 +18,10 @@ const MenuPage = () => {
     const [portionsPicked, setPortionsPicked] = useState([])
     const [extrasPicked, setExtrasPicked] = useState([])
     const [productsInCart, setProductsInCart] = useState([])
-    const [openCart, setOpenCart] = useState(false);
-    const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
     const [categoryMain, setCategoryMain] = useState("Entradas")
-    const [orderPreview, setOrderPreview] = useState({})
+    const [openCart, setOpenCart] = useState(false);
+    const [shouldRenderError, setShouldRenderError] = useState(false)
+    const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
 
     const handleMainCategory = (category) => {
       setCategoryMain(category)
@@ -33,9 +33,13 @@ const MenuPage = () => {
     }
 
     const handleAddProductToCart = (product) => {
-      setShouldOpenProductModal(false)
-      setOpenCart(true)
-      setProductsInCart([...productsInCart, product])
+      if(portionsPicked.length > 0){
+        setShouldOpenProductModal(false)
+        setOpenCart(true)
+        setProductsInCart([...productsInCart, product])
+      } else {
+        setShouldRenderError(true)
+      }
     }
 
     const handleRequest = () => {
@@ -156,6 +160,7 @@ const MenuPage = () => {
                   })}
                 </div>
               </ModalBody>
+                  {shouldRenderError && <p>É preciso ter ao menos uma porção do produto</p>}
                   <button onClick={() => handleAddProductToCart(product)}>Adicionar ao Pedido</button>
             </ModalContainer>
           </Modal>
@@ -189,6 +194,14 @@ const MenuPage = () => {
         loadProducts()
         return;
     }, [])
+
+    useEffect(() => {
+      setShouldRenderError(false)
+      if(portionsPicked.length == 0 && openCart){
+        setShouldRenderError(true)
+      }
+      return;
+    }, [portionsPicked, setPortionsPicked, openCart, setOpenCart])
 
     return(
       <Container>
