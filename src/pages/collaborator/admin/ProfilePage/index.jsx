@@ -405,13 +405,13 @@ const ProfilePage = () => {
             </LogoArea>
 
             <NameArea onSubmit={handleSubmit(ChangeName)}>
-              {!!errors.name && <FormError>{errors.name.message}</FormError>}
               {!inputsChange.name.editable && (
                 <h3>{inputsChange.name.value}</h3>
               )}
               {inputsChange.name.editable && (
                 <input type="text" id="name" {...register("name")} />
               )}
+              {!!errors.name && <FormError marginTop="0px">{errors.name.message}</FormError>}
               {inputsChange.name.editable === false && (
                 <button
                   onClick={() =>
