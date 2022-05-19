@@ -55,21 +55,31 @@ export const signUpUser = async (data) => {
   return response;
 };
 
-export const getUserData = async (id, token, setUserInfos) => {
-  const response = await instance
-    .get(`/users/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      setUserInfos(response.data);
-      window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(response.data.theme));
-      return response.data;
-    });
+export const getUserData = async (setUserInfos) => {
+  const userId = window.localStorage.getItem("@SmartMenu:id");
+  const accessToken = window.localStorage.getItem("@SmartMenu:token");
 
-  return response;
+  if (userId && accessToken) {
+    const response = await instance
+      .get(`/users/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        setUserInfos(response.data);
+        window.localStorage.setItem(
+          "@SmartMenu:theme",
+          JSON.stringify(response.data.theme)
+        );
+        return response.data;
+      });
+
+    return response;
+  }
+
+  return false;
 };
 
 export const patchUserData = async (
@@ -91,7 +101,7 @@ export const patchUserData = async (
       if (toastSucessMessage) {
         toast.success(toastSucessMessage);
       }
-      console.log(response.data)
+      console.log(response.data);
       setUserInfos(response.data);
       return true;
     })
