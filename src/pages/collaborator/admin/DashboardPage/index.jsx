@@ -104,6 +104,7 @@ const DashboardPage = () => {
           {!!showProducts &&
             showProducts.map((product) => (
               <ProductCard
+                productImage={product.imageUrl}
                 setOpenEditProduct={setOpenEditProduct}
                 setProductToBeEdited={setProductToBeEdited}
                 setOpenRemoveProduct={setOpenRemoveProduct}
