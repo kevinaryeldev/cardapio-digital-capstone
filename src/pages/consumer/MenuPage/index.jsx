@@ -41,8 +41,6 @@ const MenuPage = () => {
   const [shouldRenderError, setShouldRenderError] = useState(false);
   const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
 
-  console.log(currentTable, "MESA ATUAL")
-
   const handleMainCategory = (category) => {
     setCategoryMain(category);
   };
@@ -52,7 +50,13 @@ const MenuPage = () => {
     setProductInModal(product);
   };
 
-  const handleAddProductToCart = ({ name, imageUrl, waitingTime, userId, id }) => {
+  const handleAddProductToCart = ({
+    name,
+    imageUrl,
+    waitingTime,
+    userId,
+    id,
+  }) => {
     const request = {
       name: name,
       imageUrl: imageUrl,
@@ -91,23 +95,29 @@ const MenuPage = () => {
       userId: id,
     };
 
-    const totalPrice = demmandPart.requests
-      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
-      .reduce((acc, currentValue) => acc + currentValue);
+    const requests = demmandPart.requests
 
-    const totalQuantity = demmandPart.requests
-      .map(
-        ({ portions, extras }) =>
-          parseFloat(portions.length) + parseFloat(extras.length)
-      )
-      .reduce((acc, currentValue) => acc + currentValue);
-    const demmand = {
-      ...demmandPart,
-      price: totalPrice,
-      quantity: totalQuantity,
-    };
+    if (requests[0]) {
+      const totalPrice = demmandPart.requests
+        .map(({ portionsPrice, extrasPrice }) => portionsPrice + extrasPrice)
+        .reduce((acc, currentValue) => acc + currentValue);
 
-    sendRequestData(demmand);
+      const totalQuantity = demmandPart.requests
+        .map(
+          ({ portions, extras }) =>
+            parseFloat(portions.length) + parseFloat(!!extras && extras.length)
+        )
+        .reduce((acc, currentValue) => acc + currentValue);
+      const demmand = {
+        ...demmandPart,
+        price: totalPrice,
+        quantity: totalQuantity,
+      };
+      sendRequestData(demmand)
+    } else {
+      toast.error("Adicione ao menos item no carrinho!");
+    }
+
   };
 
   const handleAddExtras = (extra) => {
@@ -269,7 +279,7 @@ const MenuPage = () => {
           </span>
           <CartList>
             {cartproducts.map((product, index) => (
-              <CartItem key={index} product={product}/>
+              <CartItem key={index} product={product} />
             ))}
           </CartList>
           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
@@ -290,18 +300,13 @@ const MenuPage = () => {
     <Container>
       {shouldOpenProductModal && renderModal(productInModal)}
       <nav className="desktop--nav">
-        <div onClick={() => handleMainCategory(categories[0])}>
-          {categories[0]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[1])}>
-          {categories[1]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[2])}>
-          {categories[2]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[3])}>
-          {categories[3]}
-        </div>
+        {categories.map((el) => {
+          return (
+            <div>
+              <div onClick={() => handleMainCategory(el)}>{el}</div>
+            </div>
+          );
+        })}
       </nav>
       <div className="foodsection">{categoryMain}</div>
       <Content>

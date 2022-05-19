@@ -14,19 +14,33 @@ export const Container = styled.div`
 
   .desktop--nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     font-family: "Noto serif", serif;
     color: var(--primary-color);
     font-weight: bold;
     padding: 15px 5px;
     background-color: var(--secondary-color);
+    overflow-x: auto;
+    min-height: 40px;
 
-    a:hover {
-      color: var(--primary-color-50);
+    ::-webkit-scrollbar-track {
+      background-color: var(--secondary-color-50);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color-50);
     }
 
     div {
-      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 25%;
+
+      div:hover {
+        cursor: pointer;
+        color: var(--primary-color-50);
+      }
     }
   }
 
