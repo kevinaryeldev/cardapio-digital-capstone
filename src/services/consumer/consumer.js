@@ -1,9 +1,9 @@
 import { toast } from "react-toastify";
 import instance from "../index";
 
-export const getProducts = async () => {
+export const getProducts = async (id) => {
     const response = await instance 
-        .get(`/products`, {
+        .get(`/products?userId=${id}`, {
             headers: {
                 'Content-Type': 'application/json',
             }

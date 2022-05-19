@@ -343,7 +343,7 @@ export const ChangePassword = styled.form`
 export const PasswordContainer = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
 
@@ -371,7 +371,7 @@ export const PasswordDiv = styled.div`
   span:last-child {
     font-size: 10px;
     color: var(--error-color);
-    margin: 10px;
+    margin: 10px 0px;
   }
 
   input {

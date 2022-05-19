@@ -12,7 +12,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
-    window.localStorage.getItem("@SmartMenu:token")
+    window.localStorage.getItem("@SmartMenu:token") || null
   );
 
   const [id, setId] = useState(
@@ -25,14 +25,17 @@ export const UserProvider = ({ children }) => {
   const [islogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    getUserData(id, token, setUserInfos);
-    setColorTheme(JSON.parse(window.localStorage.getItem("@SmartMenu:theme")))
+    if (token && id) {
+      getUserData(id, token, setUserInfos);
+      setColorTheme(JSON.parse(window.localStorage.getItem("@SmartMenu:theme")))
+    }
   }, []);
   
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
+      getUserData(id, token, setUserInfos);
     }
   }, [token]);
 
@@ -102,7 +105,7 @@ export const UserProvider = ({ children }) => {
       toastErrorMessage,
       setUserInfos
     );
-    console.log(updateUserInfos)
+    console.log(updateUserInfos);
     if (updateUserInfos) {
       return true;
     }
