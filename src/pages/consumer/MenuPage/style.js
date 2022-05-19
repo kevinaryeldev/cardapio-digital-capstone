@@ -24,6 +24,10 @@ export const Container = styled.div`
     a:hover {
       color: var(--primary-color-50);
     }
+
+    div {
+      cursor: pointer;
+    }
   }
 
   .foodsection {
@@ -159,6 +163,9 @@ export const ModalBody = styled.div`
 
 export const Content = styled.div`
   margin: 0rem 0rem 3rem 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
 `;
 
 export const MenuContainer = styled.div`

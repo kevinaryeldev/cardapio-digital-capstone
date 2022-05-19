@@ -1,4 +1,3 @@
-import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -26,12 +25,13 @@ import {
   SelectColor,
   ThemeArea,
 } from "./style";
+import { Redirect } from "react-router-dom";
+import { getUserData } from "../../../../services/users/users";
 
 let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
-  let history = useHistory();
-  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos, setCategories } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -317,8 +317,6 @@ const ProfilePage = () => {
       data,
       "Tema atualizado com sucesso!"
     );
-
-    window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(colorTheme));
   }
 
   const resetColors = () => {
@@ -424,6 +422,7 @@ const ProfilePage = () => {
         "Categoria editada com sucesso!",
         "Ocorreu algum erro e a categoria não foi editada!"
       );
+      setCategories(newData.categories)
     }
 
     setInputsChange((prevState) => {
@@ -461,7 +460,7 @@ const ProfilePage = () => {
   };
 
   if (!token) {
-    history.push("/");
+    return <Redirect to="/"/>
   }
 
   return (
@@ -544,7 +543,7 @@ const ProfilePage = () => {
             <ThemeArea onSubmit={handleSubmit3(setUserColors)}>
               <SelectColor>
                 <input type="color"
-                  value={inputsChange.themes?.primary.value}
+                  value={inputsChange.themes?.primary.value || "#21262D"}
                   {...register3("primaryColor")}
                   onChange={(event) =>
                     setInputsChange((prevState) => {
@@ -566,7 +565,7 @@ const ProfilePage = () => {
               </SelectColor>
               <SelectColor mid>
                 <input type="color"
-                  value={inputsChange.themes?.secondary.value}
+                  value={inputsChange.themes?.secondary.value || "#DDBC8B"}
                   {...register3("secondaryColor")}
                   onChange={(event) =>
                     setInputsChange((prevState) => {
@@ -588,7 +587,7 @@ const ProfilePage = () => {
               </SelectColor>
               <SelectColor>
                 <input type="color"
-                  value={inputsChange.themes?.terciary.value}
+                  value={inputsChange.themes?.terciary.value || "#FFFFFF"}
                   {...register3("terciaryColor")}
                   onChange={(event) =>
                     setInputsChange((prevState) => {
@@ -634,7 +633,7 @@ const ProfilePage = () => {
               {!inputsChange.category.editable && (
                 <>
                   <select
-                    defaultValue={inputsChange.category.value}
+                    defaultValue={inputsChange.category.value || "empty"}
                     name="categories"
                     id="categories"
                     onChange={(event) => {
@@ -650,9 +649,9 @@ const ProfilePage = () => {
                       console.log(inputsChange.category.value);
                     }}
                   >
-                    <option value="empty"></option>
+                    <option key="empty" value="empty"></option>
                     {categories?.map((category) => (
-                      <option value={category}>{category}</option>
+                      <option key={category} value={category}>{category}</option>
                     ))}
                   </select>
                   <button

@@ -62,7 +62,7 @@ const RequestsPage = () => {
           
         </BoxNav>
         <BoxCardReq>
-        {showRequests.length === 0 ? <aside>Nenhuma Comanda encontrada</aside> : showRequests.map((item,index)=>
+        {showRequests?.length === 0 ? <aside>Nenhuma Comanda encontrada</aside> : showRequests?.map((item,index)=>
             <RequestCard key={index} demand={item}/>
         )}
         </BoxCardReq>

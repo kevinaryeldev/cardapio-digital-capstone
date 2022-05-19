@@ -21,9 +21,8 @@ import { useMenu } from "../../../../providers/menu/menu";
 
 const DashboardPage = () => {
   let history = useHistory();
-  const { token } = useAuth();
+  const { token, categories} = useAuth();
   const { products, removeProduct } = useProducts();
-  const { categories } = useMenu();
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [openEditProduct, setOpenEditProduct] = useState(false);
   const [openRegisterProduct, setOpenRegisterProduct] = useState(false);

@@ -24,8 +24,6 @@ const FormExtras = ({ setStage, setRegisterData, registerData }) => {
 
   const { extras } = registerData;
 
-  useEffect(() => console.log(errors), [errors]);
-
   const onSubmit = (data) => {
     let newData = data
     newData.productName = registerData.name
