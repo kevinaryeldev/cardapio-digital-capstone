@@ -6,6 +6,7 @@ import {
   listProductApi,
   registerProductApi,
 } from "../../services/products/products";
+import { useAuth } from "../user/user";
 
 export const MenuContext = createContext([]);
 
@@ -17,12 +18,7 @@ export const MenuProvider = ({ children }) => {
     listProductApi(setProducts);
   }, []);
 
-  const [categories, setCategories] = useState([
-    "Entradas",
-    "Pratos Principais",
-    "Bebidas",
-    "Sobremesas",
-  ]);
+  const {categories, setCategories} = useAuth();
 
   const addCategory = (newCategory) => {
     if (categories.includes(newCategory)) {
