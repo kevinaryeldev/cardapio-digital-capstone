@@ -45,6 +45,9 @@ export const UserProvider = ({ children }) => {
     if (userInfos.theme) {
       setColorTheme(userInfos.theme)
     }
+    if(userInfos.tableQuantity){
+      setTable(userInfos.tableQuantity)
+    }
   }, [userInfos])
 
   useEffect(() => {

@@ -8,7 +8,9 @@ import { useForm } from 'react-hook-form'
 
 const HomePage = () => {
     const history = useHistory()
-    const { table, currentTable, setCurrentTable } = useAuth()
+    const { table, setTable, currentTable, setCurrentTable, userInfos } = useAuth()
+    console.log(table)
+    console.log(userInfos)
     const [countTables, setCountTables] = useState([])
 
     const {
@@ -36,7 +38,7 @@ const HomePage = () => {
 
     useEffect(() => {
         showTableCount()
-    }, [])
+    }, [userInfos])
 
     return (
         <Container>
