@@ -29,6 +29,7 @@ export const UserProvider = ({ children }) => {
     "Sobremesas",
   ]);
   const [table, setTable] = useState(0)
+  const [currentTable, setCurrentTable] = useState(1)
 
   useEffect(() => {
     if (token && id) {
@@ -43,6 +44,9 @@ export const UserProvider = ({ children }) => {
 
     if (userInfos.theme) {
       setColorTheme(userInfos.theme)
+    }
+    if(userInfos.tableQuantity){
+      setTable(userInfos.tableQuantity)
     }
   }, [userInfos])
 
@@ -119,7 +123,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, table, setTable, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
+      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, table, setTable, currentTable, setCurrentTable, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>
