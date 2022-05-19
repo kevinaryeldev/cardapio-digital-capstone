@@ -65,7 +65,6 @@ export const getUserData = async (id, token, setUserInfos) => {
     })
     .then((response) => {
       setUserInfos(response.data);
-      window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(response.data.theme));
       return response.data;
     });
 
