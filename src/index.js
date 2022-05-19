@@ -9,16 +9,14 @@ import ColorSettings from "./styles/colorSettings";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <>
+  <Provider>
+    <BrowserRouter>
+      <React.StrictMode>
+        <ColorSettings>
+          <App />
+        </ColorSettings>
+      </React.StrictMode>
+    </BrowserRouter>
     <GlobalStyle />
-    <Provider>
-      <BrowserRouter>
-        <React.StrictMode>
-          <ColorSettings>
-            <App />
-          </ColorSettings>
-        </React.StrictMode>
-      </BrowserRouter>
-    </Provider>
-  </>
+  </Provider>
 );
