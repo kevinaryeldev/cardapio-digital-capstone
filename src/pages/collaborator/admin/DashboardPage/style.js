@@ -26,7 +26,7 @@ export const Dashboard = styled.main`
 
 export const DashboardNavContainer = styled.div`
   height: fit-content;
-  width: 90%;
+  width: 100%;
   background-color: var(--secondary-color);
   border-bottom: 3px solid var(--primary-color);
   margin-bottom: 25px;
@@ -34,6 +34,7 @@ export const DashboardNavContainer = styled.div`
     background-color: inherit;
     border: none;
     margin-bottom: 0px;
+    width: 90%;
   }
 `;
 
