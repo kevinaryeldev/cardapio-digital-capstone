@@ -7,7 +7,7 @@ import formatter from "../../utils/formatter"
 
 const RequestCard = ({ demand }) => {
 
-    const { table, date, totalPrice, totalQuantity, status, requests } = demand
+    const { table, date, price, quantity, status, requests, id } = demand;
 
 
     /* ------------------- COMO IMPORTAR O REQUESTCARD NA DASHBOARD!  ------------------- */
@@ -85,7 +85,7 @@ const RequestCard = ({ demand }) => {
                 </div>
                 <TableNumber>{table}</TableNumber>
             </Header>
-            {requests.map((request, index) => {
+            {requests?.map((request, index) => {
 
                 const { name, image, quantity } = request
 
@@ -101,8 +101,8 @@ const RequestCard = ({ demand }) => {
             })}
             <FooterContent>
                 <div>
-                    <span>Qtd.: {totalQuantity}</span>
-                    <span>{formatter.format(totalPrice)}</span>
+                    <span>Qtd.: {quantity}</span>
+                    <span>{formatter.format(price)}</span>
                 </div>
                 <div>
                     {status === "waiting" ? (
