@@ -1,110 +1,18 @@
-import api from "../../utils/api.js";
-import { toast } from "react-toastify";
-import { createContext, useContext, useState } from "react";
+import instance from "./../../services";
+import { addRequestApi } from "./../../services/requests";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "../user/user";
 
 export const RequestsContext = createContext();
 
 export const RequestsProvider = ({ children }) => {
-  const [requests, setRequests] = useState([
-    {
-      table: 3,
-      date: "13/05 - 12:23",
-      totalPrice: 14.0,
-      totalQuantity: 1,
-      status: "rejected",
-      requests: [
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      table: 2,
-      date: "13/05 - 12:23",
-      totalPrice: 14.0,
-      totalQuantity: 1,
-      status: "accepted",
-      requests: [
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      table: 3,
-      date: "13/05 - 12:23",
-      totalPrice: 14.0,
-      totalQuantity: 1,
-      status: "accepted",
-      requests: [
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      table: 3,
-      date: "13/05 - 12:23",
-      totalPrice: 14.0,
-      totalQuantity: 1,
-      status: "accepted",
-      requests: [
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      table: 3,
-      date: "13/05 - 12:23",
-      totalPrice: 14.0,
-      totalQuantity: 1,
-      status: "waiting",
-      requests: [
-        {
-          name: "Porção de batata frita média (2 pessoas)",
-          aditionals: "Queijo Cheddar",
-          image:
-            "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-          quantity: 1,
-        },
-      ],
-    },
-  ]);
+  const [requests, setRequests] = useState([]);
+  const { id } = useAuth()
+
   const getRequestData = async () => {
     const token = localStorage.getItem("@SmartMenu:token");
-    const { data } = await api
-      .get("/cart/", {
+    const { data } = await instance
+      .get(`/cart?userId=${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -118,24 +26,18 @@ export const RequestsProvider = ({ children }) => {
   };
 
   const sendRequestData = async (cartProducts) => {
-    const token = localStorage.getItem("@SmartMenu:token");
-    const id = localStorage.getItem("@SmartMenu:id");
-    const data = {
-      group: {
-        request: cartProducts,
-        table: 1,
-      },
-      userId: id,
-    };
-    const response = await api
-      .patch("/cart/", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(toast.success("Pedido enviado!"))
-      .catch((err) => toast.error(err));
+    const response = await addRequestApi(cartProducts);
+    if (response) {
+      getRequestData();
+      return true;
+    } else {
+      return false;
+    }
   };
+
+  useEffect(() => {
+    getRequestData();
+  }, []);
 
   return (
     <RequestsContext.Provider

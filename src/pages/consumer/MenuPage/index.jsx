@@ -1,152 +1,286 @@
-import { useEffect, useState } from 'react'
-import {getProducts} from '../../../services/consumer/consumer'
-import ProductCard from '../../../components/ProductCard'
-import Modal from '../../../components/Modal'
-import {FiSearch} from 'react-icons/fi'
-import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./style"
-import { ButtonRequest, CartContainer, CartList, MenuContainer } from "./style";
-import CartItem from "../../../components/CartItem";
+import { useEffect, useState } from "react";
 import { useRequests } from "../../../providers/requests/requests";
+import formatter from "../../../utils/formatter";
+
+import {
+  AiOutlineCloseCircle,
+  AiOutlinePlusCircle,
+  AiOutlineMinusCircle,
+} from "react-icons/ai";
+import { FaConciergeBell } from "react-icons/fa";
+import {
+  Container,
+  Content,
+  ModalContainer,
+  ModalBody,
+  ModalHeader,
+  ButtonOpenCart,
+} from "./style";
+import { ButtonRequest, CartContainer, CartList } from "./style";
+
+import CartItem from "../../../components/CartItem";
+import Modal from "../../../components/Modal";
+import ProductCard from "../../../components/ProductCard";
+import { toast } from "react-toastify";
+import { useProducts } from "../../../providers/products/products";
+import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
+  const { sendRequestData } = useRequests();
+  const { products } = useProducts();
+  const { categories } = useMenu();
+  const [productInModal, setProductInModal] = useState();
+  const [portionsPicked, setPortionsPicked] = useState([]);
+  const [extrasPicked, setExtrasPicked] = useState([]);
+  const [productsInCart, setProductsInCart] = useState([]);
+  const [categoryMain, setCategoryMain] = useState(categories[0]);
+  const [openCart, setOpenCart] = useState(false);
+  const [shouldRenderError, setShouldRenderError] = useState(false);
+  const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
+  const handleMainCategory = (category) => {
+    setCategoryMain(category);
+  };
 
-    const { sendRequestData } = useRequests()
+  const handleOpenModal = (product) => {
+    setShouldOpenProductModal(true);
+    setProductInModal(product);
+  };
+  console.log(categories);
 
-    const [products, setProducts] = useState()
-    const [productInModal, setProductInModal] = useState()
-    const [productsInCart, setProductsInCart] = useState([])
-    const [openCart, setOpenCart] = useState(false);
-    const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false)
-    const [categoryMain, setCategoryMain] = useState("Entradas")
-
-    const handleMainCategory = (category) => {
-      setCategoryMain(category)
-    }
-
-    const handleOpenModal = (product) => {
-      setShouldOpenProductModal(true)
-      setProductInModal(product)
-    }
-
-    const handleAddProduct = (product) => {
-      setShouldOpenProductModal(false)
-      setOpenCart(true)
-      setProductsInCart([...productsInCart, product])
-    }
-
-    const handleRequest = () => {
-      setOpenCart(!openCart);
-      sendRequestData(productsInCart);
+  const handleAddProductToCart = ({ name, imageUrl, userId, id }) => {
+    const request = {
+      name: name,
+      imageUrl: imageUrl,
+      userId: userId,
+      id: id,
+      portions: portionsPicked,
+      portionsPrice: portionsPicked.reduce((a, b) => a + Number(b.price), 0),
     };
+    if (extrasPicked.length > 0) {
+      request.extras = extrasPicked;
+      request.extrasPrice = extrasPicked.reduce(
+        (a, b) => a + Number(b.price),
+        0
+      );
+    }
 
-    const renderProducts = (value, category) => {
+    if (portionsPicked.length > 0) {
+      setShouldOpenProductModal(false);
+      setProductsInCart([...productsInCart, request]);
+      toast.success("Produto adicionado com sucesso");
+    } else {
+      toast.error("Porções insuficientes");
+      setShouldRenderError(true);
+    }
+  };
+
+  const handleRequest = () => {
+    setOpenCart(!openCart);
+    sendRequestData(productsInCart);
+  };
+
+  const handleAddExtras = (extra) => {
+    const newExtraArr = [...extrasPicked, extra];
+    setExtrasPicked(newExtraArr);
+  };
+
+  const handleAddPortion = (portion) => {
+    const newPortionsArr = [...portionsPicked, portion];
+    setPortionsPicked(newPortionsArr);
+  };
+
+  const handleRemoveExtras = (portion) => {
+    let extraPickedArr = extrasPicked.filter(
+      (size) => size.name === portion.name
+    );
+    let otherextrasPickedArr = extrasPicked.filter(
+      (size) => size.name !== portion.name
+    );
+    extraPickedArr.pop();
+    const newPickedArr = otherextrasPickedArr.concat(extraPickedArr);
+    setExtrasPicked(newPickedArr);
+  };
+
+  const handleRemovePortion = (portion) => {
+    let sizePickedArr = portionsPicked.filter(
+      (size) => size.name === portion.name
+    );
+    let otherSizesPickedArr = portionsPicked.filter(
+      (size) => size.name !== portion.name
+    );
+    sizePickedArr.pop();
+    const newPickedArr = otherSizesPickedArr.concat(sizePickedArr);
+    setPortionsPicked(newPickedArr);
+  };
+
+  const renderProducts = (value, category) => {
+    return value
+      .filter((product) => product.category === category)
+      .map((product, index) => {
+        return (
+          <ProductCard
+            key={index}
+            product={product}
+            productImage={product.imageUrl}
+            click={() => handleOpenModal(product)}
+          />
+        );
+      });
+  };
+
+  const renderModal = (product) => {
+    const extras = product.extras;
+    const portions = product.portions;
+
+    if (shouldOpenProductModal) {
       return (
-        value.filter((product) => product.category === category).map(((product) => {
-          console.log(product);
-            return (<ProductCard 
-                      product={product} 
-                      productImage={product.imageUrl} 
-                      click={() => handleOpenModal(product)}
-                    />)   
-          }
-        ))
-      )
-    }
-
-    const renderModal = (product) => {
-      const extras = product.extras
-      const portions = product.portions
-
-      if(shouldOpenProductModal){
-        return(
-          <Modal 
-            flex 
-            width={"48rem"} 
-            height={"36rem"} 
-            state={shouldOpenProductModal}
-            align="center"
-            justify="center"
-            padding="15px"
-          >
-            <ModalContainer>
-              <ModalHeader>
-                <span onClick={() => setShouldOpenProductModal(false)}>x</span>
-                <div className='header'>
-                  <div className='image-place'>
-                    <img src={product.imageUrl} alt="product-pic" />
-                    <p>estrelas</p>
-                  </div>
-                  <div className='product-description'>
-                    <h1>{product.name}</h1>
-                    <p>{product.description}</p>
-                    <p>{product.waitingTime}</p>
-                    <p>Ver valor nutricional</p>
-                  </div>
+        <Modal
+          flex
+          width={"48rem"}
+          height={"36rem"}
+          state={shouldOpenProductModal}
+          align="center"
+          justify="center"
+          padding="15px"
+        >
+          <ModalContainer>
+            <ModalHeader>
+              <span onClick={() => setShouldOpenProductModal(false)}>
+                <AiOutlineCloseCircle size="24px" />
+              </span>
+              <div className="header">
+                <div className="image-place">
+                  <img src={product.imageUrl} alt="product-pic" />
                 </div>
-              </ModalHeader>
-              <ModalBody>
-                <div className='product-adds'>
-                  <h2>Adicionais</h2>
-                  {!!extras  && extras.map((extra)=>{
-                    return <p>{extra.name}..........{extra.price}</p>
+                <div className="product-description">
+                  <h1>{product.name}</h1>
+                  <p>{product.description}</p>
+                  <p>Tempo estimado de espera: {product.waitingTime}</p>
+                </div>
+              </div>
+            </ModalHeader>
+            <ModalBody>
+              <div className="product-adds">
+                <h2>Adicionais</h2>
+                {!!extras &&
+                  extras.map((extra, index) => {
+                    const addsPickeds = extrasPicked.filter(
+                      (add) => add.name === extra.name
+                    );
+                    return (
+                      <div key={index} className="adds">
+                        <div
+                          className="minus"
+                          onClick={() => handleRemoveExtras(extra)}
+                        >
+                          <AiOutlineMinusCircle size="20px" />
+                        </div>
+                        <p>{extra.name}</p>
+                        <p>Preço: {formatter.format(extra.price)}</p>
+                        <div
+                          className="plus"
+                          onClick={() => handleAddExtras(extra)}
+                        >
+                          <AiOutlinePlusCircle size="24px" />
+                        </div>
+                        <p>{addsPickeds.length}</p>
+                      </div>
+                    );
                   })}
-                </div>
-                <div className='product-size'>
-                  <h2>Porções</h2>
-                  {!!portions && portions.map((portion) => {
-                    return <p>{portion.name}..........{portion.price}</p>
+              </div>
+              <div className="product-size">
+                <h2>Porções</h2>
+                {!!portions &&
+                  portions.map((portion, index) => {
+                    const sizePickeds = portionsPicked.filter(
+                      (size) => size.name === portion.name
+                    );
+                    return (
+                      <div key={index} class="sizes">
+                        <div
+                          className="minus"
+                          onClick={() => handleRemovePortion(portion)}
+                        >
+                          <AiOutlineMinusCircle size="20px" />
+                        </div>
+                        <p>{portion.name}</p>
+                        <p>Preço: {formatter.format(portion.price)}</p>
+                        <div
+                          className="plus"
+                          onClick={() => handleAddPortion(portion)}
+                        >
+                          <AiOutlinePlusCircle size="24px" />
+                        </div>
+                        <p>{sizePickeds.length}</p>
+                      </div>
+                    );
                   })}
-                  <button onClick={() => handleAddProduct(product)}>Adicionar ao Pedido</button>
-                </div>
-              </ModalBody>
-            </ModalContainer>
-          </Modal>
-        )
-      }
+              </div>
+            </ModalBody>
+            {shouldRenderError && (
+              <p>É preciso ter ao menos uma porção do produto</p>
+            )}
+            <button onClick={() => handleAddProductToCart(product)}>
+              Adicionar ao Pedido
+            </button>
+          </ModalContainer>
+        </Modal>
+      );
     }
+  };
 
-    const renderCart = (cartproducts) => {
-      return(
-        <Modal flex={"flex"} state={openCart}>
-          <CartContainer>
-          <spam onClick={() => setOpenCart(false)}>x</spam>
-           <CartList>
-             {cartproducts.map((el) => (
-               <CartItem product={el} />
-             ))}
-           </CartList>
-           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
-         </CartContainer>
-       </Modal>
-      )
+  const renderCart = (cartproducts, portions) => {
+    return (
+      <Modal flex={"flex"} state={openCart}>
+        <CartContainer>
+          <span onClick={() => setOpenCart(false)}>
+            <AiOutlineCloseCircle size="24px" />
+          </span>
+          <CartList>
+            {cartproducts.map((product, index) => (
+              <CartItem key={index} product={product} portions={portions} />
+            ))}
+          </CartList>
+          <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
+        </CartContainer>
+      </Modal>
+    );
+  };
+
+  useEffect(() => {
+    setShouldRenderError(false);
+    if (portionsPicked.length == 0 && openCart) {
+      setShouldRenderError(true);
     }
+    return;
+  }, [portionsPicked, setPortionsPicked, openCart, setOpenCart]);
 
-    useEffect(() => {
-        const loadProducts = async() => {
-            const response = await getProducts()
-            setProducts(response)
-        }
-        loadProducts()
-        return;
-    }, [])
-
-    return(
-      <Container>
-        {shouldOpenProductModal && renderModal(productInModal)}
-        <nav className='desktop--nav'>
-            <div onClick={() => handleMainCategory("Entradas")}>Entradas</div>
-            <div onClick={() => handleMainCategory("Pratos principais")}>Pratos principais</div>
-            <div onClick={() => handleMainCategory("Sobremesas")}>Sobremesas</div>
-            <div onClick={() => handleMainCategory("Bebidas")}>Bebidas</div>
-        </nav>
-        <div className="foodsection">
-            {categoryMain}
+  return (
+    <Container>
+      {shouldOpenProductModal && renderModal(productInModal)}
+      <nav className="desktop--nav">
+        <div onClick={() => handleMainCategory(categories[0])}>
+          {categories[0]}
         </div>
-        <Content>
-          {!!products && renderProducts(products, categoryMain)}
-          {openCart && renderCart(productsInCart)}
-        </Content>
-      </Container>
-    )
-}
-export default MenuPage
+        <div onClick={() => handleMainCategory(categories[1])}>
+          {categories[1]}
+        </div>
+        <div onClick={() => handleMainCategory(categories[2])}>
+          {categories[2]}
+        </div>
+        <div onClick={() => handleMainCategory(categories[3])}>
+          {categories[3]}
+        </div>
+      </nav>
+      <div className="foodsection">{categoryMain}</div>
+      <Content>
+        {!!products && renderProducts(products, categoryMain)}
+        {openCart && renderCart(productsInCart, portionsPicked, extrasPicked)}
+      </Content>
+      <ButtonOpenCart onClick={() => setOpenCart(true)}>
+        <FaConciergeBell />
+      </ButtonOpenCart>
+    </Container>
+  );
+};
+export default MenuPage;

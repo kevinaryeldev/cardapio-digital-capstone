@@ -6,12 +6,13 @@ import {
   patchUserData,
   signUpUser,
 } from "../../services/users/users";
+import { defaultTheme } from "../../styles/colorSettings/global";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(
-    window.localStorage.getItem("@SmartMenu:token")
+    window.localStorage.getItem("@SmartMenu:token") || null
   );
 
   const [id, setId] = useState(
@@ -19,18 +20,33 @@ export const UserProvider = ({ children }) => {
   );
 
   const [userInfos, setUserInfos] = useState({});
+  const [colorTheme, setColorTheme] = useState();
+  const [colorChange, setColorChange] = useState(false);
+  const [islogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    getUserData(id, token, setUserInfos);
+    if (token && id) {
+      getUserData(id, token, setUserInfos);
+      setColorTheme(JSON.parse(window.localStorage.getItem("@SmartMenu:theme")))
+    }
   }, []);
-
+  
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
+      getUserData(id, token, setUserInfos);
     }
   }, [token]);
 
+  useEffect(() => {
+    if (islogged === true) {
+      setColorTheme(JSON.parse(window.localStorage.getItem("@SmartMenu:theme")))
+    }else{
+      setColorTheme(defaultTheme)
+    }
+  }, [islogged]);
+  
   const login = async (data) => {
     const response = await loginUser(data);
     const accessToken = window.localStorage.getItem("@SmartMenu:token");
@@ -43,17 +59,21 @@ export const UserProvider = ({ children }) => {
         userId,
         accessToken,
         setUserInfos
-      );
+        );
+        setIsLogged(true)
+
     }
   };
 
   const logout = () => {
     window.localStorage.removeItem("@SmartMenu:token");
     window.localStorage.removeItem("@SmartMenu:id");
+    window.localStorage.removeItem("@SmartMenu:theme");
     toast.success("Logout realizado com sucesso!");
     setToken(null);
     setId(null);
     setUserInfos({});
+    setIsLogged(false)
   };
 
   const signUp = async (data) => {
@@ -85,7 +105,7 @@ export const UserProvider = ({ children }) => {
       toastErrorMessage,
       setUserInfos
     );
-    console.log(updateUserInfos)
+    console.log(updateUserInfos);
     if (updateUserInfos) {
       return true;
     }
@@ -94,7 +114,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, changeUserInfos }}
+      value={{ token, id, login, logout, signUp, userInfos, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>

@@ -12,8 +12,9 @@ import {
   BiLogOut,
 } from "react-icons/bi";
 import { FaConciergeBell, FaRegBell } from "react-icons/fa";
+import { MdRestaurantMenu } from "react-icons/md";
 
-import { Header, BoxImage, NavMenuMobile, LineDiv } from "./styles";
+import { Header, BoxImage, NavMenuMobile } from "./styles";
 
 const Menu = () => {
   const [showMenuMobile, setShowMobile] = useState(false);
@@ -73,12 +74,15 @@ const Menu = () => {
           <BiUserCircle></BiUserCircle>
         </Link>
 
+        <Link to="/home">
+          <MdRestaurantMenu></MdRestaurantMenu>
+        </Link>
+
         <Link to="">
           {" "}
           <BiLogOut className="btnLogout" onClick={logout}></BiLogOut>
         </Link>
       </Header>
-      <LineDiv></LineDiv>
     </>
   );
 };

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
+  categorySchema,
   nameSchema,
   passwordSchema,
 } from "../../../../utils/schemas/UserSettings";
@@ -10,27 +11,27 @@ import Menu from "../../../../components/Menu";
 import Button from "../../../../components/Button";
 import { useAuth } from "../../../../providers/user/user";
 import FormError from "../../../../components/FormComponents/Error";
+
 import {
+  ChangeCollorsButtonDiv,
   ChangeColors,
   ChangeEmail,
   ChangePassword,
-  ConfigContainer,
   Container,
-  FigureStyled,
-  FormNameContainer,
-  ImageContainer,
+  LogoArea,
   Main,
-  MainInfo,
+  NameArea,
   PasswordContainer,
   PasswordDiv,
   SelectColor,
+  ThemeArea,
 } from "./style";
 
 let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
   let history = useHistory();
-  const { token, userInfos, changeUserInfos } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -48,18 +49,20 @@ const ProfilePage = () => {
       value: logoUrl,
     },
     themes: {
+      editable: false,
       primary: {
-        editable: false,
         value: theme?.primaryColor,
       },
       secondary: {
-        editable: false,
         value: theme?.secondaryColor,
       },
       terciary: {
-        editable: false,
         value: theme?.terciaryColor,
       },
+    },
+    category: {
+      editable: false,
+      value: "empty",
     },
   });
 
@@ -80,24 +83,27 @@ const ProfilePage = () => {
         value: logoUrl,
       },
       themes: {
+        editable: false,
         primary: {
-          editable: false,
           value: theme?.primaryColor,
         },
         secondary: {
-          editable: false,
           value: theme?.secondaryColor,
         },
         terciary: {
-          editable: false,
           value: theme?.terciaryColor,
         },
+      },
+      category: {
+        editable: false,
+        value: "empty",
       },
     });
   };
 
   useEffect(() => {
     updateUserInfos();
+    console.log(userInfos)
   }, [userInfos]);
 
   const {
@@ -115,6 +121,19 @@ const ProfilePage = () => {
     formState: { errors: errors2 },
   } = useForm({
     resolver: yupResolver(passwordSchema),
+  });
+
+  const {
+    register: register3,
+    handleSubmit: handleSubmit3
+  } = useForm();
+
+  const {
+    register: registerCategory,
+    handleSubmit: handleSubmitCategory,
+    formState: { errors: errorsCategory },
+  } = useForm({
+    resolver: yupResolver(categorySchema),
   });
 
   const cancelChangeImage = () => {
@@ -220,6 +239,106 @@ const ProfilePage = () => {
     });
   };
 
+  const setUserColors = (data) => {
+
+    const hexToRGBConverter = (hexColor, type) => {
+      const r = parseInt(hexColor.substr(1, 2), 16)
+      const g = parseInt(hexColor.substr(3, 2), 16)
+      const b = parseInt(hexColor.substr(5, 2), 16)
+
+
+      if (type === "primary") {
+        const rgba50 = `rgba(${r + 39},${g + 55},${b + 49})`
+        return rgba50;
+
+      } else if (type === "secondary") {
+        const rgba50 = `rgba(${r - 37},${g - 38},${b - 39})`
+        return rgba50;
+
+      } else {
+        const rgba50 = `rgba(${r - 26},${g - 26},${b - 26})`
+        return rgba50;
+      }
+
+    }
+
+    const RGBtoHexConverter = (rgba) => {
+      const color = rgba.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
+      const hex = `#${((1 << 24) + (parseInt(color[0]) << 16) + (parseInt(color[1]) << 8) + parseInt(color[2])).toString(16).slice(1)}`
+
+      return hex
+    }
+
+    const primary50rgba = hexToRGBConverter(data.primaryColor, "primary")
+    const secondary50rgba = hexToRGBConverter(data.secondaryColor, "secondary")
+    const terciary50rgba = hexToRGBConverter(data.terciaryColor, "terciary")
+
+
+    const primary50 = RGBtoHexConverter(primary50rgba)
+    const secondary50 = RGBtoHexConverter(secondary50rgba)
+    const terciary50 = RGBtoHexConverter(terciary50rgba)
+
+    const datas = {
+      primaryColor: inputsChange.themes.primary.value,
+      primaryColor50: primary50,
+      secondaryColor: inputsChange.themes.secondary.value,
+      secondaryColor50: secondary50,
+      terciaryColor: inputsChange.themes.terciary.value,
+      terciaryColor50: terciary50
+    }
+
+    console.log(datas)
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        themes: {
+          editable: true,
+          primary: prevState.themes.primary,
+          secondary: prevState.themes.secondary,
+          terciary: prevState.themes.terciary
+        }
+      };
+    })
+
+
+    setColorTheme(datas)
+    setColorChange(true)
+  }
+
+  const setColorsAPI = async () => {
+
+    console.log(colorTheme)
+    const data = {
+      theme: colorTheme
+    }
+
+    await changeUserInfos(
+      data,
+      "Tema atualizado com sucesso!"
+    );
+
+    window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(colorTheme));
+  }
+
+  const resetColors = () => {
+    console.log(userInfos.theme, "TEMA DO USUARIO")
+    setColorTheme(userInfos.theme)
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        themes: {
+          editable: false,
+          primary: prevState.themes.primary,
+          secondary: prevState.themes.secondary,
+          terciary: prevState.themes.terciary
+        }
+      };
+    })
+  }
+
+
   const ChangeMail = async () => {
     const data = {
       email: inputsChange.email.value,
@@ -280,28 +399,88 @@ const ProfilePage = () => {
     reset();
   };
 
+  const changeCategory = async (data) => {
+    if (
+      inputsChange.category.value === "empty" ||
+      inputsChange.category.value === ""
+    ) {
+      const updatedCategories = [...categories, data.category];
+      const newData = { categories: updatedCategories };
+      await changeUserInfos(
+        newData,
+        "Categoria adicionada com sucesso!",
+        "Ocorreu algum erro e a categoria não foi adicionada!"
+      );
+    } else {
+      const updatedCategories = categories.map((category) => {
+        if (category === inputsChange.category.value) {
+          category = data.category;
+        }
+        return category;
+      });
+      const newData = { categories: updatedCategories };
+      await changeUserInfos(
+        newData,
+        "Categoria editada com sucesso!",
+        "Ocorreu algum erro e a categoria não foi editada!"
+      );
+    }
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        category: {
+          editable: false,
+          value: "empty",
+        },
+      };
+    });
+  };
+
+  const deleteCategory = async () => {
+    const updatedCategories = categories.filter(
+      (category) => category !== inputsChange.category.value
+    );
+    const newData = { categories: updatedCategories };
+
+    await changeUserInfos(
+      newData,
+      "Categoria removida com sucesso!",
+      "Ocorreu algum erro e a categoria não foi removida!"
+    );
+
+    setInputsChange((prevState) => {
+      return {
+        ...prevState,
+        category: {
+          editable: false,
+          value: "empty",
+        },
+      };
+    });
+  };
+
   if (!token) {
     history.push("/");
   }
 
   return (
     <Container>
-      <nav>
-        <Menu />
-      </nav>
+      <Menu />
 
       <Main>
-        <h1>Configurações</h1>
-        <MainInfo>
-          <div>
-            <ImageContainer>
-              <FigureStyled>
+        <section className="profileSection brandInfo">
+          <h2>Informações da Marca</h2>
+
+          <div className="content">
+            <LogoArea>
+              <div className="imageContainer">
                 <img
                   src={inputsChange.logo.value}
                   alt={inputsChange.name.value}
                 />
-                <figcaption>{inputsChange.name.value}</figcaption>
-              </FigureStyled>
+              </div>
+
               {!inputsChange.logo.editable && (
                 <label htmlFor="uploadImage">Trocar</label>
               )}
@@ -315,19 +494,28 @@ const ProfilePage = () => {
 
               {inputsChange.logo.editable && (
                 <>
-                  <Button onClick={() => sendImage()}>Confirmar</Button>
-                  <Button onClick={() => cancelChangeImage()}>Cancelar</Button>
+                  <Button width="100%" bgYellow onClick={() => sendImage()}>
+                    Confirmar
+                  </Button>
+                  <Button
+                    width="100%"
+                    bgYellow
+                    onClick={() => cancelChangeImage()}
+                  >
+                    Cancelar
+                  </Button>
                 </>
               )}
-            </ImageContainer>
-            <FormNameContainer onSubmit={handleSubmit(ChangeName)}>
-              {!!errors.name && <FormError>{errors.name.message}</FormError>}
+            </LogoArea>
+
+            <NameArea onSubmit={handleSubmit(ChangeName)}>
               {!inputsChange.name.editable && (
                 <h3>{inputsChange.name.value}</h3>
               )}
               {inputsChange.name.editable && (
                 <input type="text" id="name" {...register("name")} />
               )}
+              {!!errors.name && <FormError marginTop="0px">{errors.name.message}</FormError>}
               {inputsChange.name.editable === false && (
                 <button
                   onClick={() =>
@@ -348,112 +536,250 @@ const ProfilePage = () => {
               {inputsChange.name.editable === true && (
                 <button type="submit">Confirmar</button>
               )}
-            </FormNameContainer>
+            </NameArea>
           </div>
-        </MainInfo>
-        <ConfigContainer>
-          <ChangeColors>
+
+          <div className="content content__column">
             <h6>Selecione suas cores</h6>
-            <div>
+            <ThemeArea onSubmit={handleSubmit3(setUserColors)}>
               <SelectColor>
-                <input type="color" name="primaryColor" id="primaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.primary.value}
+                  {...register3("primaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: {
+                            value: event.target.value,
+                          },
+                          secondary: prevState.themes.secondary,
+                          terciary: prevState.themes.terciary
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Primária</span>
               </SelectColor>
               <SelectColor mid>
-                <input type="color" name="secondaryColor" id="secondaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.secondary.value}
+                  {...register3("secondaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: prevState.themes.primary,
+                          secondary: {
+                            value: event.target.value,
+                          },
+                          terciary: prevState.themes.terciary
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Secundária</span>
               </SelectColor>
               <SelectColor>
-                <input type="color" name="terciaryColor" id="terciaryColor" />
+                <input type="color"
+                  value={inputsChange.themes?.terciary.value}
+                  {...register3("terciaryColor")}
+                  onChange={(event) =>
+                    setInputsChange((prevState) => {
+                      return {
+                        ...prevState,
+                        themes: {
+                          editable: prevState,
+                          primary: prevState.themes.primary,
+                          secondary: prevState.themes.secondary,
+                          terciary: {
+                            value: event.target.value,
+                          },
+                        }
+                      };
+                    })
+                  }
+                />
                 <span>Terciária</span>
               </SelectColor>
-            </div>
-          </ChangeColors>
-          <ChangeEmail>
-            <h6>Endereço de Email</h6>
-            <div>
-              {!inputsChange.email.editable && (
-                <p>
-                  Seu endereço de email é{" "}
-                  <strong>{inputsChange.email.value}</strong>
-                </p>
+              <Button type="submit">Confirmar</Button>
+              {inputsChange.themes.editable === true && (
+                <ChangeCollorsButtonDiv>
+                  <Button onClick={() => setColorsAPI()}>Salvar</Button>
+                  <Button onClick={() => resetColors()}>Redefinir</Button>
+                </ChangeCollorsButtonDiv>
               )}
-              {inputsChange.email.editable && (
-                <p>
-                  Seu endereço de email é
+            </ThemeArea>
+          </div>
+
+          <div className="content content__column">
+            <h6>Edite suas Categorias</h6>
+            <ThemeArea onSubmit={handleSubmitCategory(changeCategory)}>
+              {inputsChange.category.editable && (
+                <>
                   <input
-                    type="email"
-                    id="email"
-                    onChange={(event) =>
+                    type="text"
+                    id="category"
+                    {...registerCategory("category")}
+                  />
+                  <button type="submit">Confirmar</button>
+                </>
+              )}
+              {!inputsChange.category.editable && (
+                <>
+                  <select
+                    defaultValue={inputsChange.category.value}
+                    name="categories"
+                    id="categories"
+                    onChange={(event) => {
                       setInputsChange((prevState) => {
                         return {
                           ...prevState,
-                          email: {
-                            editable: prevState.email.editable,
+                          category: {
+                            editable: prevState.category.editable,
                             value: event.target.value,
+                          },
+                        };
+                      });
+                      console.log(inputsChange.category.value);
+                    }}
+                  >
+                    <option value="empty"></option>
+                    {categories?.map((category) => (
+                      <option value={category}>{category}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setInputsChange((prevState) => {
+                        return {
+                          ...prevState,
+                          category: {
+                            editable: true,
+                            value: prevState.category.value,
                           },
                         };
                       })
                     }
-                  />
-                </p>
+                  >
+                    {inputsChange.category.value === "empty" ||
+                      inputsChange.category.value === ""
+                      ? "Adicionar"
+                      : "Editar"}
+                  </button>
+                  {inputsChange.category.value !== "empty" &&
+                    !inputsChange.category.editable && (
+                      <button type="button" onClick={() => deleteCategory()}>
+                        Remover
+                      </button>
+                    )}
+                </>
               )}
+            </ThemeArea>
+          </div>
+        </section>
 
-              {!inputsChange.email.editable && (
-                <button
-                  onClick={() =>
-                    setInputsChange((prevState) => {
-                      return {
-                        ...prevState,
-                        email: {
-                          editable: true,
-                          value: prevState.email.value,
-                        },
-                      };
-                    })
-                  }
-                >
-                  Trocar
-                </button>
-              )}
-              {inputsChange.email.editable && (
-                <button type="button" onClick={() => ChangeMail()}>
-                  Confirmar
-                </button>
-              )}
-            </div>
-          </ChangeEmail>
-          <ChangePassword onSubmit={handleSubmit2(ChangePass)}>
-            <h6>Senha</h6>
-            <PasswordContainer>
-              <PasswordDiv>
-                <span>Nova senha</span>
-                <input
-                  type="password"
-                  id="password"
-                  {...register2("password")}
-                />
-                {!!errors2.password && (
-                  <FormError>{errors2.password.message}</FormError>
+        <section className="profileSection accountInfo">
+          <h2>Informações da Conta</h2>
+
+          <div className="content content__column">
+            <ChangeEmail>
+              <h6>Endereço de Email</h6>
+              <div>
+                {!inputsChange.email.editable && (
+                  <p>
+                    Seu endereço de email é{" "}
+                    <strong>{inputsChange.email.value}</strong>
+                  </p>
                 )}
-              </PasswordDiv>
-              <PasswordDiv>
-                <span>Confirmar senha</span>
-                <input
-                  type="password"
-                  id="passwordConfirmation"
-                  {...register2("passwordConfirmation")}
-                />
-                {!!errors2.passwordConfirmation && (
-                  <FormError>{errors2.passwordConfirmation.message}</FormError>
+                {inputsChange.email.editable && (
+                  <p>
+                    Seu endereço de email é
+                    <input
+                      type="email"
+                      id="email"
+                      onChange={(event) =>
+                        setInputsChange((prevState) => {
+                          return {
+                            ...prevState,
+                            email: {
+                              editable: prevState.email.editable,
+                              value: event.target.value,
+                            },
+                          };
+                        })
+                      }
+                    />
+                  </p>
                 )}
-              </PasswordDiv>
-              <button type="submit">Salvar nova senha</button>
-            </PasswordContainer>
-          </ChangePassword>
-        </ConfigContainer>
+
+                {!inputsChange.email.editable && (
+                  <button
+                    onClick={() =>
+                      setInputsChange((prevState) => {
+                        return {
+                          ...prevState,
+                          email: {
+                            editable: true,
+                            value: prevState.email.value,
+                          },
+                        };
+                      })
+                    }
+                  >
+                    Trocar
+                  </button>
+                )}
+                {inputsChange.email.editable && (
+                  <button type="button" onClick={() => ChangeMail()}>
+                    Confirmar
+                  </button>
+                )}
+              </div>
+            </ChangeEmail>
+
+            <ChangePassword onSubmit={handleSubmit2(ChangePass)}>
+              <h6>Senha</h6>
+              <PasswordContainer>
+                <PasswordDiv>
+                  <span>Nova senha</span>
+                  <input
+                    type="password"
+                    id="password"
+                    {...register2("password")}
+                  />
+                  {!!errors2.password && (
+                    <FormError>{errors2.password.message}</FormError>
+                  )}
+                </PasswordDiv>
+                <PasswordDiv>
+                  <span>Confirmar senha</span>
+                  <input
+                    type="password"
+                    id="passwordConfirmation"
+                    {...register2("passwordConfirmation")}
+                  />
+                  {!!errors2.passwordConfirmation && (
+                    <FormError>
+                      {errors2.passwordConfirmation.message}
+                    </FormError>
+                  )}
+                </PasswordDiv>
+                <button type="submit">Salvar nova senha</button>
+              </PasswordContainer>
+            </ChangePassword>
+          </div>
+        </section>
       </Main>
-    </Container>
+    </Container >
   );
 };
+
 export default ProfilePage;
