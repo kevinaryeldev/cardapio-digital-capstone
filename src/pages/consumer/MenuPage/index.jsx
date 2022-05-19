@@ -190,10 +190,6 @@ const MenuPage = () => {
         return;
     }, [])
 
-    useEffect(()=>{
-      console.log(extrasPicked);
-    }, [extrasPicked, setExtrasPicked])
-
     return(
       <Container>
         {shouldOpenProductModal && renderModal(productInModal)}
