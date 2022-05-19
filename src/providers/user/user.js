@@ -22,13 +22,13 @@ export const UserProvider = ({ children }) => {
   const [userInfos, setUserInfos] = useState({});
   const [colorTheme, setColorTheme] = useState(defaultTheme);
   const [colorChange, setColorChange] = useState(false);
-
   const [categories, setCategories] = useState([
     "Entradas",
     "Pratos Principais",
     "Bebidas",
     "Sobremesas",
   ]);
+  const [table, setTable] = useState(0)
 
   useEffect(() => {
     if (token && id) {
@@ -37,26 +37,24 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if(userInfos.categories){
+    if (userInfos.categories) {
       setCategories(userInfos.categories)
     }
 
-    if(userInfos.theme){
+    if (userInfos.theme) {
       setColorTheme(userInfos.theme)
-
     }
-    console.log(userInfos)
   }, [userInfos])
-  
+
   useEffect(() => {
     if (token) {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
-      getUserData(setUserInfos);
+      getUserData(id, token, setUserInfos);
       console.log(userInfos);
     }
   }, [token]);
-  
+
   const login = async (data) => {
     const response = await loginUser(data);
     const accessToken = window.localStorage.getItem("@SmartMenu:token");
@@ -69,7 +67,7 @@ export const UserProvider = ({ children }) => {
         userId,
         accessToken,
         setUserInfos
-        );
+      );
 
     }
   };
@@ -93,8 +91,11 @@ export const UserProvider = ({ children }) => {
     if (response) {
       setId(userId);
       setTimeout(setToken, 501, accessToken);
-      const responseUserInfos = await getUserData(setUserInfos);
-      console.log(userInfos);
+      const responseUserInfos = await getUserData(
+        userId,
+        accessToken,
+        setUserInfos
+      );
     }
   };
 
@@ -111,7 +112,6 @@ export const UserProvider = ({ children }) => {
       toastErrorMessage,
       setUserInfos
     );
-    console.log(updateUserInfos);
     if (updateUserInfos) {
       return true;
     }
@@ -120,7 +120,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
+      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, table, setTable, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
     >
       {children}
     </UserContext.Provider>
