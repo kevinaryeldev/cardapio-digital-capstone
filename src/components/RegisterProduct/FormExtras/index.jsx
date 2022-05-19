@@ -27,16 +27,17 @@ const FormExtras = ({ setStage, setRegisterData, registerData }) => {
   useEffect(() => console.log(errors), [errors]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    let newData = data
+    newData.productName = registerData.name
     setRegisterData((prevState) => {
       if (
-        prevState.extras.filter((extra) => extra.name === data.name).length > 0
+        prevState.extras.filter((extra) => extra.name === newData.name).length > 0
       ) {
         toast.error("Adicional já existente!");
         return { ...prevState };
       }
       toast.success("Adicional acrescentado com sucesso!");
-      return { ...prevState, extras: [...prevState.extras, { ...data }] };
+      return { ...prevState, extras: [...prevState.extras, { ...newData }] };
     });
   };
 
