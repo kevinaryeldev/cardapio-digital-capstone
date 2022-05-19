@@ -6,10 +6,21 @@ import {
 } from "./style";
 import StarDarkGray from "./../../assets/img/stars/StarDarkGray.svg";
 import StarGray from "../../assets/img/stars/StarGray.svg";
+import formatter from "../../utils/formatter";
 
-const CartItem = ({ product }) => {
-  const { name, description, rating, imageUrl, id, portion, price, time } =
+const CartItem = ({ product, portions, extras }) => {
+  const { name, description, rating, imageUrl, id, time } =
     product;
+
+    const portionsVinculated = !!portions && portions.filter(portion => portion.productName === product.name)
+    const extrasVinculated = !!extras && extras.filter(extra => extra.productName === extra.name)
+    const portionsTotalValue = portions ? portionsVinculated.reduce((acumulate, current) => {
+      return acumulate + Number(current.price)
+    }, 0) : 0
+    const extrasTotalValue = extras ? extrasVinculated.reduce((acumulate, current) => {
+      return acumulate + Number(current.price)
+    }, 0) : 0
+    const totalPrice = portionsTotalValue + extrasTotalValue
 
   let ratingStars = [];
   for (let i = 1; i <= 5; i++) {
@@ -36,7 +47,7 @@ const CartItem = ({ product }) => {
       <RightCartItemContainer>
         <h2>{name}</h2>
         <h3>
-          {price}-{portion}
+          {formatter.format(totalPrice)}
         </h3>
         <p>{description}</p>
         <p>Tempo de espera: {time}min</p>

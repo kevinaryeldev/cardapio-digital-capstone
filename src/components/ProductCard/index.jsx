@@ -7,11 +7,13 @@ import { useLocation } from "react-router-dom";
 
 const ProductCard = ({
   product,
+  productImage,
   setOpenEditProduct,
   setProductToBeEdited,
   setOpenRemoveProduct,
+  click
 }) => {
-  const { name, description, rating, imageUrl, id } = product;
+  const { name, description, rating, id } = product;
 
   let ratingStars = [];
   for (let i = 1; i <= 5; i++) {
@@ -28,7 +30,7 @@ const ProductCard = ({
     <CardContainer key={id}>
       <section className="card--product">
         <div className="product--imageContainer">
-          <img src={imageUrl} alt={name} />
+          <img src={productImage} alt={name} />
         </div>
         <div className="product--description">
           <h3>{name}</h3>
@@ -54,7 +56,8 @@ const ProductCard = ({
           })}
         </div>
         {/* Verifica em quais das páginas está para renderizar o botão necessário */}
-        {location.pathname === "/menu" && <button>Ver Porções</button>}
+        {location.pathname === "/menu" && (
+          <button onClick={click}>Ver Porções</button>)}
         {location.pathname === "/admin" && (
           <>
             <button

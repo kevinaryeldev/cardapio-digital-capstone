@@ -7,6 +7,9 @@ export const Header = styled.section`
   height: 60px;
   background-color: var(--primary-color);
   position:fixed;
+  z-index: 10;
+  border-bottom: 3px solid var(--secondary-color);
+
   a {
     display: none;
   }
@@ -28,6 +31,8 @@ export const Header = styled.section`
   flex-direction: column;
   align-items: center;
   align-self: baseline;
+  border-bottom: none;
+  border-right: 3px solid var(--secondary-color);
   a{
      display:block;
      color:var(--terciary-color);
@@ -92,16 +97,3 @@ export const BoxImage = styled.figure`
     height: 60px; 
 }
 `
-export const LineDiv = styled.div`
-  width: 100%;
-  height: 3px;
-  background-color: var(--secondary-color);
-@media (min-width:1024px){
-  height:100%;
-  width: 3px;
-  position: absolute;
-  left:80px;
-  top:0;
-}
-`
-;
