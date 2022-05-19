@@ -293,18 +293,13 @@ const MenuPage = () => {
     <Container>
       {shouldOpenProductModal && renderModal(productInModal)}
       <nav className="desktop--nav">
-        <div onClick={() => handleMainCategory(categories[0])}>
-          {categories[0]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[1])}>
-          {categories[1]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[2])}>
-          {categories[2]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[3])}>
-          {categories[3]}
-        </div>
+        {categories.map((el) => {
+          return (
+            <div>
+              <div onClick={() => handleMainCategory(el)}>{el}</div>
+            </div>
+          );
+        })}
       </nav>
       <div className="foodsection">{categoryMain}</div>
       <Content>
