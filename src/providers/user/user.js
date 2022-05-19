@@ -51,7 +51,6 @@ export const UserProvider = ({ children }) => {
       window.localStorage.setItem("@SmartMenu:token", token);
       window.localStorage.setItem("@SmartMenu:id", id);
       getUserData(id, token, setUserInfos);
-      console.log(userInfos);
     }
   }, [token]);
 
