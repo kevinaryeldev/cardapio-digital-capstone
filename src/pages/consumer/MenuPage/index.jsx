@@ -41,8 +41,6 @@ const MenuPage = () => {
   const [shouldRenderError, setShouldRenderError] = useState(false);
   const [shouldOpenProductModal, setShouldOpenProductModal] = useState(false);
 
-  console.log(currentTable, "MESA ATUAL")
-
   const handleMainCategory = (category) => {
     setCategoryMain(category);
   };
