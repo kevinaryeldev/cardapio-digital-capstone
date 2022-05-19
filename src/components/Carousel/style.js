@@ -61,6 +61,8 @@ export const FigureStyled = styled.figure`
 margin-right: 12px;
 
 img {
+    border-radius: 30px;
+    border: 1px solid black;
     width: 94px;
     height: 94px;
 }
