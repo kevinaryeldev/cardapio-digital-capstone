@@ -22,6 +22,7 @@ import loginSchema from "../../../utils/schemas/login";
 import { useAuth } from "../../../providers/user/user";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { Redirect } from "react-router-dom";
 
 const LoginPage = () => {
   const {
@@ -33,11 +34,6 @@ const LoginPage = () => {
   });
 
   const { token, login } = useAuth();
-  let history = useHistory();
-
-  if (token) {
-    history.push("/admin");
-  }
 
   const [viewPassword, setViewPassword] = useState({
     open: false,
@@ -47,6 +43,10 @@ const LoginPage = () => {
   const onSubmit = (data) => {
     login(data);
   };
+
+  if (token) {
+    return <Redirect to="/admin" />;
+  }
 
   return (
     <Container background="#21262D">

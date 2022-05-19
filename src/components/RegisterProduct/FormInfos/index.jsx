@@ -27,7 +27,6 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
   const [inputImage, setInputImage] = useState(imageUrl);
 
   const onSubmit = (data) => {
-    console.log(data);
     setRegisterData((prevState) => {
       return { ...prevState, ...data };
     });
