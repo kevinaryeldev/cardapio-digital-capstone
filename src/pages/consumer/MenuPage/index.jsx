@@ -27,7 +27,7 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-  const {id} = useAuth()
+  const { id } = useAuth();
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -50,7 +50,13 @@ const MenuPage = () => {
     setProductInModal(product);
   };
 
-  const handleAddProductToCart = ({ name, imageUrl, waitingTime, userId, id }) => {
+  const handleAddProductToCart = ({
+    name,
+    imageUrl,
+    waitingTime,
+    userId,
+    id,
+  }) => {
     const request = {
       name: name,
       imageUrl: imageUrl,
@@ -90,7 +96,7 @@ const MenuPage = () => {
     };
 
     const totalPrice = demmandPart.requests
-      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
+      .map(({ portionsPrice, extrasPrice }) => portionsPrice + extrasPrice)
       .reduce((acc, currentValue) => acc + currentValue);
 
     const totalQuantity = demmandPart.requests
@@ -104,8 +110,7 @@ const MenuPage = () => {
       price: totalPrice,
       quantity: totalQuantity,
     };
-
-    sendRequestData(demmand);
+    productsInCart > 0 && sendRequestData(demmand);
   };
 
   const handleAddExtras = (extra) => {
@@ -267,7 +272,7 @@ const MenuPage = () => {
           </span>
           <CartList>
             {cartproducts.map((product, index) => (
-              <CartItem key={index} product={product}/>
+              <CartItem key={index} product={product} />
             ))}
           </CartList>
           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
