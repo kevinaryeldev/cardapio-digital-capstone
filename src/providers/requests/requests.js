@@ -7,7 +7,7 @@ export const RequestsContext = createContext();
 
 export const RequestsProvider = ({ children }) => {
   const [requests, setRequests] = useState([]);
-  const {} id } = useAuth()
+  const { id } = useAuth()
 
   const getRequestData = async () => {
     const token = localStorage.getItem("@SmartMenu:token");
