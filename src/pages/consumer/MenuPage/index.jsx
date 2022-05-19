@@ -7,10 +7,12 @@ import { Container, Content, ModalContainer, ModalBody, ModalHeader } from "./st
 import { ButtonRequest, CartContainer, CartList } from "./style";
 import CartItem from "../../../components/CartItem";
 import { useRequests } from "../../../providers/requests/requests";
+import { useAuth } from '../../../providers/user/user'
 import formatter from "../../../utils/formatter";
 
 const MenuPage = () => {
 
+    const { id } = useAuth();
     const { sendRequestData } = useRequests()
 
     const [products, setProducts] = useState()
@@ -188,7 +190,7 @@ const MenuPage = () => {
 
     useEffect(() => {
         const loadProducts = async() => {
-            const response = await getProducts()
+            const response = await getProducts(id)
             setProducts(response)
         }
         loadProducts()
