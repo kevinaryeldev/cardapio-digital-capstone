@@ -31,7 +31,7 @@ let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
   let history = useHistory();
-  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos } = useAuth();
+  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos, setCategories } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -317,8 +317,6 @@ const ProfilePage = () => {
       data,
       "Tema atualizado com sucesso!"
     );
-
-    window.localStorage.setItem("@SmartMenu:theme", JSON.stringify(colorTheme));
   }
 
   const resetColors = () => {
@@ -424,6 +422,7 @@ const ProfilePage = () => {
         "Categoria editada com sucesso!",
         "Ocorreu algum erro e a categoria não foi editada!"
       );
+      setCategories(newData.categories)
     }
 
     setInputsChange((prevState) => {
