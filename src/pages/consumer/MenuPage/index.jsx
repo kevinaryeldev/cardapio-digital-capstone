@@ -102,7 +102,6 @@ const MenuPage = () => {
           >
             <ModalContainer>
               <ModalHeader>
-                <AiOutlineCloseCircle size="24px" />
                 <span onClick={() => setShouldOpenProductModal(false)}>
                   <AiOutlineCloseCircle size="24px" />
                 </span>
@@ -168,13 +167,15 @@ const MenuPage = () => {
       return(
         <Modal flex={"flex"} state={openCart}>
           <CartContainer>
-          <spam onClick={() => setOpenCart(false)}>x</spam>
-           <CartList>
-             {cartproducts.map((el) => (
-               <CartItem product={el} />
-             ))}
-           </CartList>
-           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
+            <span onClick={() => setOpenCart(false)}>
+              <AiOutlineCloseCircle size="24px" />
+            </span>
+            <CartList>
+              {cartproducts.map((el) => (
+                <CartItem product={el} />
+              ))}
+            </CartList>
+            <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>
          </CartContainer>
        </Modal>
       )

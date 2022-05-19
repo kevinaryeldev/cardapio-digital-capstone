@@ -171,12 +171,20 @@ export const MenuContainer = styled.div`
 export const CartContainer = styled.div`
   background-color: var(--secondary-color);
   min-width: 740px;
-  max-height: 90vh;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: end;
   align-items: center;
   padding: 30px;
+    span{
+        margin-bottom: 1rem;
+        margin-left: 45rem;
+        width: 15px;
+        text-align: center;
+        /* margin-top: -12px; */
+        cursor: pointer;
+    }
 `;
 
 export const ButtonRequest = styled.button`
