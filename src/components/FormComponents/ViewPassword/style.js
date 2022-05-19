@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ViewPasswordContainer = styled.button`
   //Quando é dado focus no input, o background-color fica na cor --bg-white-light (ver FormInput)
-  background-color: var(--secondary-color-50);
+  background-color: #b89664;
   position: absolute;
   z-index: 2;
 
@@ -20,7 +20,7 @@ export const ViewPasswordContainer = styled.button`
   height: 40px;
 
   .viewPassword {
-    color: var(--primary-color);
+    color: #21262d;
 
     &:hover {
       cursor: pointer;
