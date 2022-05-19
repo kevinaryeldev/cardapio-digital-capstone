@@ -35,11 +35,11 @@ const CartItem = ({ product, portions, extras }) => {
       <LeftCartItemContainer>
         <img src={imageUrl} alt={name} />
         <StarRatingCart>
-          {ratingStars.map((state) => {
+          {ratingStars.map((state, index) => {
             if (state === "full") {
-              return <img src={StarDarkGray} alt="Estrela" />;
+              return <img key={"starRatingCartDarkGray" + index} src={StarDarkGray} alt="Estrela" />;
             } else {
-              return <img src={StarGray} alt="Estrela" />;
+              return <img key={"starRatingCartGray" + index} src={StarGray} alt="Estrela" />;
             }
           })}
         </StarRatingCart>
