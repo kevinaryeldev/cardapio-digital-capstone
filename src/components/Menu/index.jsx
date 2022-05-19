@@ -12,6 +12,7 @@ import {
   BiLogOut,
 } from "react-icons/bi";
 import { FaConciergeBell, FaRegBell } from "react-icons/fa";
+import { MdRestaurantMenu } from "react-icons/md";
 
 import { Header, BoxImage, NavMenuMobile } from "./styles";
 
@@ -71,6 +72,10 @@ const Menu = () => {
 
         <Link to="/admin/profile">
           <BiUserCircle></BiUserCircle>
+        </Link>
+
+        <Link to="/home">
+          <MdRestaurantMenu></MdRestaurantMenu>
         </Link>
 
         <Link to="">
