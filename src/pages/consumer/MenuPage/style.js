@@ -8,20 +8,18 @@ export const Container = styled.div`
   width: 100vw;
   overflow: scroll;
 
-  .mobile--nav {
-    visibility: hidden;
-  }
-
   .desktop--nav {
     display: flex;
     justify-content: space-around;
     font-family: "Noto serif", serif;
     color: var(--primary-color);
+    font-size: 18px;
     font-weight: bold;
     padding: 15px 5px;
     background-color: var(--secondary-color);
+    min-width: 100vw;
 
-    a:hover {
+    p:hover {
       color: var(--primary-color-50);
     }
 
@@ -35,6 +33,7 @@ export const Container = styled.div`
     padding: 2rem;
     color: var(--secondary-color-50);
     font-weight: bold;
+    font-size: 24px;
     border-top: 1px solid var(--secondary-color-50);
     border-bottom: 1px solid var(--secondary-color-50);
   }
@@ -188,7 +187,6 @@ export const CartContainer = styled.div`
     margin-left: 45rem;
     width: 15px;
     text-align: center;
-    /* margin-top: -12px; */
     cursor: pointer;
   }
 `;
@@ -220,8 +218,15 @@ export const ButtonOpenCart = styled.button`
   color: var(--terciary-color);
   font-size: 2em;
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 50px;
+  bottom: 30px;
+
+  @media screen and (max-width: 500px){
+    width: 50px;
+    height: 50px;
+    right: 30px;
+    bottom: 30px;
+  }
 
   :hover {
     background-color: var(--secondary-color-50);

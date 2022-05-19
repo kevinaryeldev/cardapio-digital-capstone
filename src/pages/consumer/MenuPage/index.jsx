@@ -289,16 +289,16 @@ const MenuPage = () => {
       {shouldOpenProductModal && renderModal(productInModal)}
       <nav className="desktop--nav">
         <div onClick={() => handleMainCategory(categories[0])}>
-          {categories[0]}
+        <p>{categories[0]}</p>
         </div>
         <div onClick={() => handleMainCategory(categories[1])}>
-          {categories[1]}
+        <p>{categories[1]}</p>
         </div>
         <div onClick={() => handleMainCategory(categories[2])}>
-          {categories[2]}
+        <p>{categories[2]}</p>
         </div>
         <div onClick={() => handleMainCategory(categories[3])}>
-          {categories[3]}
+        <p>{categories[3]}</p>
         </div>
       </nav>
       <div className="foodsection">{categoryMain}</div>
