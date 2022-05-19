@@ -103,9 +103,9 @@ const LandingPage = () => {
               <h2>Sustentável</h2>
               <p>
                 Defendemos a importância da sustentabilidade em nosso negócio.
-              <p>
+              <span>
                 <strong> Aplicativo de Cardápio Digital</strong> nasceu com o propósito de diminuir o uso de materiais não sustentáveis para cardápios e comandas de restaurantes.
-              </p>
+              </span>
               </p>
 
 
@@ -132,7 +132,7 @@ const LandingPage = () => {
               <h2>Controle total do restaurante</h2>
               <p>
                 Tenha todo o restaurante em suas mãos!
-                <p>Crie, modifique seus produtos. Controle o estoque em tempo real. Administre os pedidos e tenha acesso a Feedbacks de clientes.</p>
+                <span>Crie, modifique seus produtos. Controle o estoque em tempo real. Administre os pedidos e tenha acesso a Feedbacks de clientes.</span>
               </p>
             </section>
           </TopicAboutUs>
