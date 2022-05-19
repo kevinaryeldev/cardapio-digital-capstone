@@ -51,7 +51,7 @@ export const ModalContainer = styled.div`
     align-items: center;
     background-color:  var(--secondary-color);
     padding: 15px;
-    margin-top: 4rem;
+    margin-top: -1rem;
 `
 
 export const ModalHeader = styled.div`
@@ -93,12 +93,68 @@ export const ModalBody = styled.div`
         border: 1px solid;
         height: 100%;
         width: 35%;
-
+        h2{
+            margin: 1rem;
+        }
+        .adds{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            max-height: 2.5rem;
+            margin: 0.25rem;
+            p{
+                margin-right: 0.5rem;
+                width: 4.75rem;
+                overflow: hidden;
+            }
+            .minus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 1rem;
+            }
+            .plus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 1rem;
+            }
+        }
     }
     .product-size{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         border: 1px solid;
         height: 100%;
         width: 62%;
+        h2{
+            margin: 1rem;
+        }
+        .sizes{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            max-height: 2.5rem;
+            margin: 0.5rem;
+            p{
+                margin-right: 2rem;
+                width: 5rem;
+                overflow: hidden;
+            }
+            .minus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 5rem;
+            }
+            .plus{
+                cursor: pointer;
+                width: fit-content;
+                height: fit-content;
+                margin-right: 4rem;
+            }
+        }
     }
 `
 
@@ -115,12 +171,20 @@ export const MenuContainer = styled.div`
 export const CartContainer = styled.div`
   background-color: var(--secondary-color);
   min-width: 740px;
-  max-height: 90vh;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: end;
   align-items: center;
   padding: 30px;
+    span{
+        margin-bottom: 1rem;
+        margin-left: 45rem;
+        width: 15px;
+        text-align: center;
+        /* margin-top: -12px; */
+        cursor: pointer;
+    }
 `;
 
 export const ButtonRequest = styled.button`

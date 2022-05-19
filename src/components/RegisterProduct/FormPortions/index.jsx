@@ -17,7 +17,7 @@ const FormPortions = ({
   setStage,
   setRegisterData,
   registerData,
-  onSubmitRegister,
+  onSubmitRegister
 }) => {
   const {
     register,
@@ -32,17 +32,19 @@ const FormPortions = ({
   useEffect(() => console.log(errors), [errors]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(registerData);
+    let newData = data
+    newData.productName = registerData.name
     setRegisterData((prevState) => {
       if (
-        prevState.portions.filter((portion) => portion.name === data.name)
+        prevState.portions.filter((portion) => portion.name === newData.name)
           .length > 0
       ) {
         toast.error("Porção já existente!");
         return { ...prevState };
       }
       toast.success("Porção adicionada com sucesso!");
-      return { ...prevState, portions: [...prevState.portions, { ...data }] };
+      return { ...prevState, portions: [...prevState.portions, { ...newData }] };
     });
   };
 
