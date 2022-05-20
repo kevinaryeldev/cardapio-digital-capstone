@@ -170,7 +170,9 @@ export const SectionAboutUs = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #21262d ul {
+  background-color: #21262d;
+  
+  ul {
     list-style: none;
     width: 80%;
     min-width: 450px;

@@ -5,7 +5,7 @@ color: var(--primary-color);
 padding: 25px;
 padding-bottom: 50px;
 margin: 0 40px;
-background-color: var(--secondary-color);
+background-color: #DDBC8B;
 border-radius: 25px;
 
 p {
@@ -61,6 +61,8 @@ export const FigureStyled = styled.figure`
 margin-right: 12px;
 
 img {
+    border-radius: 30px;
+    border: 1px solid black;
     width: 94px;
     height: 94px;
 }
