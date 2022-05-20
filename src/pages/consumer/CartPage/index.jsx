@@ -6,6 +6,8 @@ import PaymentButton from "../../../components/Payment&Thanks/Button";
 import { useRequests } from "../../../providers/requests/requests";
 import { useState } from "react";
 import formatter from "../../../utils/formatter";
+import { useEffect } from "react";
+
 const Container = styled.main`
   max-width: 100vw;
   min-height: 100vh;
@@ -115,20 +117,17 @@ const BoxFooter = styled.footer`
 `;
 
 const CartPage = () => {
-  const { requests } = useRequests();
+  const [productsCart, setProductsCart] = useState([]);
+  const { getRequestData, requests } = useRequests();
 
-  // const totalPrice = (array) => {
-  //     console.log(array)
-  //     array.reduce((a,b)=>{
-  //         const extraPrice = b.extra.reduce((a,b)=>a+Number(b.price),0)
-  //         const portionPrice = b.portions.reduce((a,b)=>a+Number(b.price),0)
-  //         const totalSum = extraPrice + portionPrice
-
-  //         return a + totalSum
-  //     },0)
-  //     console.log(totalPortion)
-
-  // }
+  useEffect(() => {
+    const loadProducts = async () => {
+      const response = await getRequestData();
+      setProductsCart(response);
+    };
+    loadProducts();
+    return;
+  }, []);
 
   return (
     <Container>

@@ -92,19 +92,33 @@ const MenuPage = () => {
     setOpenCart(!openCart);
 
     const demmandPart = {
-      table: "3", //Alterar para o state table que estará no contexto global em algum provider
+      table: currentTable, //Alterar para o state table que estará no contexto global em algum provider
       date: new Date(),
       status: "opened",
       requests: [...productsInCart],
       userId: id,
     };
 
-    const requests = demmandPart.requests;
+    const totalPrice = demmandPart.requests
+      .map((request) => {
+        if (request.extrasPrice) {
+          return request.portionsPrice + request.extrasPrice;
+        }
+        return request.portionsPrice;
+      })
+      .reduce((acc, currentValue) => acc + currentValue);
 
-    if (requests[0]) {
-      const totalPrice = demmandPart.requests
-        .map(({ portionsPrice, extrasPrice }) => portionsPrice + extrasPrice)
-        .reduce((acc, currentValue) => acc + currentValue);
+    const totalQuantity = demmandPart.requests
+      .map((request) => {
+        if (request.extras) {
+          return (
+            parseFloat(request.portions.length) +
+            parseFloat(request.extras?.length || 0)
+          );
+        }
+        return parseFloat(request.portions.length);
+      })
+      .reduce((acc, currentValue) => acc + currentValue);
 
       const totalQuantity = demmandPart.requests
         .map(
@@ -112,6 +126,7 @@ const MenuPage = () => {
             parseFloat(portions.length) + parseFloat(!!extras && extras.length)
         )
         .reduce((acc, currentValue) => acc + currentValue);
+    
       const demmand = {
         ...demmandPart,
         price: totalPrice,
@@ -121,6 +136,14 @@ const MenuPage = () => {
     } else {
       toast.error("Adicione ao menos item no carrinho!");
     }
+     const demmand = {
+      ...demmandPart,
+      price: totalPrice,
+      quantity: totalQuantity,
+    };
+
+    sendRequestData(demmand);
+    setProductsInCart([])
   };
 
   const handleAddExtras = (extra) => {

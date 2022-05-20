@@ -19,7 +19,7 @@ export const MenuProvider = ({ children }) => {
     listProductApi(setProducts);
   }, []);
 
-  const {categories, setCategories} = useAuth();
+  const { categories, setCategories } = useAuth();
 
   const addCategory = (newCategory) => {
     if (categories.includes(newCategory)) {

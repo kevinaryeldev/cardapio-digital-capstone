@@ -28,8 +28,8 @@ export const UserProvider = ({ children }) => {
     "Bebidas",
     "Sobremesas",
   ]);
-  const [table, setTable] = useState(0)
-  const [currentTable, setCurrentTable] = useState(1)
+  const [table, setTable] = useState(0);
+  const [currentTable, setCurrentTable] = useState(1);
 
   useEffect(() => {
     if (token && id) {
@@ -39,16 +39,16 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (userInfos.categories) {
-      setCategories(userInfos.categories)
+      setCategories(userInfos.categories);
     }
 
     if (userInfos.theme) {
-      setColorTheme(userInfos.theme)
+      setColorTheme(userInfos.theme);
     }
-    if(userInfos.tableQuantity){
-      setTable(userInfos.tableQuantity)
+    if (userInfos.tableQuantity) {
+      setTable(userInfos.tableQuantity);
     }
-  }, [userInfos])
+  }, [userInfos]);
 
   useEffect(() => {
     if (token) {
@@ -71,7 +71,6 @@ export const UserProvider = ({ children }) => {
         accessToken,
         setUserInfos
       );
-
     }
   };
 
@@ -83,7 +82,7 @@ export const UserProvider = ({ children }) => {
     setToken(null);
     setId(null);
     setUserInfos({});
-    setColorTheme(defaultTheme)
+    setColorTheme(defaultTheme);
   };
 
   const signUp = async (data) => {
@@ -123,7 +122,25 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ token, id, login, logout, signUp, userInfos, categories, setCategories, table, setTable, currentTable, setCurrentTable, colorTheme, setColorTheme, colorChange, setColorChange, changeUserInfos }}
+      value={{
+        token,
+        id,
+        login,
+        logout,
+        signUp,
+        userInfos,
+        categories,
+        setCategories,
+        table,
+        setTable,
+        currentTable,
+        setCurrentTable,
+        colorTheme,
+        setColorTheme,
+        colorChange,
+        setColorChange,
+        changeUserInfos,
+      }}
     >
       {children}
     </UserContext.Provider>

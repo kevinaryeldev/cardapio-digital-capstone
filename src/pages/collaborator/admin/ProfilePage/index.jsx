@@ -30,7 +30,17 @@ import { getUserData } from "../../../../services/users/users";
 let { Upload } = require("upload-js");
 
 const ProfilePage = () => {
-  const { token, userInfos, colorTheme, setColorTheme, setColorChange, changeUserInfos, setCategories, table, setTable } = useAuth();
+  const {
+    token,
+    userInfos,
+    colorTheme,
+    setColorTheme,
+    setColorChange,
+    changeUserInfos,
+    setCategories,
+    table,
+    setTable,
+  } = useAuth();
   const { email, name, logoUrl, theme, categories } = userInfos;
 
   const [inputsChange, setInputsChange] = useState({
@@ -102,7 +112,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     updateUserInfos();
-    setTable(userInfos.tableQuantity)
+    setTable(userInfos.tableQuantity);
   }, [userInfos]);
 
   const {
@@ -122,10 +132,7 @@ const ProfilePage = () => {
     resolver: yupResolver(passwordSchema),
   });
 
-  const {
-    register: register3,
-    handleSubmit: handleSubmit3
-  } = useForm();
+  const { register: register3, handleSubmit: handleSubmit3 } = useForm();
 
   const {
     register: registerCategory,
@@ -239,43 +246,44 @@ const ProfilePage = () => {
   };
 
   const setUserColors = (data) => {
-
     const hexToRGBConverter = (hexColor, type) => {
-      const r = parseInt(hexColor.substr(1, 2), 16)
-      const g = parseInt(hexColor.substr(3, 2), 16)
-      const b = parseInt(hexColor.substr(5, 2), 16)
-
+      const r = parseInt(hexColor.substr(1, 2), 16);
+      const g = parseInt(hexColor.substr(3, 2), 16);
+      const b = parseInt(hexColor.substr(5, 2), 16);
 
       if (type === "primary") {
-        const rgba50 = `rgba(${r + 39},${g + 55},${b + 49})`
+        const rgba50 = `rgba(${r + 39},${g + 55},${b + 49})`;
         return rgba50;
-
       } else if (type === "secondary") {
-        const rgba50 = `rgba(${r - 37},${g - 38},${b - 39})`
+        const rgba50 = `rgba(${r - 37},${g - 38},${b - 39})`;
         return rgba50;
-
       } else {
-        const rgba50 = `rgba(${r - 26},${g - 26},${b - 26})`
+        const rgba50 = `rgba(${r - 26},${g - 26},${b - 26})`;
         return rgba50;
       }
-
-    }
+    };
 
     const RGBtoHexConverter = (rgba) => {
-      const color = rgba.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
-      const hex = `#${((1 << 24) + (parseInt(color[0]) << 16) + (parseInt(color[1]) << 8) + parseInt(color[2])).toString(16).slice(1)}`
+      const color = rgba.replace(/^rgba?\(|\s+|\)$/g, "").split(",");
+      const hex = `#${(
+        (1 << 24) +
+        (parseInt(color[0]) << 16) +
+        (parseInt(color[1]) << 8) +
+        parseInt(color[2])
+      )
+        .toString(16)
+        .slice(1)}`;
 
-      return hex
-    }
+      return hex;
+    };
 
-    const primary50rgba = hexToRGBConverter(data.primaryColor, "primary")
-    const secondary50rgba = hexToRGBConverter(data.secondaryColor, "secondary")
-    const terciary50rgba = hexToRGBConverter(data.terciaryColor, "terciary")
+    const primary50rgba = hexToRGBConverter(data.primaryColor, "primary");
+    const secondary50rgba = hexToRGBConverter(data.secondaryColor, "secondary");
+    const terciary50rgba = hexToRGBConverter(data.terciaryColor, "terciary");
 
-
-    const primary50 = RGBtoHexConverter(primary50rgba)
-    const secondary50 = RGBtoHexConverter(secondary50rgba)
-    const terciary50 = RGBtoHexConverter(terciary50rgba)
+    const primary50 = RGBtoHexConverter(primary50rgba);
+    const secondary50 = RGBtoHexConverter(secondary50rgba);
+    const terciary50 = RGBtoHexConverter(terciary50rgba);
 
     const datas = {
       primaryColor: inputsChange.themes.primary.value,
@@ -283,8 +291,8 @@ const ProfilePage = () => {
       secondaryColor: inputsChange.themes.secondary.value,
       secondaryColor50: secondary50,
       terciaryColor: inputsChange.themes.terciary.value,
-      terciaryColor50: terciary50
-    }
+      terciaryColor50: terciary50,
+    };
 
     setInputsChange((prevState) => {
       return {
@@ -293,29 +301,25 @@ const ProfilePage = () => {
           editable: true,
           primary: prevState.themes.primary,
           secondary: prevState.themes.secondary,
-          terciary: prevState.themes.terciary
-        }
+          terciary: prevState.themes.terciary,
+        },
       };
-    })
+    });
 
-
-    setColorTheme(datas)
-    setColorChange(true)
-  }
+    setColorTheme(datas);
+    setColorChange(true);
+  };
 
   const setColorsAPI = async () => {
     const data = {
-      theme: colorTheme
-    }
+      theme: colorTheme,
+    };
 
-    await changeUserInfos(
-      data,
-      "Tema atualizado com sucesso!"
-    );
-  }
+    await changeUserInfos(data, "Tema atualizado com sucesso!");
+  };
 
   const resetColors = () => {
-    setColorTheme(userInfos.theme)
+    setColorTheme(userInfos.theme);
 
     setInputsChange((prevState) => {
       return {
@@ -324,12 +328,11 @@ const ProfilePage = () => {
           editable: false,
           primary: prevState.themes.primary,
           secondary: prevState.themes.secondary,
-          terciary: prevState.themes.terciary
-        }
+          terciary: prevState.themes.terciary,
+        },
       };
-    })
-  }
-
+    });
+  };
 
   const ChangeMail = async () => {
     const data = {
@@ -416,7 +419,7 @@ const ProfilePage = () => {
         "Categoria editada com sucesso!",
         "Ocorreu algum erro e a categoria não foi editada!"
       );
-      setCategories(newData.categories)
+      setCategories(newData.categories);
     }
 
     setInputsChange((prevState) => {
@@ -454,19 +457,15 @@ const ProfilePage = () => {
   };
 
   const changeTableQty = async () => {
-
     const data = {
       tableQuantity: Number(table),
     };
 
-    await changeUserInfos(
-      data,
-      "Quantidade de Mesas atualizado."
-    );
-  }
+    await changeUserInfos(data, "Quantidade de Mesas atualizado.");
+  };
 
   if (!token) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />;
   }
 
   return (
@@ -518,9 +517,11 @@ const ProfilePage = () => {
                 <h3>{inputsChange.name.value}</h3>
               )}
               {inputsChange.name.editable && (
-                <input type="text" id="name" {...register("name")} />
+                <input type="text" id="name" defaultValue={inputsChange.name.value} {...register("name")} />
               )}
-              {!!errors.name && <FormError marginTop="0px">{errors.name.message}</FormError>}
+              {!!errors.name && (
+                <FormError marginTop="0px">{errors.name.message}</FormError>
+              )}
               {inputsChange.name.editable === false && (
                 <button
                   onClick={() =>
@@ -546,9 +547,10 @@ const ProfilePage = () => {
 
           <div className="content content__column">
             <h6>Selecione suas cores</h6>
-            <ThemeArea onSubmit={handleSubmit3(setUserColors)}>
+            <ThemeArea onSubmit={handleSubmit3(setUserColors)} id="color">
               <SelectColor>
-                <input type="color"
+                <input
+                  type="color"
                   value={inputsChange.themes?.primary.value || "#21262D"}
                   {...register3("primaryColor")}
                   onChange={(event) =>
@@ -561,8 +563,8 @@ const ProfilePage = () => {
                             value: event.target.value,
                           },
                           secondary: prevState.themes.secondary,
-                          terciary: prevState.themes.terciary
-                        }
+                          terciary: prevState.themes.terciary,
+                        },
                       };
                     })
                   }
@@ -570,7 +572,8 @@ const ProfilePage = () => {
                 <span>Primária</span>
               </SelectColor>
               <SelectColor mid>
-                <input type="color"
+                <input
+                  type="color"
                   value={inputsChange.themes?.secondary.value || "#DDBC8B"}
                   {...register3("secondaryColor")}
                   onChange={(event) =>
@@ -583,8 +586,8 @@ const ProfilePage = () => {
                           secondary: {
                             value: event.target.value,
                           },
-                          terciary: prevState.themes.terciary
-                        }
+                          terciary: prevState.themes.terciary,
+                        },
                       };
                     })
                   }
@@ -592,7 +595,8 @@ const ProfilePage = () => {
                 <span>Secundária</span>
               </SelectColor>
               <SelectColor>
-                <input type="color"
+                <input
+                  type="color"
                   value={inputsChange.themes?.terciary.value || "#FFFFFF"}
                   {...register3("terciaryColor")}
                   onChange={(event) =>
@@ -606,7 +610,7 @@ const ProfilePage = () => {
                           terciary: {
                             value: event.target.value,
                           },
-                        }
+                        },
                       };
                     })
                   }
@@ -652,12 +656,13 @@ const ProfilePage = () => {
                           },
                         };
                       });
-                      console.log(inputsChange.category.value);
                     }}
                   >
                     <option key="empty" value="empty"></option>
                     {categories?.map((category) => (
-                      <option key={category} value={category}>{category}</option>
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
                     ))}
                   </select>
                   <button
@@ -675,7 +680,7 @@ const ProfilePage = () => {
                     }
                   >
                     {inputsChange.category.value === "empty" ||
-                      inputsChange.category.value === ""
+                    inputsChange.category.value === ""
                       ? "Adicionar"
                       : "Editar"}
                   </button>
@@ -699,10 +704,7 @@ const ProfilePage = () => {
                   value={table}
                   onChange={(e) => setTable(e.target.value)}
                 />
-                <button
-                  type="button"
-                  onClick={() => changeTableQty()}
-                >
+                <button type="button" onClick={() => changeTableQty()}>
                   Confirmar
                 </button>
               </>
@@ -729,6 +731,7 @@ const ProfilePage = () => {
                     <input
                       type="email"
                       id="email"
+                      defaultValue={inputsChange.email.value}
                       onChange={(event) =>
                         setInputsChange((prevState) => {
                           return {
@@ -802,7 +805,7 @@ const ProfilePage = () => {
           </div>
         </section>
       </Main>
-    </Container >
+    </Container>
   );
 };
 

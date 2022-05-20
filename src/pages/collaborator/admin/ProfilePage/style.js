@@ -192,6 +192,7 @@ export const ThemeArea = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   #category,
   select {
@@ -219,6 +220,15 @@ export const ThemeArea = styled.form`
 
     &:hover {
       color: var(--secondary-color-50);
+    }
+  }
+
+  button:nth-child(4), button:nth-child(5), button:nth-child(6) {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    font-weight: 700;
+    &:hover {
+      background: var(--secondary-color-50);
     }
   }
 
@@ -261,21 +271,26 @@ export const SelectColor = styled.div`
     font-weight: 400;
     color: var(--terciary-color);
     text-decoration: none;
+    margin: 10px;
   }
 `;
 
 export const ChangeCollorsButtonDiv = styled.div`
+display:flex;
+justify-content: center;
+width: 100%;
+
 button {
     width: 97px;
     text-align: center;
     line-height: 0px;
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
+    /* background-color: var(--secondary-color); */
+    /* color: var(--primary-color); */
     font-weight: 700;
     margin-top: 15px;
     margin-right: 15px;
     &:hover {
-        color: var(--secondary-color);
+        /* color: var(--secondary-color-50); */
     }
 }
 
@@ -288,16 +303,15 @@ export const ChangeEmail = styled.form`
 
   input {
     cursor: pointer;
-    width: 30%;
-    margin-left: 10px;
-    padding: 5px 10px;
+    width: 50%;
+    margin-left: 5px;
+    padding: 0px 5px;
 
     border: none;
     background-color: var(--secondary-color);
-
-    &::placeholder {
-      color: var(--primary-color-50);
-    }
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-color);
   }
 
   button {

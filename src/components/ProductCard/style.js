@@ -11,6 +11,9 @@ export const CardContainer = styled.li`
   justify-content: center;
   align-items: center;
 
+  border: 1px solid var(--secondary-color);
+  margin-bottom: 15px;
+
   .card--product {
     width: 100%;
 
@@ -81,6 +84,11 @@ export const CardContainer = styled.li`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+
+    div > button {
+      margin-left: 30px;
+      margin-top: 15px;
+    }
 
     .card--ratingContainer {
       width: 40%;
