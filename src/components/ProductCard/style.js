@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.li`
+  /* border: 1px solid black; */
   width: 100%;
   max-width: 575px;
 
   padding: 10px;
-
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,7 +28,7 @@ export const CardContainer = styled.li`
       align-items: center;
 
       img {
-        width: 100%;
+        max-width: 70%;
         object-fit: contain;
       }
     }
@@ -101,9 +102,13 @@ export const CardContainer = styled.li`
       }
     }
 
+    button + button {
+      margin: 1rem;
+    }
+
     button {
       height: 32px;
-      padding: 0px 10px;
+      padding: 0px 20px;
 
       border: none;
       background-color: var(--primary-color-50);
