@@ -59,6 +59,7 @@ export const DashboardNav = styled.nav`
     display: flex;
     gap: 10px;
     align-items: center;
+    
     @media (min-width: 1024px) {
       color: var(--primary-color);
       background-color: white;
@@ -124,7 +125,7 @@ export const ConfirmsContainer = styled.div`
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 
   background-color: var(--secondary-color);
@@ -136,7 +137,8 @@ export const ConfirmsContainer = styled.div`
     font-weight: bold;
     margin-bottom: 5px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 20px;
   }
 
   button {
@@ -144,6 +146,7 @@ export const ConfirmsContainer = styled.div`
     max-width: 150px;
 
     margin-right: 10px;
+    margin-bottom: 20px;
 
     &:last-child {
       margin-right: 0;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.li`
-  /* border: 1px solid black; */
   width: 100%;
   max-width: 575px;
 
@@ -12,7 +11,7 @@ export const CardContainer = styled.li`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid var(--secondary-color);
+  /* border: 1px solid var(--secondary-color); */
   margin-bottom: 15px;
 
   .card--product {
@@ -32,6 +31,7 @@ export const CardContainer = styled.li`
 
       img {
         max-width: 70%;
+        height: 150px;
         object-fit: contain;
       }
     }

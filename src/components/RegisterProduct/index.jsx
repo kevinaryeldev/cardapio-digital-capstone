@@ -52,10 +52,10 @@ const RegisterProduct = ({
     <Modal
       setState={setOpenModal}
       state={openModal}
-      width="100vw"
       flex
-      align="center"
-      justify="center"
+      // width="100vw"
+      // align="center"
+      // justify="center"
       padding="15px"
     >
       <Container>

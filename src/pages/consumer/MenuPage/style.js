@@ -65,27 +65,29 @@ export const ModalContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondary-color);
-  padding: 30px 15px;
-  margin-top: -1rem;
+  padding: 30px 50px;
+  margin-top: -2rem;
 
   button{
-    width: 200px;
-    height: 30px;
+    padding: 10px 20px;
     font-size: 16px;
-    margin-bottom: -10px;
-    border-radius: 5px;
-    background-color: var(--secondary-color-50);
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: var(--primary-color);
+    color: var(--terciary-color);
 
     :hover{
-      background-color: var(--terciary-color-50);
+      background-color: var(--primary-color-50);
     }
   }
 `;
 
 export const ModalHeader = styled.div`
-  height: 10rem !important;
+  height: 12rem !important;
+  /* max-width: 70%; */
   display: flex;
   flex-direction: column;
+
   span {
     margin-left: 47rem;
     width: 15px;
@@ -97,7 +99,8 @@ export const ModalHeader = styled.div`
     display: flex;
     flex-direction: row;
     border: 1px solid;
-    height: 10rem !important;
+    height: 9rem !important;
+    width: 90%;
     .image-place {
       height: 100%;
       width: 35%;
@@ -108,44 +111,51 @@ export const ModalHeader = styled.div`
     .product-description {
       height: 100%;
       width: 62%;
+      margin-top: 20px;
+      p{
+        margin-top: 10px;
+      }
     }
   }
 `;
 
 export const ModalBody = styled.div`
-  height: 22rem !important;
+  height: 20rem !important;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
+
   .product-adds {
     border: 1px solid;
-    height: 100%;
+    height: 96%;
     width: 35%;
+    padding: 0;
     h2 {
       margin: 1rem;
     }
     .adds {
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
       max-height: 2.5rem;
-      margin: 0.25rem;
+      margin-left: -2rem;
+      
       p {
-        margin-right: 0.5rem;
-        width: 4.75rem;
-        overflow: hidden;
+        width: 5rem;
+        text-align: center;
+        height: fit-content;
       }
       .minus {
         cursor: pointer;
         width: fit-content;
         height: fit-content;
-        margin-right: 1rem;
       }
       .plus {
         cursor: pointer;
         width: fit-content;
         height: fit-content;
-        margin-right: 1rem;
       }
     }
   }
@@ -154,8 +164,10 @@ export const ModalBody = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     border: 1px solid;
-    height: 100%;
-    width: 62%;
+    height: 96%;
+    width: 56%;
+    margin-left: 2rem;
+    padding: 0;
     h2 {
       margin: 1rem;
     }
@@ -163,24 +175,27 @@ export const ModalBody = styled.div`
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
+      align-items: center;
+      width: 100%;
       max-height: 2.5rem;
       margin: 0.5rem;
       p {
-        margin-right: 2rem;
+        margin-right: 1rem;
         width: 5rem;
-        overflow: hidden;
+        /* overflow: hidden; */
       }
       .minus {
         cursor: pointer;
         width: fit-content;
         height: fit-content;
-        margin-right: 5rem;
+        margin-left: -2rem;
+        margin-right: 2rem;
       }
       .plus {
         cursor: pointer;
         width: fit-content;
         height: fit-content;
-        margin-right: 4rem;
+        margin-right: 2rem;
       }
     }
   }

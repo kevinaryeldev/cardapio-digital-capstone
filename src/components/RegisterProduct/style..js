@@ -22,6 +22,7 @@ export const Container = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 5px;
+    padding: 10px 100px;
   }
 
   .currentStage {
