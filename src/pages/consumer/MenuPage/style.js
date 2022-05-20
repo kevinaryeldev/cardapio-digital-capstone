@@ -65,8 +65,21 @@ export const ModalContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondary-color);
-  padding: 15px;
+  padding: 30px 15px;
   margin-top: -1rem;
+
+  button{
+    width: 200px;
+    height: 30px;
+    font-size: 16px;
+    margin-bottom: -10px;
+    border-radius: 5px;
+    background-color: var(--secondary-color-50);
+
+    :hover{
+      background-color: var(--terciary-color-50);
+    }
+  }
 `;
 
 export const ModalHeader = styled.div`
