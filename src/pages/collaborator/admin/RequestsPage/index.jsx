@@ -77,7 +77,7 @@ const RequestsPage = () => {
             <aside>Nenhuma Comanda encontrada</aside>
           ) : (
             showRequests?.map((item, index) => (
-              <RequestCard key={index} demand={item} />
+              <RequestCard key={index} demand={item} showRequests={showRequests} setShowRequests={setShowRequests}/>
             ))
           )}
         </BoxCardReq>

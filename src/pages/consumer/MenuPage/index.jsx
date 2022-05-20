@@ -124,6 +124,7 @@ const MenuPage = () => {
     };
 
     sendRequestData(demmand);
+    setProductsInCart([])
   };
 
   const handleAddExtras = (extra) => {

@@ -42,3 +42,27 @@ export const editRequestApi = async (newDemmand, demmandId) => {
 
   return response;
 };
+
+
+export const deleteRequestApi = async (demmandId) => {
+  const token = window.localStorage.getItem("@SmartMenu:token");
+  const id = localStorage.getItem("@SmartMenu:id");
+
+  const response = await instance
+    .delete(`/cart/${demmandId}?userId=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      toast.success(`Pedido removido com sucesso!`);
+      console.log(response.data)
+      return response;
+    })
+    .catch((error) => {
+      toast.error("Ocorreu algum erro e o pedido não foi atualizado!");
+      return false;
+    });
+
+  return response;
+};
