@@ -10,7 +10,7 @@ export const FeedbacksProvider = ({ children }) => {
 
   useEffect(() => {
     instance
-      .get(`/feedbacks?userId=${id}`, {
+      .get(`/feedbacks/?userId=${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -19,8 +19,19 @@ export const FeedbacksProvider = ({ children }) => {
       .then((res) => setFeedbacksList(res.data));
   }, []);
 
+  const postFeedback = async (data) => {
+    setFeedbacksList([...feedbacksList, data]);
+    const response = await instance
+      .post("/feedbacks", data)
+      .then((response) => {
+        console.log("POSTADO!, AINDA EM CONSTRUÇÃO");
+        return;
+      });
+    return response;
+  };
+
   return (
-    <FeedbacksContext.Provider value={{ feedbacksList }}>
+    <FeedbacksContext.Provider value={{ feedbacksList, postFeedback }}>
       {children}
     </FeedbacksContext.Provider>
   );

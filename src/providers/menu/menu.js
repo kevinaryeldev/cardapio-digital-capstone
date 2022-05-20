@@ -13,6 +13,7 @@ export const MenuContext = createContext([]);
 export const MenuProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPaid, setIsPaid] = useState(false)
 
   useEffect(() => {
     listProductApi(setProducts);
@@ -108,7 +109,7 @@ export const MenuProvider = ({ children }) => {
         categories,
         addCategory,
         editCategory,
-        removeCategory,
+        removeCategory,isPaid, setIsPaid
       }}
     >
       {children}
