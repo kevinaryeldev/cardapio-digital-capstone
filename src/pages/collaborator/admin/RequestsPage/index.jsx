@@ -29,7 +29,11 @@ const RequestsPage = () => {
 
   const getInput = (valueInput) => {
     const filtered = requests.filter((item) =>
-      String(item.table) === valueInput ? item : null
+      String(item.table) === valueInput
+        ? item
+        : null || String(item.id) === valueInput
+        ? item
+        : null
     );
     valueInput === "" ? setShowRequests(requests) : setShowRequests(filtered);
   };
@@ -50,7 +54,7 @@ const RequestsPage = () => {
         <InputArea>
           <RiSearch2Line></RiSearch2Line>
           <input
-            placeholder="Digite sua pesquisa aqui..."
+            placeholder="Digite o nº da mesa ou do pedido aqui..."
             onChange={(e) => getInput(e.target.value)}
           ></input>
         </InputArea>
@@ -60,15 +64,12 @@ const RequestsPage = () => {
           <Btnfilter onClick={() => filter("all")}>Todos</Btnfilter>
           <Btnfilter color={"g"} onClick={() => filter("accepted")}>
             <BsCheckSquare />
-            &#35;345
           </Btnfilter>
           <Btnfilter color={"r"} onClick={() => filter("rejected")}>
             <BsXSquare />
-            &#35;346
           </Btnfilter>
-          <Btnfilter color={"y"} onClick={() => filter("waiting")}>
+          <Btnfilter color={"y"} onClick={() => filter("opened")}>
             <BiLoaderCircle />
-            &#35;347
           </Btnfilter>
         </BoxNav>
         <BoxCardReq>

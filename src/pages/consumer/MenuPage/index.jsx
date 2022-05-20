@@ -27,11 +27,8 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-<<<<<<< HEAD
-  const { id } = useAuth();
-=======
-  const { id, currentTable} = useAuth()
->>>>>>> 9761922e0f594fad8a798d8c633ec5e4793d7125
+  const { id, currentTable } = useAuth();
+
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -92,13 +89,13 @@ const MenuPage = () => {
     setOpenCart(!openCart);
 
     const demmandPart = {
-      table: "3", //Alterar para o state table que estará no contexto global em algum provider
+      table: currentTable, //Alterar para o state table que estará no contexto global em algum provider
       date: new Date(),
       status: "opened",
       requests: [...productsInCart],
       userId: id,
     };
-    
+
     const totalPrice = demmandPart.requests
       .map((request) => {
         if (request.extrasPrice) {
@@ -126,8 +123,7 @@ const MenuPage = () => {
       quantity: totalQuantity,
     };
 
-    sendRequestData(demmand)
-
+    sendRequestData(demmand);
   };
 
   const handleAddExtras = (extra) => {
