@@ -517,7 +517,7 @@ const ProfilePage = () => {
                 <h3>{inputsChange.name.value}</h3>
               )}
               {inputsChange.name.editable && (
-                <input type="text" id="name" {...register("name")} />
+                <input type="text" id="name" defaultValue={inputsChange.name.value} {...register("name")} />
               )}
               {!!errors.name && (
                 <FormError marginTop="0px">{errors.name.message}</FormError>
@@ -547,7 +547,7 @@ const ProfilePage = () => {
 
           <div className="content content__column">
             <h6>Selecione suas cores</h6>
-            <ThemeArea onSubmit={handleSubmit3(setUserColors)}>
+            <ThemeArea onSubmit={handleSubmit3(setUserColors)} id="color">
               <SelectColor>
                 <input
                   type="color"
@@ -731,6 +731,7 @@ const ProfilePage = () => {
                     <input
                       type="email"
                       id="email"
+                      defaultValue={inputsChange.email.value}
                       onChange={(event) =>
                         setInputsChange((prevState) => {
                           return {
