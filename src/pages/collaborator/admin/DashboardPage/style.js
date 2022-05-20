@@ -11,7 +11,7 @@ export const DashboardContainer = styled.div`
 
 export const Dashboard = styled.main`
   min-height: 100vh;
-  background: linear-gradient(#485d5e, #21262d);
+  background: linear-gradient(135deg, var(--primary-color-50), var(--primary-color));
   flex-grow: 1;
   display: flex;
   flex-direction: column;
