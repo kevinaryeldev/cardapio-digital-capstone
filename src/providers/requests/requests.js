@@ -1,5 +1,5 @@
 import instance from "./../../services";
-import { addRequestApi, editRequestApi } from "./../../services/requests";
+import { addRequestApi, deleteRequestApi, editRequestApi } from "./../../services/requests";
 import { createContext, useContext, useState, useEffect } from "react";
 
 export const RequestsContext = createContext();
@@ -49,6 +49,16 @@ export const RequestsProvider = ({ children }) => {
     }
   };
 
+  const sendDeleteRequestData = async (demmand, demmandId) => {
+    const response = await deleteRequestApi(demmand, demmandId);
+    if (response) {
+      await getRequestData();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   useEffect(() => {
     getRequestData();
   }, []);
@@ -61,6 +71,7 @@ export const RequestsProvider = ({ children }) => {
         getRequestData,
         sendRequestData,
         sendEditRequestData,
+        sendDeleteRequestData
       }}
     >
       {children}
