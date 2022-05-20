@@ -56,7 +56,7 @@ const LandingPage = () => {
               </>
             )}
           </ModalLinksButton>
-          <h2>Cardápio Digital</h2>
+          <h2>SMART Menu</h2>
         </LeftContainer>
         <RightContainer>
           <NavbarButton onClick={() => history.push("/login/")}>
@@ -84,7 +84,7 @@ const LandingPage = () => {
       )}
 
       <SectionLanding id="home">
-        <SectionTitle>Aplicativo de Cardápio Digital</SectionTitle>
+        <SectionTitle>Smart Menu</SectionTitle>
         <MainDescription>
           Modernize seu estabelecimento alimentício com a aplicação do futuro!
         </MainDescription>
