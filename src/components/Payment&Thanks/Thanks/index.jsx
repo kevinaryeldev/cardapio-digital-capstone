@@ -22,8 +22,8 @@ const ThanksModal = () => {
       }.${year}`;
 
       const datas = {
-        date: formattedDate,
-        review: data.review,
+        createdAt: formattedDate,
+        content: data.review,
         userId: id,
       };
 
