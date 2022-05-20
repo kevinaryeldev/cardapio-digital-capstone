@@ -27,7 +27,11 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
+<<<<<<< HEAD
   const { id } = useAuth();
+=======
+  const { id, currentTable} = useAuth()
+>>>>>>> 9761922e0f594fad8a798d8c633ec5e4793d7125
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -122,7 +126,8 @@ const MenuPage = () => {
       quantity: totalQuantity,
     };
 
-    sendRequestData(demmand);
+    sendRequestData(demmand)
+
   };
 
   const handleAddExtras = (extra) => {
@@ -305,18 +310,13 @@ const MenuPage = () => {
     <Container>
       {shouldOpenProductModal && renderModal(productInModal)}
       <nav className="desktop--nav">
-        <div onClick={() => handleMainCategory(categories[0])}>
-          {categories[0]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[1])}>
-          {categories[1]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[2])}>
-          {categories[2]}
-        </div>
-        <div onClick={() => handleMainCategory(categories[3])}>
-          {categories[3]}
-        </div>
+        {categories.map((el) => {
+          return (
+            <div>
+              <div onClick={() => handleMainCategory(el)}>{el}</div>
+            </div>
+          );
+        })}
       </nav>
       <div className="foodsection">{categoryMain}</div>
       <Content>

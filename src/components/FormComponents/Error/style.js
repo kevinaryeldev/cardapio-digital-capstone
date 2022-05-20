@@ -8,7 +8,7 @@ export const ErrorStyled = styled.span`
   text-align: left;
   font-size: 0.8rem;
   font-weight: 300;
-  color: var(--error-color);
+  color: #d93025;
 
   margin-top: ${(props) => props.marginTop || "-15px"};
   margin-bottom: 15px;

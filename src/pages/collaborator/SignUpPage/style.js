@@ -8,11 +8,11 @@ export const MainContainer = styled.main`
   justify-content: center;
   align-items: center;
 
-  color: var(--secondary-color);
+  color: #ddbc8b;
 
   @media (min-width: 1370px) {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-    background-color: var(--secondary-color);
+    background-color: #ddbc8b;
   }
 `;
 
@@ -22,11 +22,7 @@ export const FormContainer = styled.form`
 
   max-width: 700px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  background: linear-gradient(
-    135deg,
-    var(--primary-color-50),
-    var(--primary-color)
-  );
+  background: linear-gradient(135deg, #485d5e, #21262d);
 
   font-family: "Inter", sans-serif !important;
 
@@ -39,7 +35,7 @@ export const FormContainer = styled.form`
     font-style: normal;
     font-weight: 900;
     font-size: 2rem;
-    color: var(--secondary-color);
+    color: #ddbc8b;
 
     margin-bottom: 28px;
   }

@@ -34,3 +34,33 @@ export const Container = styled.div`
         max-width: 90vw;
     }
 `
+
+export const Form = styled.form`
+display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
+
+div:last-child {
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 5px;
+    color: var(--secondary-color-50);
+    border-top: 1px solid var(--terciary-color);
+
+    select {
+        color: var(--secondary-color-50);
+        background-color: transparent;
+        padding: 5px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+    option {
+        width: 20px;
+        background-color: var(--terciary-color);
+    }
+}
+
+`

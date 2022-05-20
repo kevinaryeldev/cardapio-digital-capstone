@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const NavbarContainer = styled.nav`
   width: 100%;
   height: fit-content;
-  background-color: var(--secondary-color);
+  background-color: #ddbc8b;
   display: flex;
   height: 10vh;
   min-width: 500px;
   position: fixed;
-  border-bottom: 0.2px solid var(--primary-color);
+  border-bottom: 0.2px solid #21262d;
 `;
 
 export const LeftContainer = styled.div`
@@ -24,7 +24,7 @@ export const LeftContainer = styled.div`
     font-style: black;
     font-size: 2em;
     line-height: 49px;
-    background: -webkit-linear-gradient(#485d5e, var(--primary-color));
+    background: -webkit-linear-gradient(#485d5e, #21262d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: none;
@@ -51,7 +51,7 @@ export const RightContainer = styled.div`
 export const NavbarButton = styled.button`
   border: none;
   background-color: inherit;
-  color: var(--primary-color);
+  color: #21262d;
   padding: 10px;
   font-size: 24px;
   height: fit-content;
@@ -61,14 +61,14 @@ export const NavbarButton = styled.button`
   cursor: pointer;
   :hover {
     border-radius: 4px;
-    background-color: var(--secondary-color-50);
+    background-color: #b89664;
   }
 `;
 
 export const ModalLinksButton = styled.button`
   background: none;
   border: none;
-  color: var(--primary-color);
+  color: #21262d;
   font-size: 36px;
   cursor: pointer;
   margin-bottom: -7px;
@@ -78,7 +78,7 @@ export const ModalNav = styled.div`
   width: fit-content;
   min-width: 500px;
   height: fit-content;
-  background-color: var(--secondary-color);
+  background-color: #ddbc8b;
   position: fixed;
   border-radius: 0 0 10px 0px;
   top: 10vh;
@@ -93,7 +93,7 @@ export const ModalNav = styled.div`
     li {
       padding: 10px 0;
       width: 80%;
-      border-bottom: 2px solid var(--primary-color);
+      border-bottom: 2px solid #21262d;
       box-sizing: border-box;
       text-align: center;
     }
@@ -101,7 +101,7 @@ export const ModalNav = styled.div`
       border: none;
     }
     a {
-      color: var(--primary-color);
+      color: #21262d;
       font-family: "Noto Sans", sans-serif;
       font-size: 1.5rem;
       font-weight: 600;
@@ -113,7 +113,7 @@ export const SectionLanding = styled.section`
   padding-top: 2vh;
   min-height: 100vh;
   height: fit-content;
-  background-color: var(--primary-color);
+  background-color: #21262d;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,7 +138,7 @@ export const SectionTitle = styled.h1`
   font-weight: 700;
   font-size: 3rem;
   line-height: 77px;
-  color: var(--secondary-color);
+  color: #ddbc8b;
   text-align: center;
   margin-bottom: 15px;
   font-family: "Noto Sans", sans-serif;
@@ -170,8 +170,8 @@ export const SectionAboutUs = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
-
+  background-color: #21262d;
+  
   ul {
     list-style: none;
     width: 80%;
@@ -223,13 +223,13 @@ export const TopicAboutUs = styled.li`
       font-weight: 700;
       letter-spacing: 0em;
       text-align: center;
-      color: var(--secondary-color);
+      color: #ddbc8b;
       font-family: "Noto Sans", sans-serif;
       justify-self: flex-start;
     }
     p {
       font-size: 1rem;
-      color: var(--secondary-color);
+      color: #ddbc8b;
       font-family: "Noto Sans", sans-serif;
     }
   }
@@ -255,16 +255,15 @@ export const SectionTestimony = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: var(--primary-color);
+  background-color: #21262d;
 `;
 
 export const SliderTestimony = styled.div`
   width: 357px;
 
   @media (min-width: 768px) {
-  width: 600px;
-  height: 406px;
-
+    width: 600px;
+    height: 406px;
   }
 
   @media (min-width: 1024px) {
