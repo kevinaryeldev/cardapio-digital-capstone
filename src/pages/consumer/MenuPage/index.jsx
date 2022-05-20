@@ -25,6 +25,7 @@ import ProductCard from "../../../components/ProductCard";
 import { toast } from "react-toastify";
 import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
+import { useCart } from "../../../providers/cart/cart";
 
 const MenuPage = () => {
   const { id, currentTable } = useAuth();
@@ -32,6 +33,7 @@ const MenuPage = () => {
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
+  const { requestTotalPrice, setRequestTotalPrice } = useCart;
 
   const [productInModal, setProductInModal] = useState();
   const [portionsPicked, setPortionsPicked] = useState([]);
@@ -104,6 +106,7 @@ const MenuPage = () => {
         return request.portionsPrice;
       })
       .reduce((acc, currentValue) => acc + currentValue);
+    setRequestTotalPrice(requestTotalPrice + totalPrice);
 
     const totalQuantity = demmandPart.requests
       .map((request) => {
@@ -124,7 +127,7 @@ const MenuPage = () => {
     };
 
     sendRequestData(demmand);
-    setProductsInCart([])
+    setProductsInCart([]);
   };
 
   const handleAddExtras = (extra) => {

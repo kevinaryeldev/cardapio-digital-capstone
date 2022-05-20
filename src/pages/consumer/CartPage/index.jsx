@@ -5,6 +5,9 @@ import PaymentButton from "../../../components/Payment&Thanks/Button";
 import { useRequests } from "../../../providers/requests/requests";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useCart } from "../../../providers/cart/cart";
+import formatter from "../../../utils/formatter";
+
 const Container = styled.main`
   max-width: 100vw;
   min-height: 100vh;
@@ -73,8 +76,8 @@ const BoxGroupsRequest = styled.ul`
     position: absolute;
     font-size: 16px;
     color: var(--terciary-color);
-    bottom: 5px;
-    right: 10px;
+    /* bottom: 5px;
+    right: 10px; */
   }
   @media (min-width: 1024px) {
     width: 80%;
@@ -114,6 +117,7 @@ const BoxFooter = styled.footer`
 `;
 
 const CartPage = () => {
+  const { requestTotalPrice } = useCart();
   const [productsCart, setProductsCart] = useState([]);
   const { getRequestData, requests } = useRequests();
 
@@ -156,12 +160,13 @@ const CartPage = () => {
                   {req.portions.map(({ name, price }, index) => (
                     <div key={index}>
                       <p>Porçoes: {name}</p>
+                      <span> {formatter.format(price)} </span>
                     </div>
                   ))}
                 </Product>
               </GroupsRequestContent>
             ))}
-            <span>Preço: {"xxx"}</span>
+            <span>Preço: {formatter.format(requestTotalPrice)}</span>
           </BoxGroupsRequest>
         ))}
       <BoxFooter>
