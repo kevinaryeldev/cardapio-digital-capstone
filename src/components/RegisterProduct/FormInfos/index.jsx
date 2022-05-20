@@ -34,7 +34,6 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
       ...data,
       imageUrl: inputImage
     }
-    console.log(newData)
     setRegisterData((prevState) => {
       return { ...prevState, ...newData };
     });
