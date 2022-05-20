@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 import { MdMenuBook } from "react-icons/md";
 import PaymentButton from "../../../components/Payment&Thanks/Button";
 import { useRequests } from "../../../providers/requests/requests";
@@ -165,7 +166,7 @@ const CartPage = () => {
                 </Product>
               </GroupsRequestContent>
             ))}
-            <span>Preço: {"xxx"}</span>
+            <span>Preço: {formatter.format(product.price)} </span>
           </BoxGroupsRequest>
         ))}
       <BoxFooter>

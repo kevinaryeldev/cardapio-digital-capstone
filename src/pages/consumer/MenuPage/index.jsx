@@ -10,13 +10,15 @@ import {
   AiOutlineMinusCircle,
 } from "react-icons/ai";
 import { FaConciergeBell } from "react-icons/fa";
+import { IoMdCash } from "react-icons/io";
 import {
   Container,
   Content,
   ModalContainer,
   ModalBody,
   ModalHeader,
-  ButtonOpenCart,
+  ButtonsContainer,
+  RoundButton,
 } from "./style";
 import { ButtonRequest, CartContainer, CartList } from "./style";
 import CartItem from "../../../components/CartItem";
@@ -25,9 +27,11 @@ import ProductCard from "../../../components/ProductCard";
 import { toast } from "react-toastify";
 import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
+import { useHistory } from "react-router-dom";
 
 const MenuPage = () => {
-  const { id, currentTable} = useAuth()
+  const history = useHistory();
+  const { id, currentTable } = useAuth();
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -95,7 +99,7 @@ const MenuPage = () => {
       userId: id,
     };
 
-    const requests = demmandPart.requests
+    const requests = demmandPart.requests;
 
     if (requests[0]) {
       const totalPrice = demmandPart.requests
@@ -113,11 +117,10 @@ const MenuPage = () => {
         price: totalPrice,
         quantity: totalQuantity,
       };
-      sendRequestData(demmand)
+      sendRequestData(demmand);
     } else {
       toast.error("Adicione ao menos item no carrinho!");
     }
-
   };
 
   const handleAddExtras = (extra) => {
@@ -313,9 +316,14 @@ const MenuPage = () => {
         {!!products && renderProducts(products, categoryMain)}
         {openCart && renderCart(productsInCart)}
       </Content>
-      <ButtonOpenCart onClick={() => setOpenCart(true)}>
-        <FaConciergeBell />
-      </ButtonOpenCart>
+      <ButtonsContainer>
+        <RoundButton onClick={() => history.push("/cart")}>
+          <IoMdCash />
+        </RoundButton>
+        <RoundButton onClick={() => setOpenCart(true)}>
+          <FaConciergeBell />
+        </RoundButton>
+      </ButtonsContainer>
     </Container>
   );
 };
