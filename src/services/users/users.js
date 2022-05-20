@@ -67,7 +67,7 @@ export const getUserData = async (id, token, setUserInfos) => {
       setUserInfos(response.data);
       return response.data;
     });
-    return response;
+  return response;
 };
 
 export const patchUserData = async (
@@ -89,7 +89,6 @@ export const patchUserData = async (
       if (toastSucessMessage) {
         toast.success(toastSucessMessage);
       }
-      console.log(response.data);
       setUserInfos(response.data);
       return true;
     })
