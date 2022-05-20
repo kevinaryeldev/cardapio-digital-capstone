@@ -39,6 +39,7 @@ export const InputArea = styled.div`
     input {
       height: 100%;
       width: 80%;
+      background-color: inherit;
     }
   }
 `;

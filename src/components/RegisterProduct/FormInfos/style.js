@@ -11,6 +11,7 @@ export const Infos = styled.section`
 
   margin-bottom: 20px;
   border: 1px solid var(--primary-color);
+  border-radius: 6px;
 
   .product--urlContainer {
     width: 100%;
@@ -20,6 +21,10 @@ export const Infos = styled.section`
     justify-content: flex-start;
     align-items: center;
     padding-bottom: 0px;
+
+    label{
+      margin-bottom: 20px;
+    }
 
     .product--imageContainer {
       width: 100%;
@@ -50,7 +55,7 @@ export const Infos = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     padding-top: 0px;
 
     margin-bottom: 20px;
@@ -58,13 +63,14 @@ export const Infos = styled.section`
     input,
     select {
       cursor: pointer;
-      width: 100%;
-      padding: 5px 10px;
+      width: 90%;
+      padding: 10px 10px;
 
       border: 1px solid var(--primary-color);
+      border-radius: 5px;
       background-color: transparent;
 
-      margin-bottom: 10px;
+      margin-bottom: 15px;
 
       &::placeholder {
         color: var(--primary-color-50);

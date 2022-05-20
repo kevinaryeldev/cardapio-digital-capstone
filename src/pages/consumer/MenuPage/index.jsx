@@ -188,10 +188,10 @@ const MenuPage = () => {
         <Modal
           flex
           width={"48rem"}
-          height={"36rem"}
+          height={"38rem"}
           state={shouldOpenProductModal}
-          align="center"
-          justify="center"
+          // align="center"
+          // justify="center"
           padding="15px"
         >
           <ModalContainer>
@@ -206,7 +206,7 @@ const MenuPage = () => {
                 <div className="product-description">
                   <h1>{product.name}</h1>
                   <p>{product.description}</p>
-                  <p>Tempo estimado de espera: {product.waitingTime}</p>
+                  <p>Tempo estimado de espera: {product.waitingTime} minutos</p>
                 </div>
               </div>
             </ModalHeader>

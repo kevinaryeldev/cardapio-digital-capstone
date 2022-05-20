@@ -13,8 +13,10 @@ export const ModalStyled = styled.div`
   align-items: ${(props) => (props.align ? props.align : "center")};
   justify-content: ${(props) => (props.justify ? props.justify : "center")};
   div {
+    border-radius: 10px;
     position: relative;
     z-index: 200;
+    padding: 10px 20px;
     top: ${(props) => (props.top ? props.top : "0")};
     left: ${(props) => (props.left ? props.left : "0")};
     box-sizing: content-box;

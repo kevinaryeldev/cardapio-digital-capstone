@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   background-color: var(--primary-color);
-  width: 100vw;
+  max-width: 100vw;
 
   @media (min-width: 1024px) {
     display: flex;
@@ -10,12 +10,16 @@ export const Container = styled.section`
 `;
 
 export const BoxContent = styled.main`
-  width: 94%;
-
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
+
+  @media (min-width: 1024px) {
+    margin-left: 3rem;
+  }
 `;
 
 export const Title = styled.h1`

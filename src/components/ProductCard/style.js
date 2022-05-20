@@ -5,13 +5,13 @@ export const CardContainer = styled.li`
   max-width: 575px;
 
   padding: 10px;
-
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid var(--secondary-color);
+  /* border: 1px solid var(--secondary-color); */
   margin-bottom: 15px;
 
   .card--product {
@@ -30,7 +30,8 @@ export const CardContainer = styled.li`
       align-items: center;
 
       img {
-        width: 100%;
+        max-width: 70%;
+        height: 150px;
         object-fit: contain;
       }
     }
@@ -109,9 +110,13 @@ export const CardContainer = styled.li`
       }
     }
 
+    button + button {
+      margin: 1rem;
+    }
+
     button {
       height: 32px;
-      padding: 0px 10px;
+      padding: 0px 20px;
 
       border: none;
       background-color: var(--primary-color-50);
