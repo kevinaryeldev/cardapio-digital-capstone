@@ -27,7 +27,7 @@ import { useProducts } from "../../../providers/products/products";
 import { useMenu } from "../../../providers/menu/menu.js";
 
 const MenuPage = () => {
-  const {id} = useAuth()
+  const { id } = useAuth();
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
@@ -50,7 +50,13 @@ const MenuPage = () => {
     setProductInModal(product);
   };
 
-  const handleAddProductToCart = ({ name, imageUrl, waitingTime, userId, id }) => {
+  const handleAddProductToCart = ({
+    name,
+    imageUrl,
+    waitingTime,
+    userId,
+    id,
+  }) => {
     const request = {
       name: name,
       imageUrl: imageUrl,
@@ -88,17 +94,28 @@ const MenuPage = () => {
       requests: [...productsInCart],
       userId: id,
     };
-
+    
     const totalPrice = demmandPart.requests
-      .map(({portionsPrice, extrasPrice}) => portionsPrice + extrasPrice)
+      .map((request) => {
+        if (request.extrasPrice) {
+          return request.portionsPrice + request.extrasPrice;
+        }
+        return request.portionsPrice;
+      })
       .reduce((acc, currentValue) => acc + currentValue);
 
     const totalQuantity = demmandPart.requests
-      .map(
-        ({ portions, extras }) =>
-          parseFloat(portions.length) + parseFloat(extras.length)
-      )
+      .map((request) => {
+        if (request.extras) {
+          return (
+            parseFloat(request.portions.length) +
+            parseFloat(request.extras?.length || 0)
+          );
+        }
+        return parseFloat(request.portions.length);
+      })
       .reduce((acc, currentValue) => acc + currentValue);
+
     const demmand = {
       ...demmandPart,
       price: totalPrice,
@@ -267,7 +284,7 @@ const MenuPage = () => {
           </span>
           <CartList>
             {cartproducts.map((product, index) => (
-              <CartItem key={index} product={product}/>
+              <CartItem key={index} product={product} />
             ))}
           </CartList>
           <ButtonRequest onClick={handleRequest}>Fazer Pedido</ButtonRequest>

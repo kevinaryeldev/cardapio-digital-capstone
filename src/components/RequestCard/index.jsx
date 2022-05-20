@@ -1,134 +1,193 @@
-import { Header, MainContent, RequestCardContainer, TableNumber, RequestBody, FooterContent, StatusDiv } from "./styled"
+import {
+  Header,
+  MainContent,
+  RequestCardContainer,
+  TableNumber,
+  RequestBody,
+  FooterContent,
+  StatusDiv,
+  MainContainer,
+} from "./styled";
 
-import { MdDone } from "react-icons/md"
-import { ImCross } from "react-icons/im"
+import { MdDone } from "react-icons/md";
+import { ImCross } from "react-icons/im";
 
-import formatter from "../../utils/formatter"
+import formatter from "../../utils/formatter";
+import { useRequests } from "../../providers/requests/requests";
 
 const RequestCard = ({ demand }) => {
+  const { table, date, price, quantity, status, requests, id } = demand;
+  const { sendEditRequestData } = useRequests();
 
-    const { table, date, price, quantity, status, requests, id } = demand;
+  const requestTime = date.slice(11, 16);
+  const requestDate = date.slice(0, 10).split("-");
 
+  const requestDay = requestDate[2];
+  const requestMounth = requestDate[1];
+  const requestYear = requestDate[0];
 
-    /* ------------------- COMO IMPORTAR O REQUESTCARD NA DASHBOARD!  ------------------- */
+  const requestDateFormatted = `${requestDay}/${requestMounth}/${requestYear}`;
 
-    /* 
-    
-    Como os pedidos devem chegar no componente:
+  const requestsFilters = (request) => {
+    let response = [];
 
-    const demand1 = {
-        table: 3,
-        date: "13/05 - 12:23",
-        totalPrice: 14.00,
-        totalQuantity: 1,
-        status: "accepted",
-        requests : [{
-            name: "Porção de batata frita média (2 pessoas)",
-            aditionals: "Queijo Cheddar",
-            image: "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-            quantity: 1,
-        }]
+    const { portions, extras } = request;
+
+    const portionsSort = portions.sort((a, b) => a.name - b.name);
+    let newPortions = [];
+    let currentQuantityPortions = 1;
+
+    for (let i = 1; i < portionsSort.length; i++) {
+      if (portionsSort[i].name !== portionsSort[i - 1].name) {
+        const newPortion = {
+          name: portionsSort[i - 1].name,
+          price: portionsSort[i - 1].price,
+          productName: portionsSort[i - 1].productName,
+          quantity: currentQuantityPortions,
+        };
+        currentQuantityPortions = 1;
+        newPortions.push(newPortion);
+      } else {
+        currentQuantityPortions++;
+      }
     }
 
-  const demand2 = {
-    table: 4,
-    date: "13/05 - 12:44",
-    totalPrice: 64.00,
-    totalQuantity: 4,
-    status: "waiting",
-    requests: [
-      {
-        name: "Porção de batata frita pequena (1 pessoa)",
-        image: "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-        quantity: 1,
-      },
-      {
-        name: "Onion Rings grande (4 pessoas)",
-        image: "https://www.anamariabrogui.com.br/assets/uploads/receitas/fotos/usuario-2528-e3730288491dc14eb7f0e3e01673350e.jpg",
-        quantity: 1,
-      },
-      {
-        name: "Filé de Saint Peter",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtkfMN2wX2YJyfIDscbu4rsj8RZ-9ns45mHw&usqp=CAU",
-        quantity: 2,
+    const newPortion = {
+      name: portionsSort[portionsSort.length - 1].name,
+      price: portionsSort[portionsSort.length - 1].price,
+      productName: portionsSort[portionsSort.length - 1].productName,
+      quantity: currentQuantityPortions,
+    };
+    newPortions.push(newPortion);
+
+    if (extras) {
+      const extrasSort = extras?.sort((a, b) => a.name - b.name);
+      let newExtras = [];
+      console.log(extrasSort);
+      let currentQuantityExtras = 1;
+
+      for (let i = 1; i < extrasSort.length; i++) {
+        if (extrasSort[i].name !== extrasSort[i - 1].name) {
+          const newExtra = {
+            name: extrasSort[i - 1].name,
+            price: extrasSort[i - 1].price,
+            productName: extrasSort[i - 1].productName,
+            quantity: currentQuantityExtras,
+          };
+          currentQuantityExtras = 1;
+          newExtras.push(newExtra);
+        } else {
+          currentQuantityExtras++;
+        }
       }
-    ]
-  }
 
-  const demand3 = {
-    table: 3,
-    date: "13/05 - 12:23",
-    totalPrice: 14.00,
-    totalQuantity: 1,
-    status: "rejected",
-    requests : [{
-      name: "Porção de batata frita média (2 pessoas)",
-      aditionals: "Queijo Cheddar",
-      image: "https://img.cybercook.com.br/receitas/388/batata-frita-na-air-fryer.jpeg",
-      quantity: 1,
-    }]
-  }
+      const newExtra = {
+        name: extrasSort[extrasSort.length - 1].name,
+        price: extrasSort[extrasSort.length - 1].price,
+        productName: extrasSort[extrasSort.length - 1].productName,
+        quantity: currentQuantityExtras,
+      };
+      newExtras.push(newExtra);
 
-    Na Dashboard:
+      console.log(newExtras);
+      response = [newPortions, newExtras];
+      return response;
+    }
 
-    <RequestCard demand={demand1} />
-    <RequestCard demand={demand2} />
-    <RequestCard demand={demand3} />
-    */
+    response = [newPortions];
 
-    return (
-        <RequestCardContainer>
-            <Header>
+    return response;
+  };
+
+  return (
+    <RequestCardContainer>
+      <Header>
+        <div>
+          <span>#{id}</span>
+          <span>
+            {requestTime} - {requestDateFormatted}
+          </span>
+        </div>
+        <TableNumber>{table}</TableNumber>
+      </Header>
+      <MainContainer>
+        {requests?.map((request, index) => {
+          const { name, imageUrl } = request;
+
+          return (
+            <MainContent key={index}>
+              <RequestBody>
+                <img src={imageUrl} alt={name} />
                 <div>
-                    <span>#345</span>
-                    <span>{date}</span>
-                </div>
-                <TableNumber>{table}</TableNumber>
-            </Header>
-            {requests?.map((request, index) => {
+                  <strong>{name}</strong>
 
-                const { name, image, quantity } = request
-
-                return <MainContent key={index}>
-                    <RequestBody>
-                        <img src={image} alt={name} />
-                        <div>
-                            <strong>{name}</strong>
-                            <span>Qtd.: {quantity}</span>
-                        </div>
-                    </RequestBody>
-                </MainContent>
-            })}
-            <FooterContent>
-                <div>
-                    <span>Qtd.: {quantity}</span>
-                    <span>{formatter.format(price)}</span>
+                  <ul className="portionsContainer">
+                    {requestsFilters(request)[0].map(({ name, quantity }) => (
+                      <li key={"portion_" + name}>
+                        <p>
+                          {name}
+                          <span>x{quantity}</span>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                  <ul className="extrasContainer">
+                    {requestsFilters(request)[1]?.map(({ name, quantity }) => (
+                      <li key={"extra_" + name}>
+                        <p>
+                          {name}
+                          <span>x{quantity}</span>
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <div>
-                    {status === "waiting" ? (
-                        <>
-                            <StatusDiv small>
-                                <ImCross />
-                            </StatusDiv>
-                            <StatusDiv accepted small>
-                                <MdDone />
-                            </StatusDiv>
-                        </>
-                    ) : status === "accepted" ? (
-                        <StatusDiv accepted>
-                            <MdDone />
-                            <span>Aceito</span>
-                        </StatusDiv>
-                    ) : (
-                        <StatusDiv >
-                            <ImCross />
-                            <span>Rejeitado</span>
-                        </StatusDiv>
-                    )}
-                </div>
-            </FooterContent>
-
-        </RequestCardContainer>
-    )
-}
-export default RequestCard
+                <hr />
+              </RequestBody>
+            </MainContent>
+          );
+        })}
+      </MainContainer>
+      <FooterContent>
+        <div>
+          <span>Qtd.: {quantity}</span>
+          <span>{formatter.format(price)}</span>
+        </div>
+        <div>
+          {status === "opened" ? (
+            <>
+              <StatusDiv
+                small
+                onClick={() => {
+                  sendEditRequestData({ status: "rejected" }, id);
+                }}
+              >
+                <ImCross />
+              </StatusDiv>
+              <StatusDiv
+                accepted
+                small
+                onClick={() => {
+                  sendEditRequestData({ status: "accepted" }, id);
+                }}
+              >
+                <MdDone />
+              </StatusDiv>
+            </>
+          ) : status === "accepted" ? (
+            <StatusDiv accepted>
+              <MdDone />
+              <span>Aceito</span>
+            </StatusDiv>
+          ) : (
+            <StatusDiv>
+              <ImCross />
+              <span>Rejeitado</span>
+            </StatusDiv>
+          )}
+        </div>
+      </FooterContent>
+    </RequestCardContainer>
+  );
+};
+export default RequestCard;

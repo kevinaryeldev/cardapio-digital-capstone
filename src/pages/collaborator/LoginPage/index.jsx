@@ -20,7 +20,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import loginSchema from "../../../utils/schemas/login";
 import { useAuth } from "../../../providers/user/user";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 

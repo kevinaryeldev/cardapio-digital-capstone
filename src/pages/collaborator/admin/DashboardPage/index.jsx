@@ -17,7 +17,6 @@ import {
 } from "./style";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
-import { useMenu } from "../../../../providers/menu/menu";
 
 const DashboardPage = () => {
   let history = useHistory();

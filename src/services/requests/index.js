@@ -33,8 +33,6 @@ export const editRequestApi = async (newDemmand, demmandId) => {
     })
     .then((response) => {
       toast.success(`Pedido atualizado com sucesso!`);
-      console.log("EITA PORRA")
-      console.log(response)
       return response;
     })
     .catch((error) => {

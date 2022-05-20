@@ -130,19 +130,6 @@ const CartPage = () => {
         loadProducts()
         return;
     }, []) 
-
-    // const totalPrice = (array) => {
-    //     console.log(array)
-    //     array.reduce((a,b)=>{
-    //         const extraPrice = b.extra.reduce((a,b)=>a+Number(b.price),0)
-    //         const portionPrice = b.portions.reduce((a,b)=>a+Number(b.price),0)
-    //         const totalSum = extraPrice + portionPrice
-
-    //         return a + totalSum
-    //     },0)
-    //     console.log(totalPortion)
-
-    // }
     
     return(
         <Container>
