@@ -80,6 +80,13 @@ const BoxGroupsRequest = styled.ul`
     /* bottom: 5px;
     right: 10px; */
   }
+  .TotalPrice {
+    position: absolute;
+    font-size: 16px;
+    color: var(--terciary-color);
+    bottom: 5px;
+    right: 10px;
+  }
   @media (min-width: 1024px) {
     width: 80%;
 
@@ -167,7 +174,9 @@ const CartPage = () => {
                 </Product>
               </GroupsRequestContent>
             ))}
-            {/* <span>Preço Total: {formatter.format(requestTotalPrice)}</span> */}
+            <span className="TotalPrice">
+              Preço Total: {formatter.format(requestTotalPrice)}
+            </span>
           </BoxGroupsRequest>
         ))}
       <BoxFooter>

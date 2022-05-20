@@ -36,7 +36,7 @@ const MenuPage = () => {
   const { categories } = useMenu();
   const { products } = useProducts();
   const { sendRequestData } = useRequests();
-  const { requestTotalPrice, setRequestTotalPrice } = useCart;
+  const { requestTotalPrice, setRequestTotalPrice } = useCart();
 
   const [productInModal, setProductInModal] = useState();
   const [portionsPicked, setPortionsPicked] = useState([]);
@@ -109,6 +109,7 @@ const MenuPage = () => {
         return request.portionsPrice;
       })
       .reduce((acc, currentValue) => acc + currentValue);
+    console.log(totalPrice);
     setRequestTotalPrice(requestTotalPrice + totalPrice);
 
     const totalQuantity = demmandPart.requests
