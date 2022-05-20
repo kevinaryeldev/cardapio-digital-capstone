@@ -226,16 +226,23 @@ export const CartList = styled.ul`
   flex-direction: column;
 `;
 
-export const ButtonOpenCart = styled.button`
+export const ButtonsContainer = styled.div`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+export const RoundButton = styled.button`
   width: 60px;
   height: 60px;
   border-radius: 100%;
   background-color: var(--secondary-color);
   color: var(--terciary-color);
   font-size: 2em;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+  margin: 2px;
 
   :hover {
     background-color: var(--secondary-color-50);

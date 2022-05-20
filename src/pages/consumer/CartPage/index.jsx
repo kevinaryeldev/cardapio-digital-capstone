@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+
 import { MdMenuBook } from "react-icons/md";
 import PaymentButton from "../../../components/Payment&Thanks/Button";
 import { useRequests } from "../../../providers/requests/requests";
 import { useState } from "react";
+import formatter from "../../../utils/formatter";
 import { useEffect } from "react";
 import { useCart } from "../../../providers/cart/cart";
-import formatter from "../../../utils/formatter";
 
 const Container = styled.main`
   max-width: 100vw;
@@ -166,7 +167,7 @@ const CartPage = () => {
                 </Product>
               </GroupsRequestContent>
             ))}
-            <span>Preço: {formatter.format(requestTotalPrice)}</span>
+            {/* <span>Preço Total: {formatter.format(requestTotalPrice)}</span> */}
           </BoxGroupsRequest>
         ))}
       <BoxFooter>
