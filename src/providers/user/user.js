@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     "Bebidas",
     "Sobremesas",
   ]);
-  const [table, setTable] = useState(0);
+  const [table, setTable] = useState(1);
   const [currentTable, setCurrentTable] = useState(1);
 
   useEffect(() => {

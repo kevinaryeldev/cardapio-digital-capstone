@@ -9,8 +9,6 @@ import { useForm } from 'react-hook-form'
 const HomePage = () => {
     const history = useHistory()
     const { table, setTable, currentTable, setCurrentTable, userInfos } = useAuth()
-    console.log(table)
-    console.log(userInfos)
     const [countTables, setCountTables] = useState([])
 
     const {
@@ -55,7 +53,7 @@ const HomePage = () => {
                 <div>
                     <h3>Escolha o tablet</h3>
                     <select {...register("table")}>
-                        {countTables.length > 1 && (
+                        {countTables.length >= 1 && (
                             <>
                                 {countTables.map((table, index) => {
                                     return (
