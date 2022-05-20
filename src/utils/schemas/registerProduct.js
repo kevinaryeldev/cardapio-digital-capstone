@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
 export const formInfosSchema = yup.object().shape({
-  imageUrl: yup.string().required("Link da imagem Obrigatório"),
   name: yup.string().required("Nome Obrigatório"),
   description: yup.string().required("Descrição Obrigatória"),
   category: yup.string().required("Categoria Obrigatória"),

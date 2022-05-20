@@ -15,9 +15,9 @@ import { ImCross } from "react-icons/im";
 import formatter from "../../utils/formatter";
 import { useRequests } from "../../providers/requests/requests";
 
-const RequestCard = ({ demand }) => {
+const RequestCard = ({ demand, showRequests, setShowRequests }) => {
   const { table, date, price, quantity, status, requests, id } = demand;
-  const { sendEditRequestData } = useRequests();
+  const { sendEditRequestData, sendDeleteRequestData } = useRequests();
 
   const requestTime = date.slice(11, 16);
   const requestDate = date.slice(0, 10).split("-");
@@ -99,6 +99,12 @@ const RequestCard = ({ demand }) => {
     return response;
   };
 
+  const removeItem = async () => {
+    const filter = showRequests.filter((product) => product !== demand)
+    setShowRequests(filter)
+    sendDeleteRequestData(id)
+  }
+
   return (
     <RequestCardContainer>
       <Header>
@@ -175,12 +181,12 @@ const RequestCard = ({ demand }) => {
               </StatusDiv>
             </>
           ) : status === "accepted" ? (
-            <StatusDiv accepted>
+            <StatusDiv accepted onClick={() => removeItem()}>
               <MdDone />
               <span>Aceito</span>
             </StatusDiv>
           ) : (
-            <StatusDiv>
+            <StatusDiv onClick={() => removeItem()}>
               <ImCross />
               <span>Rejeitado</span>
             </StatusDiv>

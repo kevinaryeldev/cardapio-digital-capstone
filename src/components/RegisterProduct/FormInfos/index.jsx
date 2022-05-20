@@ -11,6 +11,9 @@ import { Infos } from "./style";
 import FormError from "../../FormComponents/Error";
 import { useMenu } from "../../../providers/menu/menu";
 
+let { Upload } = require("upload-js");
+
+
 const FormInfos = ({ setStage, setRegisterData, registerData }) => {
   const {
     register,
@@ -20,19 +23,39 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
     resolver: yupResolver(formInfosSchema),
   });
 
-  const { imageUrl, name, description, waitingTime, category } = registerData;
+  const { name, imageUrl, description, waitingTime, category } = registerData;
 
   const { categories } = useMenu();
 
-  const [inputImage, setInputImage] = useState(imageUrl);
+  const [inputImage, setInputImage] = useState();
 
   const onSubmit = (data) => {
+    const newData = {
+      ...data,
+      imageUrl: inputImage
+    }
     setRegisterData((prevState) => {
-      return { ...prevState, ...data };
+      return { ...prevState, ...newData };
     });
     setStage((prevState) => {
       return prevState + 1;
     });
+  };
+
+  const seeImage = async (image) => {
+    if (!image) {
+      return;
+    }
+
+    const upload = new Upload({
+      apiKey: "public_12a1xjk5NxMQ7kknSiy9K6odEyzE",
+    });
+
+    const { fileUrl } = await upload.uploadFile({
+      file: image,
+    });
+
+    setInputImage(fileUrl)
   };
 
   return (
@@ -40,18 +63,16 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
       <Infos>
         <div className="product--urlContainer">
           <div className="product--imageContainer">
-            <img src={inputImage} alt={name} />
+            <img src={inputImage || imageUrl} alt={name} />
           </div>
+          <label htmlFor="uploadImage">Escolher imagem</label>
           <input
-            type="url"
-            id="imageUrl"
-            name="imageUrl"
-            placeholder="Digite a url da imagem aqui"
-            defaultValue={inputImage}
-            onChange={(event) => setInputImage(event.target.value)}
-            {...register("imageUrl")}
+            type="file"
+            id="uploadImage"
+            style={{ display: "none" }}
+            onChange={(e) => seeImage(e.target.files[0])}
           />
-          {errors.imageUrl && (
+         {errors.imageUrl && (
             <FormError maxWidth="none" marginTop="-5px">
               {errors.imageUrl.message}
             </FormError>
@@ -81,16 +102,6 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
           {errors.description && (
             <FormError marginTop="-5px">{errors.description.message}</FormError>
           )}
-
-          {/*           <input
-            type="text"
-            id="category"
-            name="category"
-            placeholder="Categoria do produto"
-            defaultValue={category}
-            {...register("category")}
-          /> */}
-
           <select
             name="category"
             id="category"
@@ -107,7 +118,6 @@ const FormInfos = ({ setStage, setRegisterData, registerData }) => {
           {errors.category && (
             <FormError marginTop="-5px">{errors.category.message}</FormError>
           )}
-
           <input
             type="text"
             id="waitingTime"
