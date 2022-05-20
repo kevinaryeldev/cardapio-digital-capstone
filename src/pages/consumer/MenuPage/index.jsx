@@ -120,30 +120,14 @@ const MenuPage = () => {
       })
       .reduce((acc, currentValue) => acc + currentValue);
 
-      const totalQuantity = demmandPart.requests
-        .map(
-          ({ portions, extras }) =>
-            parseFloat(portions.length) + parseFloat(!!extras && extras.length)
-        )
-        .reduce((acc, currentValue) => acc + currentValue);
-    
-      const demmand = {
-        ...demmandPart,
-        price: totalPrice,
-        quantity: totalQuantity,
-      };
-      sendRequestData(demmand);
-    } else {
-      toast.error("Adicione ao menos item no carrinho!");
-    }
-     const demmand = {
+    const demmand = {
       ...demmandPart,
       price: totalPrice,
       quantity: totalQuantity,
     };
 
     sendRequestData(demmand);
-    setProductsInCart([])
+    setProductsInCart([]);
   };
 
   const handleAddExtras = (extra) => {
