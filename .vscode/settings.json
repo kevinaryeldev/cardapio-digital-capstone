@@ -1,0 +1,21 @@
+{
+  "conventionalCommits.scopes": [
+    "global",
+    "index",
+    "container",
+    "utils",
+    "app",
+    "statistics page",
+    "services",
+    "providers",
+    "animations",
+    "components",
+    "routes",
+    "signUp page",
+    "login page",
+    "dashboard page",
+    "profile page",
+    "color settings",
+    "menu page"
+  ]
+}
